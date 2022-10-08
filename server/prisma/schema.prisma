@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int                @id
+  userType          USERTYPE           @default(USER)
+  name              String
+  lastname          String
+  email             String             @unique
+  password          String
+  userRestaurant    Restaurant         @relation(fields: [idRestaurant], references: [id])
+  idRestaurant      Int
+  Order             Order[]
+  TableReservation  TableReservation[] @relation(name: "user")
+  TableReservations TableReservation[] @relation(name: "waiter")
+}
+
+model TableReservation {
+  tableReservationRestaurantTable RestaurantTable @relation(fields: [idRestaurantTable], references: [id])
+  idRestaurantTable               Int             @id
+  tableReservationUser            User            @relation(name: "user", fields: [idUser], references: [id])
+  idUser                          Int
+  reservationDate                 DateTime
+  tableReservationUserWaiter      User            @relation(name: "waiter", fields: [idWaiter], references: [id])
+  idWaiter                        Int
+}
+
+model RestaurantTable {
+  id                        Int                @id @default(autoincrement())
+  code                      String
+  capacity                  Int
+  state                     TABLESTATE
+  restaurantRestaurantTable Restaurant         @relation(fields: [idRestaurant], references: [id])
+  idRestaurant              Int
+  Order                     Order[]
+  TableReservation          TableReservation[]
+}
+
+model Restaurant {
+  id                  Int                   @id
+  name                String
+  ubication           String
+  phoneNumber         String
+  cantidad            Int
+  Order               Order[]
+  ProductToRestaurant ProductToRestaurant[]
+  User                User[]
+  RestaurantTable     RestaurantTable[]
+}
+
+model Order {
+  id                  Int             @id @default(autoincrement())
+  date                DateTime        @default(now())
+  subTotal            Float
+  iva                 Float
+  clientPaymentInCash Float
+  clientPaymentInCard Float
+  orderTotal          Float
+  orderUser           User            @relation(fields: [idUser], references: [id])
+  idUser              Int
+  orderRestaurant     Restaurant      @relation(fields: [idRestaurant], references: [id])
+  idRestaurant        Int
+  orderTable          RestaurantTable @relation(fields: [idTable], references: [id])
+  idTable             Int
+  state               ORDERSTATE
+  paymentOption       PAYMENTTYPE
+  OrderDetail         OrderDetail[]
+}
+
+model ProductToRestaurant {
+  productToRestaurantRestaurant Restaurant @relation(fields: [idRestaurant], references: [id])
+  idRestaurant                  Int
+  productToRestaurantProduct    Product    @relation(fields: [idProduct], references: [id])
+  idProduct                     Int
+  quantity                      Int
+
+  @@id([idRestaurant, idProduct])
+}
+
+model OrderDetail {
+  id                 Int     @id @default(autoincrement())
+  OrderDetailOrder   Order   @relation(fields: [idOrder], references: [id])
+  idOrder            Int
+  OrderDetailProduct Product @relation(fields: [idProduct], references: [id])
+  idProduct          Int
+  quantity           Int
+  total              Float
+  note               String
+}
+
+model Product {
+  id                         Int                   @id @default(autoincrement())
+  name                       String
+  description                String
+  ingredients                String
+  price                      Float
+  productToRestaurantProduct ProductCategory       @relation(fields: [idCategory], references: [id])
+  idCategory                 Int
+  state                      Boolean
+  ProductToRestaurant        ProductToRestaurant[]
+  OrderDetail                OrderDetail[]
+}
+
+model ProductCategory {
+  id          Int       @id
+  description String
+  Product     Product[]
+}
+
+enum TABLESTATE {
+  FREE
+  NOTFREE
+  RESERVED
+  ORDERREGISTERED
+  BYPAY
+  INACTIVE
+}
+
+enum USERTYPE {
+  ADMIN
+  USER
+  WAITER
+}
+
+enum ORDERSTATE {
+  REGISTERED
+  INPROCESS
+  PENDING
+  DELIVERED
+  TOPAY
+}
+
+enum PAYMENTTYPE {
+  CASH
+  CARD
+  BOTH
+}
