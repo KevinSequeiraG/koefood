@@ -1,6 +1,11 @@
-<div class="w-screen h-[5rem] bg-black text-[#e5e5e5] flex items-center justify-center absolute bottom-0">
-    <div class="bg-contain w-screen h-[2rem] absolute bg-repeat-x -top-10"
-        style="background-image: url(./assets/Images/borderImage.jpg)"></div>
-    <img src="./assets/Images/KOEFOODLogo.png" class="w-[5rem]" />
-    <small>&copy; Copyright KÖE Food</small>
+<div
+  *ngIf="!isLoginPag"
+  class="w-screen h-[5rem] bg-black text-[#e5e5e5] flex items-center justify-center absolute bottom-0"
+>
+  <div
+    class="bg-contain w-screen h-[2rem] absolute bg-repeat-x -top-10"
+    style="background-image: url(./assets/Images/borderImage.jpg)"
+  ></div>
+  <img src="./assets/Images/KOEFOODLogo.png" class="w-[5rem]" />
+  <small>&copy; Copyright KÖE Food</small>
 </div>
