@@ -1,45 +1,50 @@
-<section class="h-full gradient-form bg-[#C81D11] md:h-screen w-full mx-auto flex justify-center" style="
-background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));
-">
-    <div class="container py-12 px-6 h-full">
+<section class="h-full gradient-form bg-[#C81D11] md:h-screen w-screen mx-auto flex justify-center" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+    <div class="bg-contain w-screen h-[2rem] absolute bg-repeat-x"
+        style="background-image: url(./assets/Images/borderImage.jpg)"></div>
+    <div class="bg-contain w-screen h-[2rem] absolute bg-repeat-x bottom-0"
+        style="background-image: url(./assets/Images/borderImage.jpg)"></div>
+    <div class="container py-12 px-6 h-screen w-screen">
         <div class="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
-            <div class="xl:w-10/12">
-                <div class="block bg-black shadow-lg rounded-lg ">
-                    <div class="lg:flex lg:flex-wrap g-0 max-h-[40%]">
+            <div class="w-10/12 xl:w-12/12 ">
+                <div class="block bg-black shadow-lg rounded-lg">
+                    <div class="flex flex-col lg:flex-row">
                         <div
-                            class="lg:w-12/12 flex items-center lg:rounded-r-lg rounded-b-lg lg:rounded-bl-none bg-black border border-[#c1c161]">
+                            class="w-full lg:w-12/12 items-center bg-black border border-[#c1c161] rounded-bl-lg rounded-tl-lg">
                             <div class="text-[#e5e5e5] px-4 py-6 md:p-12 md:mx-6">
                                 <img src="./assets/Images/KOEFOODLogo.png" />
                             </div>
                         </div>
-                        <form class="lg:w-12/12">
-                            <p class="mb-4 text-[#e5e5e5]">Iniciar sesión</p>
-                            <div class="mb-4">
-                                <input type="text"
-                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-[#e5e5e5] bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-[#e5e5e5] focus:bg-white focus:border-blue-600 focus:outline-none"
-                                    id="exampleFormControlInput1" placeholder="Username" />
-                            </div>
-                            <div class="mb-4">
-                                <input type="password"
-                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-[#e5e5e5] bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-[#e5e5e5] focus:bg-white focus:border-blue-600 focus:outline-none"
-                                    id="exampleFormControlInput1" placeholder="Password" />
-                            </div>
-                            <div class="text-center pt-1 mb-12 pb-1">
-                                <button
-                                    class="inline-block px-6 py-2.5 text-[#e5e5e5] font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3 bg-black"
-                                    type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
-                                    Log in
-                                </button>
-                            </div>
-                            <div class="flex items-center justify-between pb-6">
-                                <p class="mb-0 mr-2 text-[#e5e5e5]">Don't have an account?</p>
-                                <button type="button"
-                                    class="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                                    data-mdb-ripple="true" data-mdb-ripple-color="light">
-                                    Danger
-                                </button>
-                            </div>
-                        </form>
+                        <div class=" w-full lg:w-12/12 flex items-center bg-black rounded-tr-lg rounded-br-lg border border-[#c1c161] ">
+                            <form class="w-2/3 lg:w-1/2 h-auto mx-auto my-auto my-6">
+                                <p class="mb-4 text-[#e5e5e5] text-center text-[30px] font-bold italic">Iniciar sesión
+                                </p>
+                                <div class="mb-4">
+                                    <input type="text"
+                                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-black bg-[#e5e5e5] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-[#e5e5e5] focus:border-blue-600 focus:outline-none"
+                                        id="exampleFormControlInput1" placeholder="Correo electrónico" />
+                                </div>
+                                <div class="mb-4">
+                                    <input type="password"
+                                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-black bg-[#e5e5e5] bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-black focus:bg-[#e5e5e5] focus:border-blue-600 focus:outline-none"
+                                        id="exampleFormControlInput1" placeholder="Contraseña" />
+                                </div>
+                                <div class="text-center pt-1  pb-1">
+                                    <button
+                                        class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full bg-black"
+                                        type="button" data-mdb-ripple="true" data-mdb-ripple-color="light">
+                                        Ingresar
+                                    </button>
+                                </div>
+                                <!-- <div class="flex items-center justify-between pb-6">
+                                    <a class="mb-0 mr-2 text-[#e5e5e5]">Don't have an account?</a>
+                                    <button type="button"
+                                        class="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                                        data-mdb-ripple="true" data-mdb-ripple-color="light">
+                                        Danger
+                                    </button>
+                                </div> -->
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

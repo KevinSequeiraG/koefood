@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 import { ShareModule } from './share/share.module';
 import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
-import { TableModule } from './table/table.module';
 import { HttpClientModule } from '@angular/common/http';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     CoreModule,
     ShareModule,
     HomeModule,
-    TableModule,
+    RestaurantModule,
     AppRoutingModule,
   ],
   providers: [],
