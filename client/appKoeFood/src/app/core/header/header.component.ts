@@ -11,9 +11,11 @@ export class HeaderComponent implements OnInit {
   isLoginPage: boolean = true;
   
   constructor(private router: Router) {
+    console.log(router.config[4])
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
-        this.isLoginPage = event.url == '/';
+        //console.log(event)
+        this.isLoginPage = event.url == '**' ;
       }
     });
   }
