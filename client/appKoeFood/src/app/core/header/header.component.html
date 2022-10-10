@@ -37,19 +37,19 @@
           <!-- Logo -->
           <a href="#">
             <span class="sr-only">CurrentUser</span>
-            <div class="flex items-center justify-start space-x-3 pt-2 pl-2">
-              <span class="material-symbols-outlined"> account_circle </span>
+            <div class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover">
+              <img src="./assets/Images/userProfileImg1.jpg" class="w-[3.1rem] object-fill border border-[#c1c161] rounded-full" />
               <p
                 class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold"
               >
-                Erick Rojas Picado
+                Nombre usuario
               </p>
             </div>
           </a>
           <!-- Close btn -->
           <button
             (click)="openCloseSidenavbar()"
-            class="rounded-lg focus:outline-none focus:ring text-[#e5e5e5] absolute right-20 lg:right-11"
+            class="rounded-lg focus:outline-none focus:ring absolute right-20 lg:right-11 text-[#c1c161] hover:cursor-pointer"
           >
             <svg
               class="w-6 h-6"
@@ -70,7 +70,7 @@
           </button>
         </div>
         <nav
-          class="flex flex-col flex-1 w-64 p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold"
+          class="flex flex-col flex-1 w-min p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold"
         >
           <a href="#" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]"> home </span>
@@ -126,13 +126,32 @@
             >
           </a>
         </nav>
-        <div class="flex-shrink-0 p-4 text-[#e5e5e5] mb-10">
-          <button class="flex items-center space-x-2">
-            <span class="material-symbols-outlined text-[#C81D11]">
-              logout
-            </span>
-            <span class="text-[#C81D11] text-[14px] lg:text-[16px] ">Salir</span>
-          </button>
+        <div class="flex flex-col justify-center ml-5">
+          <div class="flex space-x-1 items-end">
+            <p class="text-[26px] text-red-800 shadow-inner font-extrabold">
+              KÖE
+            </p>
+            <p class="text-[18px] shadow-inner font-extrabold text-yellow-500">
+              Food
+            </p>
+          </div>
+          <div
+            class="text-[#e5e5e5] mb-10 w-min flex justify-center mt-2 ml-2 "
+          >
+            <button
+              class="flex items-center space-x-1 justify-center w-full mx-auto border border-[#c1c161] rounded-[10px] py-1 px-3 hover:bg-[#c1c161] text-[#c1c161] hover:!text-white"
+            >
+              <span
+                class="material-symbols-outlined font-semibold"
+              >
+                logout
+              </span>
+              <span
+                class=" text-[14px] lg:text-[15px] text-center font-bold"
+                >Salir</span
+              >
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -140,7 +159,7 @@
       <!-- Page content -->
       <button
         (click)="openCloseSidenavbar()"
-        class="fixed text-white bg-black rounded-lg top-3 left-2 pt-1 px-1"
+        class="fixed bg-black rounded-lg top-3 left-2 pt-1 px-1 text-[#c1c161] hover:cursor-pointer"
       >
         <span class="material-symbols-outlined text-[#C81D11]"> menu </span>
         <span class="sr-only">Open menu</span>
