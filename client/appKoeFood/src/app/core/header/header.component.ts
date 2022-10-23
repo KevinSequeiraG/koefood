@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, NavigationEnd, Event } from '@angular/router';
 export class HeaderComponent implements OnInit {
   isSidebarOpen: boolean = false;
   isLoginPage: boolean = true;
-  
+
   constructor(private router: Router) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd) {
