@@ -3,11 +3,11 @@ const express = require("express");
 const router = express.Router();
 
 //Videojuego controller para los métodos definidos
-const orderController = require("../controllers/orderController");
+const productController = require("../controllers/productController");
 
 //Definición de rutas para generos
-router.get("/", orderController.get);
+router.get("/", productController.get);
 
-router.get("/:id", orderController.getById);
+router.get("/:id", productController.getById);
 
-module.exports = router; 
+module.exports = router;

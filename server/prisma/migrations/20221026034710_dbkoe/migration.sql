@@ -54,6 +54,7 @@ CREATE TABLE `Order` (
     `clientPaymentInCard` DOUBLE NOT NULL,
     `orderTotal` DOUBLE NOT NULL,
     `idUser` INTEGER NOT NULL,
+    `idWaiter` INTEGER NOT NULL,
     `idRestaurant` INTEGER NOT NULL,
     `idTable` INTEGER NOT NULL,
     `state` ENUM('REGISTERED', 'INPROCESS', 'PENDING', 'DELIVERED', 'TOPAY') NOT NULL,
@@ -121,6 +122,9 @@ ALTER TABLE `RestaurantTable` ADD CONSTRAINT `RestaurantTable_idRestaurant_fkey`
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Order` ADD CONSTRAINT `Order_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

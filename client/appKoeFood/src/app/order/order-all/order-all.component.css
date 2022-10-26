@@ -1,0 +1,19 @@
+.full-width-table {
+  width: 100%;
+}
+.full-width-table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  border: 2px solid #c1c161;
+  margin-right: auto;
+  margin-left: auto;
+  width: auto;
+  padding-left: 2rem;
+}
+
+.mat-cell {
+  border: 2px solid #c1c161;
+  text-align: center;
+}

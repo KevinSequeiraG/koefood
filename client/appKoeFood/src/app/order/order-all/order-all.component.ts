@@ -1,20 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable } from '@angular/material/table';
+//import { OrderAllDataSource, OrderAllItem } from './order-all-datasource';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { RestaurantTableDetailComponent } from '../restauranttable-detail/restauranttable-detail.component';
+import { OrderDetailComponent } from '../order-detail/order-detail.component';
 
 @Component({
-  selector: 'app-restaurant-tables',
-  templateUrl: './restaurant-tables.component.html',
-  styleUrls: ['./restaurant-tables.component.css']
+  selector: 'app-order-all',
+  templateUrl: './order-all.component.html',
+  styleUrls: ['./order-all.component.css']
 })
-export class RestaurantTablesComponent implements AfterViewInit {
-
+export class OrderAllComponent implements AfterViewInit {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
@@ -25,32 +26,33 @@ export class RestaurantTablesComponent implements AfterViewInit {
     private route: ActivatedRoute, private gService: GenericService, private dialog: MatDialog) {
   }
 
-  displayedColumns = ['id'];
+  displayedColumns = ['orderRestaurant', 'orderTable', 'orderUser', 'orderTotal', 'state', 'actions'];
 
   ngAfterViewInit(): void {
-    this.listaProducts();
+    this.listaOrders();
   }
-  listaProducts() {
+  listaOrders() {
     this.gService
-      .list('restauranttables/')
+      .list('orders/')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
         this.datos = data;
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       });
   }
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
-  detalleRestaurantTable(id: number) {
+  detailProduct(id: number) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.data = {
       id: id
     };
-    this.dialog.open(RestaurantTableDetailComponent, dialogConfig);
+    this.dialog.open(OrderDetailComponent, dialogConfig);
   }
-
 }

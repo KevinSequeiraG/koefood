@@ -8,10 +8,16 @@ import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
 import { HttpClientModule } from '@angular/common/http';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { ProductModule } from './product/product.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { OrderModule } from './order/order.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -19,8 +25,15 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     CoreModule,
     ShareModule,
     HomeModule,
-    RestaurantModule,
+    OrderModule,
+    RestaurantModule,    
+    ProductModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

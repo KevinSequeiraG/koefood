@@ -19,9 +19,11 @@ model User {
   password          String
   userRestaurant    Restaurant         @relation(fields: [idRestaurant], references: [id])
   idRestaurant      Int
-  Order             Order[]
   TableReservation  TableReservation[] @relation(name: "user")
   TableReservations TableReservation[] @relation(name: "waiter")
+
+  OrderU Order[] @relation(name: "user")
+  OrderW Order[] @relation(name: "waiter")
 }
 
 model TableReservation {
@@ -65,8 +67,10 @@ model Order {
   clientPaymentInCash Float
   clientPaymentInCard Float
   orderTotal          Float
-  orderUser           User            @relation(fields: [idUser], references: [id])
+  orderUser           User            @relation(name: "user", fields: [idUser], references: [id])
   idUser              Int
+  orderWaiter         User            @relation(name: "waiter", fields: [idWaiter], references: [id])
+  idWaiter            Int
   orderRestaurant     Restaurant      @relation(fields: [idRestaurant], references: [id])
   idRestaurant        Int
   orderTable          RestaurantTable @relation(fields: [idTable], references: [id])
