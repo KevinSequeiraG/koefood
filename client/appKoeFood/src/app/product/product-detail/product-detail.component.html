@@ -1,0 +1,37 @@
+<div class="relative mx-3">
+  <button mat-icon-button class="close-button !absolute right-0 text-white" [mat-dialog-close]="true">
+    <mat-icon class="close-icon" color="white">close</mat-icon>
+  </button>
+  <div *ngIf="datos" class="text-gray-300 pb-4 rounded-lg text-center pt-4 px-6"
+    style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+    <h2 mat-dialog-title>Producto</h2>
+
+    <mat-dialog-content>
+      <div class="flex space-x-2 text-[18px]">
+        <p class="font-bold">Nombre:</p>
+        <p>{{datos.name}}</p>
+      </div>
+      <div class="flex space-x-2 text-[18px]">
+        <p class="font-bold">Descripción:</p>
+        <p>{{datos.description}}</p>
+      </div>
+      <div class="flex space-x-2 text-[18px]">
+        <p class="font-bold">Ingredientes:</p>
+        <p>{{datos.ingredients}}</p>
+      </div>
+      <div class="flex space-x-2 text-[18px]">
+        <p class="font-bold">Precio unitario:</p>
+        <p>{{datos.price}}</p>
+      </div>
+      <div class="flex space-x-2 text-[18px]">
+        <p class="font-bold">Restaurante:</p>
+        <p>{{datos.productToRestaurantProduct.description}}</p>
+      </div>
+      <div class="flex space-x-2 text-[18px]">        
+        <p class="!text-[18px] text-green-500 !font-bold border border-white rounded-xl !w-28 !mx-auto">{{datos.state?'Activo':'Inactivo'}}</p>
+      </div>
+    </mat-dialog-content>
+    <!-- <mat-dialog-actions>
+    </mat-dialog-actions> -->
+  </div>
+</div>

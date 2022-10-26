@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RestaurantRoutingModule } from './restaurant-routing.module';
-import { RestaurantTablesComponent } from './restaurant-tables/restaurant-tables.component';
-import { RestaurantTableDetailComponent } from './restauranttable-detail/restauranttable-detail.component';
+import { OrderRoutingModule } from './order-routing.module';
+import { OrderAllComponent } from './order-all/order-all.component';
+
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
@@ -13,25 +14,26 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort'; 
-import {MatDividerModule} from '@angular/material/divider'; 
-import {MatDialogModule} from "@angular/material/dialog";
+import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
-
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 @NgModule({
   declarations: [
-    RestaurantTablesComponent,
-    RestaurantTableDetailComponent,
-    
+    OrderAllComponent,
+    OrderDetailComponent
   ],
   imports: [
     CommonModule,
-    RestaurantRoutingModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    CommonModule,
     MatButtonToggleModule,
     MatGridListModule,
     MatCardModule,
@@ -47,7 +49,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OrderRoutingModule,
   ]
 })
-export class RestaurantModule { }
+export class OrderModule { }
