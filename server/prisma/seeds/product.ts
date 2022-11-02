@@ -11,7 +11,7 @@ export const product = [
         name: 'Arroz con kiwi',
         description: 'Delicioso arroz con kiwis, acompañado de un sofrito.',
         ingredients: 'Arroz,Kiwis,Cebollas,Sal,Pimienta',
-        price: 4499,
+        price: 4500,
         idCategory: 1,
         state: true
     },

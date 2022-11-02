@@ -39,13 +39,13 @@ export const restaurantTable = [
     {
         code:'KÖE-HER-1',
         capacity:4,
-        state:TABLESTATE.FREE,
+        state:TABLESTATE.INACTIVE,
         idRestaurant:2
     },
     {
         code:'KÖE-HER-2',
         capacity:4,
-        state:TABLESTATE.FREE,
+        state:TABLESTATE.INACTIVE,
         idRestaurant:2
     },
     {

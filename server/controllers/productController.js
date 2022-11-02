@@ -21,11 +21,7 @@ module.exports.getById = async (request, response, next) => {
         where: { id: id },
         include: {
             ProductToRestaurant: {
-                select: {
-                    idProduct: true,
-                    quantity: true,
-                    idRestaurant: true,
-                }
+                include:{productToRestaurantRestaurant:true}
             },
             productToRestaurantProduct: {
                 select: {

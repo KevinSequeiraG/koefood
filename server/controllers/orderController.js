@@ -28,7 +28,8 @@ module.exports.getById = async (request, response, next) => {
             orderWaiter: true,
             orderRestaurant: true,
             orderTable: true,
-            OrderDetail: true
+            OrderDetail: { include: { OrderDetailProduct: true } },
+
         }
     });
     response.json(order);

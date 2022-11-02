@@ -26,7 +26,7 @@ export class OrderAllComponent implements AfterViewInit {
     private route: ActivatedRoute, private gService: GenericService, private dialog: MatDialog) {
   }
 
-  displayedColumns = ['orderRestaurant', 'orderTable', 'orderUser', 'orderTotal', 'state', 'actions'];
+  displayedColumns = ['orderRestaurant', 'orderTable', 'orderUser', 'orderTotal', 'state', 'date', 'actions' ];
 
   ngAfterViewInit(): void {
     this.listaOrders();

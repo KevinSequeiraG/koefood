@@ -25,6 +25,7 @@ export class OrderDetailComponent implements OnInit {
       this.obtenerProduct(this.datosDialog.id);
     }
   }
+
   obtenerProduct(id:any){
     this.gService
     .get('orders',id)

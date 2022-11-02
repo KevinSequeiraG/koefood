@@ -16,7 +16,7 @@
 
       <ng-container matColumnDef="price">
         <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Precio</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.price}}</td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{'₡'+row.price}}</td>
       </ng-container>
 
       <ng-container matColumnDef="productToRestaurantProduct">
@@ -31,7 +31,7 @@
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Acciones</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"><button (click)="detailProduct(row.id)">ver</button></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"><button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg">Ver detalle</button></td>
         
       </ng-container>
 

@@ -21,15 +21,28 @@
       </div>
       <div class="flex space-x-2 text-[18px]">
         <p class="font-bold">Precio unitario:</p>
-        <p>{{datos.price}}</p>
+        <p>{{'₡'+datos.price}}</p>
       </div>
       <div class="flex space-x-2 text-[18px]">
-        <p class="font-bold">Restaurante:</p>
+        <p class="font-bold">Categoría:</p>
         <p>{{datos.productToRestaurantProduct.description}}</p>
       </div>
-      <div class="flex space-x-2 text-[18px]">        
-        <p class="!text-[18px] text-green-500 !font-bold border border-white rounded-xl !w-28 !mx-auto">{{datos.state?'Activo':'Inactivo'}}</p>
+      <p class="font-bold flex text-[18px]">Restaurantes:</p>
+      <div class="flex">
+        <div *ngFor="let item of datos.ProductToRestaurant">
+          <div class="flex space-x-2 text-[18px] mr-2">
+            <p class="!text-[18px] text-green-500 !font-bold border border-white rounded-xl !w-28 !mx-auto py-2 px-1">
+              {{item.productToRestaurantRestaurant.name}}</p>
+          </div>
+        </div>
       </div>
+      <div class="flex space-x-2 text-[18px]  mt-8">
+        <p class="!text-[18px] text-green-500 !font-bold border border-white rounded-xl !w-28 !mx-auto py-2 px-1">
+          {{datos.state?'Activo':'Inactivo'}}</p>
+      </div>
+
+
+
     </mat-dialog-content>
     <!-- <mat-dialog-actions>
     </mat-dialog-actions> -->

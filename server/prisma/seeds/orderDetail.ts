@@ -33,7 +33,7 @@ export const orderDetail = [
         idOrder: 2,
         idProduct: 2,
         quantity: 2,
-        total: 8998,
+        total: 9000,
         note: ""
     },
     {
@@ -99,8 +99,8 @@ export const orderDetail = [
         idOrder:4,
         idProduct: 2,
         quantity: 1,
-        total: 4499,
-        note: "Extra se ajo"
+        total: 4500,
+        note: "Extra de ajo"
     },
     {
         idOrder: 4,

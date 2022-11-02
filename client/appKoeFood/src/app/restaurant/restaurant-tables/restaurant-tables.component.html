@@ -4,6 +4,7 @@
         <div class="text-center border-2 border-[#c1c161] rounded-lg p-2 relative" *ngFor="let item of datos">
             <button (click)="detalleRestaurantTable(item.id)" class="absolute right-2"><span class="material-symbols-outlined text-white bg-green-500 rounded-full"> info </span></button>
             <p class="text-[#e5e5e5]">{{item.code}}</p>
+            <p class="text-[#e5e5e5]">{{'Capacidad '+item.capacity}}</p>
             <img src="./assets/Images/table.png" alt="" class="w-[15rem] m-auto">
             <button
                 [ngClass]="item.state=='RESERVED'?'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white ': 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'">Reservada</button>
