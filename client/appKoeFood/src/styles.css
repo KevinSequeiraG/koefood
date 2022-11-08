@@ -5,6 +5,66 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.mat-dialog-container{
+.mat-form-field-label{
     background-color: transparent;
+    color: white !important;
+    font-size: 1.5rem!important;
+    
+    margin-bottom: 1rem!important;
 }
+
+.backBTN{
+    width: 100%;
+    margin: 0!important;
+    
+    margin-top: 1rem!important;
+}
+
+.mat-select-arrow {
+    color: white;
+}
+
+.mat-form-field-underline{
+    background-color: white!important;
+}
+
+.mat-dialog-container{
+    color: white
+}
+
+
+.mat-select-value{
+    
+    margin-top: 1rem!important;
+    color: white;
+    font-size: 1rem!important;
+}
+.mat-card-header .mat-card-title{
+    margin-bottom: 3rem!important
+}
+
+.mat-form-field-label {
+    font-size: 1rem!important
+}
+
+.mat-card-header-text{
+    width: 100%
+}
+
+.mat-dialog-container {
+    padding: 0!important;
+    border-radius: 1rem!important;
+}
+
+.ng-star-inserted{
+    width: 100%
+}
+
+@import '~ngx-toastr/toastr';
+
+@import '~ngx-toastr/toastr-bs4-alert';
+
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~ngx-toastr/toastr-bs4-alert';

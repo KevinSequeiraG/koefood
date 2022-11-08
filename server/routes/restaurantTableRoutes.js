@@ -8,6 +8,10 @@ const restaurantTableController = require("../controllers/restaurantTableControl
 //Definición de rutas para generos
 router.get("/", restaurantTableController.get);
 
+router.post("/", restaurantTableController.create);
+
 router.get("/:id", restaurantTableController.getById);
+
+router.put("/:id", restaurantTableController.update);
 
 module.exports = router;

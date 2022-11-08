@@ -29,6 +29,8 @@ export class RestaurantTablesComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.listaProducts();
+
+  
   }
   listaProducts() {
     this.gService
@@ -37,6 +39,8 @@ export class RestaurantTablesComponent implements AfterViewInit {
       .subscribe((data: any) => {
         console.log(data);
         this.datos = data;
+        window.localStorage.setItem("totalOfTables", this.datos.length)
+        console.log(this.datos.length)
       });
   }
   ngOnDestroy() {
@@ -53,4 +57,15 @@ export class RestaurantTablesComponent implements AfterViewInit {
     this.dialog.open(RestaurantTableDetailComponent, dialogConfig);
   }
 
+  crearVideojuego() {
+    this.router.navigate(['/restauranttable/create'], {
+      relativeTo: this.route,
+    });
+  }
+
+  actualizarVideojuego(id: number) {
+    this.router.navigate(['/restauranttable/update', id], {
+      relativeTo: this.route,
+    });
+  }
 }

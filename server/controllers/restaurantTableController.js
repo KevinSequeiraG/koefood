@@ -8,7 +8,8 @@ module.exports.get = async (request, response, next) => {
             id: 'asc',
         },
         include: {
-            restaurantRestaurantTable: true
+            restaurantRestaurantTable: true,
+
         },
     });
     response.json(restaurantTables);
@@ -24,4 +25,47 @@ module.exports.getById = async (request, response, next) => {
         },
     });
     response.json(restaurantTable);
+};
+
+//Obtener cuántos hay
+// module.exports.get = async (request, response, next) => {
+//     const restaurantTablesCount = await prisma.restaurantTable.count();
+//     response.json(restaurantTablesCount);
+// };
+
+//Crear una mesa
+module.exports.create = async (request, response, next) => {
+    let restaurantTable = request.body;
+    const newRestaurantTable = await prisma.restaurantTable.create({
+        data: {
+            code: restaurantTable.code,
+            capacity: restaurantTable.capacity,
+            state: restaurantTable.state,
+            idRestaurant: restaurantTable.idRestaurant,
+        },
+    });
+    response.json(newRestaurantTable);
+};
+
+//Actualizar una mesa
+module.exports.update = async (request, response, next) => {
+    let restaurantTable = request.body;
+    let idRestaurantTable = parseInt(request.params.id);
+    //Obtener videojuego viejo
+    // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
+    //     where: { id: idRestaurantTable }
+    // });
+
+    const newRestaurantTable = await prisma.restaurantTable.update({
+        where: {
+            id: idRestaurantTable,
+        },
+        data: {
+            code: restaurantTable.code,
+            capacity: restaurantTable.capacity,
+            state: restaurantTable.state,
+            idRestaurant: restaurantTable.idRestaurant,
+        },
+    });
+    response.json(newRestaurantTable);
 };

@@ -1,13 +1,22 @@
-<div class="h-screen overflow-auto pb-60 relative" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+<div class="h-screen overflow-auto pb-60 relative pt-20"
+    style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
     <h1 class="mt-10 mb-4 text-[#e5e5e5] text-center text-[30px] font-bold italic">Mesas de restaurante</h1>
+    <div class="w-2/3 mx-auto">
+        <button class="bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]" (click)="crearVideojuego()">Agregar nueva mesa</button>
+    </div>
     <div class="w-2/3 mx-auto justify-center pt-10 overflow-auto grid grid-cols-3 gap-4">
         <div class="text-center border-2 border-[#c1c161] rounded-lg p-2 relative" *ngFor="let item of datos">
-            <button (click)="detalleRestaurantTable(item.id)" class="absolute right-2"><span class="material-symbols-outlined text-white bg-green-500 rounded-full"> info </span></button>
+            <button (click)="detalleRestaurantTable(item.id)" class="absolute left-2"><span
+                    class="material-symbols-outlined text-white bg-red-500 p-1 rounded-full"> delete </span></button>
+            <button (click)="actualizarVideojuego(item.id)" class="absolute left-11"><span
+                    class="material-symbols-outlined text-white bg-yellow-600 p-1 rounded-full"> edit </span></button>
+            <button (click)="detalleRestaurantTable(item.id)" class="absolute right-2"><span
+                    class="material-symbols-outlined text-white bg-green-500 rounded-full"> info </span></button>
             <p class="text-[#e5e5e5]">{{item.code}}</p>
             <p class="text-[#e5e5e5]">{{'Capacidad '+item.capacity}}</p>
             <img src="./assets/Images/table.png" alt="" class="w-[15rem] m-auto">
-            <button
-                [ngClass]="item.state=='RESERVED'?'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white ': 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'">Reservada</button>
+            <!-- <button
+                [ngClass]="item.state=='RESERVED'?'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white ': 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'">Reservada</button> -->
             <button
                 [ngClass]="item.state=='FREE'?'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white ': 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'">Libre</button>
             <button

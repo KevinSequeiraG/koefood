@@ -1,6 +1,11 @@
 <div class="pt-[5rem] w-full h-full" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
   <h1 class="text-center text-[#e5e5e5] !font-bold">Productos generales de restaurantes</h1>
-  <div class="mat-elevation-z8 w-[80%] mx-auto border border-[#c1c161]">
+  <div class="w-full text-center mb-8">
+    <button class="mx-auto bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]">Agregar nuevo
+      producto</button>
+  </div>
+  <div class="mat-elevation-z8 w-[80%] h-full mx-auto border border-[#c1c161]">
+
     <table mat-table class="full-width-table bg-black" matSort aria-label="Elements" [dataSource]="dataSource">
       <!-- Id Column -->
       <ng-container matColumnDef="name">
@@ -10,7 +15,8 @@
 
       <!-- Name Column -->
       <ng-container class="text-[#e5e5e5]" matColumnDef="description">
-        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Descripción</th>
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Descripción
+        </th>
         <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.description}}</td>
       </ng-container>
 
@@ -20,7 +26,8 @@
       </ng-container>
 
       <ng-container matColumnDef="productToRestaurantProduct">
-        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Categoría</th>
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Categoría
+        </th>
         <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.productToRestaurantProduct.description}}</td>
       </ng-container>
 
@@ -29,18 +36,24 @@
         <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.state?'Activo':'Inactivo'}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Acciones</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"><button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg">Ver detalle</button></td>
-        
+      <ng-container matColumnDef="actions" >
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Acciones
+        </th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">
+          <button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg"><span class="material-icons">remove_red_eye</span></button>
+          <button (click)="detailProduct(row.id)" class="bg-yellow-800 px-2 py-1 rounded-lg"><span class="material-icons">edit</span></button>
+          <button (click)="detailProduct(row.id)" class="bg-red-800 px-2 py-1 rounded-lg"><span class="material-icons">delete</span></button>
+        </td>
+        <!-- <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td> -->
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator class="bg-gray-500 text-[#e5e5e5]" #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    <mat-paginator class="bg-gray-500 text-[#e5e5e5]" #paginator [length]="dataSource?.data?.length" [pageIndex]="0"
+      [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
     </mat-paginator>
   </div>
 </div>

@@ -1,109 +1,109 @@
 import {TABLESTATE} from "@prisma/client"
 export const restaurantTable = [
     {
-        code:'KÖE-ALA-1',
+        code:'KÖE-1',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-ALA-2',
+        code:'KÖE-2',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-ALA-3',
+        code:'KÖE-3',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-ALA-4',
+        code:'KÖE-4',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-ALA-5',
+        code:'KÖE-5',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-ALA-6',
+        code:'KÖE-6',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:1
     },
     {
-        code:'KÖE-HER-1',
+        code:'KÖE-7',
         capacity:4,
         state:TABLESTATE.INACTIVE,
         idRestaurant:2
     },
     {
-        code:'KÖE-HER-2',
+        code:'KÖE-8',
         capacity:4,
         state:TABLESTATE.INACTIVE,
         idRestaurant:2
     },
     {
-        code:'KÖE-HER-3',
+        code:'KÖE-9',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:2
     },
     {
-        code:'KÖE-HER-4',
+        code:'KÖE-10',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:2
     },
     {
-        code:'KÖE-HER-5',
+        code:'KÖE-11',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:2
     },
     {
-        code:'KÖE-HER-6',
+        code:'KÖE-12',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:2
     },
     {
-        code:'KÖE-SJ-1',
+        code:'KÖE-13',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3
     },
     {
-        code:'KÖE-SJ-2',
+        code:'KÖE-14',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3
     },
     {
-        code:'KÖE-SJ-3',
+        code:'KÖE-15',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3
     },
     {
-        code:'KÖE-SJ-4',
+        code:'KÖE-16',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3
     },
     {
-        code:'KÖE-SJ-5',
+        code:'KÖE-17',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3
     },
     {
-        code:'KÖE-SJ-6',
+        code:'KÖE-18',
         capacity:4,
         state:TABLESTATE.FREE,
         idRestaurant:3

@@ -123,9 +123,6 @@ model ProductCategory {
 enum TABLESTATE {
   FREE
   NOTFREE
-  RESERVED
-  ORDERREGISTERED
-  BYPAY
   INACTIVE
 }
 
