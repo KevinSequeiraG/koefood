@@ -26,12 +26,17 @@
 
       <ng-container matColumnDef="state">
         <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Estado</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.state?'Activo':'Inactivo'}}</td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.state=='REGISTERED'?'Registrada':row.state=='INPROCESS'?'En proceso':row.state=='PENDING'?'Pendiente':row.state=='DELIVERED'?'Entregada':'Por pagar'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Fecha</th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.date | date:'dd/MM/YYYY'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="actions">
         <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Acciones</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"><button (click)="detailProduct(row.id)">ver</button></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"><button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg">Ver detalle</button></td>
         
       </ng-container>
 

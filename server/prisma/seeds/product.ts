@@ -11,7 +11,7 @@ export const product = [
         name: 'Arroz con kiwi',
         description: 'Delicioso arroz con kiwis, acompañado de un sofrito.',
         ingredients: 'Arroz,Kiwis,Cebollas,Sal,Pimienta',
-        price: 4499,
+        price: 4500,
         idCategory: 1,
         state: true
     },
@@ -33,7 +33,7 @@ export const product = [
     },
     {
         name: 'Futomaki',
-        description: 'Rollo grueso de sushi, con un grosor de 2cm y 3cm más 4cm o 5cm de largo miau',
+        description: 'Rollo grueso de sushi, con un grosor de 2cm y 3cm más 4cm o 5cm de largo.',
         ingredients: 'Algas,Cebolla,Bambú,Arroz,Aguacate,Tomate,Frutas',
         price: 8000,
         idCategory: 2,

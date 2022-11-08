@@ -27,7 +27,7 @@ CREATE TABLE `RestaurantTable` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `code` VARCHAR(191) NOT NULL,
     `capacity` INTEGER NOT NULL,
-    `state` ENUM('FREE', 'NOTFREE', 'RESERVED', 'ORDERREGISTERED', 'BYPAY', 'INACTIVE') NOT NULL,
+    `state` ENUM('FREE', 'NOTFREE', 'INACTIVE') NOT NULL,
     `idRestaurant` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)

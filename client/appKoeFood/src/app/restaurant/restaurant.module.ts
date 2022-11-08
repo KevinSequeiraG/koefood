@@ -21,13 +21,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
-
+import { RestaurantTableForm } from './restauranttable-form/restauranttable-form.component';
 
 @NgModule({
   declarations: [
     RestaurantTablesComponent,
     RestaurantTableDetailComponent,
-    
+    RestaurantTableForm
   ],
   imports: [
     CommonModule,
