@@ -9,19 +9,19 @@ module.exports.get = async (request, response, next) => {
             case TABLESTATE.FREE:
                 listEstados.unshift({
                     ["id"]: element,
-                    ["nombre"]: "HABILITADA",
+                    ["nombre"]: "Libre",
                 });
                 break;
             case TABLESTATE.NOTFREE:
                 listEstados.unshift({
                     ["id"]: element,
-                    ["nombre"]: "OCUPADA",
+                    ["nombre"]: "Ocupada",
                 });
                 break;
             case TABLESTATE.INACTIVE:
                 listEstados.unshift({
                     ["id"]: element,
-                    ["nombre"]: "DESHABILITADA",
+                    ["nombre"]: "Inactiva",
                 });
                 break;
             default:

@@ -58,13 +58,13 @@ export class RestaurantTableForm implements OnInit {
   formularioReactive() {
     //[null, Validators.required]
     var totalOfTables = parseInt(window.localStorage.getItem("totalOfTables"))
-    var finalCode = "KOE-" + (totalOfTables + 1)
+    var finalCode = "KÖE-" + (totalOfTables + 1)
     this.restaurantTableForm = this.fb.group({
       id: [null, null],
       code: [finalCode, null],
       capacity: [null, Validators.required],
       state: [null, Validators.required],
-      idRestaurant: [true, Validators.required],
+      idRestaurant: [null, Validators.required],
     });
   }
 

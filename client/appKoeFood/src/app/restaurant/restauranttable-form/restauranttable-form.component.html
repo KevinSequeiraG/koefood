@@ -2,7 +2,7 @@
   <form [formGroup]="restaurantTableForm" novalidate
     (ngSubmit)="isCreate ? crearRestaurantTable(): actualizarRestaurantTable()">
     <input type="hidden" formControlName="id" />
-    <mat-card class="shipping-card w-screen h-screen !mt-0 text-white mx-auto w-auto"
+    <mat-card class="shipping-card w-screen h-screen !my-0 text-white mx-auto w-auto"
       style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
       <div
         class="border border-[1px] min-w-[40rem] px-5 py-8 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
@@ -13,7 +13,7 @@
           <div class="row text-[white] text-[1rem]">
             <div class="col">
               <mat-form-field class="full-width">
-                <input type="number" matInput placeholder="Capacidad máxima" #capacity formControlName="capacity">
+                <input min="1" type="number" matInput placeholder="Capacidad máxima" #capacity formControlName="capacity">
                 <mat-error *ngIf="restaurantTableForm.controls['capacity'].hasError('required')">
                   Capacidad es <strong>requerida</strong>
                 </mat-error>

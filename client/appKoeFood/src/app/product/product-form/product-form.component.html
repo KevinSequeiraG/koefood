@@ -1,0 +1,111 @@
+<div style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));" class="w-auto">
+  <form [formGroup]="productForm" novalidate
+    (ngSubmit)="isCreate ? crearProducto(): actualizarProducto()">
+    <input type="hidden" formControlName="id" />
+    <mat-card class="shipping-card w-screen h-screen !my-0 text-white mx-auto w-auto"
+      style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+      <div
+        class="border border-[1px] min-w-[40rem] px-5 py-8 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+        <mat-card-header class="text-center w-full">
+          <mat-card-title class="!text-[2.5rem] mb-34 mx-auto">{{titleForm}} Producto</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row text-[white] text-[1rem]">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Nombre" #name formControlName="name" maxlength="50">
+                <mat-hint align="end" class="!text-white">{{name.value.length}} / 50</mat-hint>
+                <mat-error *ngIf="productForm.controls['name'].hasError('required')">
+                  Nombre es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width ">
+                <input matInput placeholder="Descripción" #description formControlName="description" maxlength="200">
+                <mat-hint align="end" class="!text-white">{{description.value.length}} / 200</mat-hint>
+                <mat-error *ngIf="productForm.controls['description'].hasError('required')">
+                  La descripción es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width ">
+                <input min="1" type=number step=0.01 matInput placeholder="Precio" #capacity formControlName="price" >
+                <mat-error *ngIf="productForm.controls['price'].hasError('required')">
+                  La precio es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width ">
+                <input matInput placeholder="Ingredientes" #capacity formControlName="ingredients">
+                <mat-error *ngIf="productForm.controls['ingredients'].hasError('required')">
+                  Los Ingredientes son<strong>requeridos</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width ">
+                <mat-select placeholder="Categoría" formControlName="idCategory">
+                  <mat-option *ngFor="let s of categoryList" [value]="s.id">
+                    {{ s.description }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="productForm.controls['idCategory'].hasError('required')">
+                  La categoría es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-label>Estado del producto</mat-label>
+              <mat-radio-group formControlName="state">
+                <mat-radio-button class="" [value]="true">Activo</mat-radio-button>
+                <mat-radio-button [value]="false">Inactivo</mat-radio-button>
+              </mat-radio-group>
+              <mat-error *ngIf="productForm.controls['state'].hasError('required')">
+                Publicar es <strong>requerido</strong>
+              </mat-error>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col" *ngIf="restaurantList">
+              <mat-form-field class="full-width">
+                <mat-select placeholder="Restaurante al que pertenece" formControlName="restaurants" multiple>
+                  <mat-option *ngFor="let g of restaurantList" [value]="g.id">
+                    {{ g.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="productForm.controls['restaurants'].hasError('required')">
+                  Restaurante es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button class="mx-auto w-full" mat-raised-button color="primary" type="submit">Guardar</button>
+
+          <button class="backBTN !mt-3" mat-raised-button color="primary" (click)="onBack()">Volver</button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </form>
+</div>

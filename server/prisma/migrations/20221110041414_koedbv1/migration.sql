@@ -64,15 +64,6 @@ CREATE TABLE `Order` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `ProductToRestaurant` (
-    `idRestaurant` INTEGER NOT NULL,
-    `idProduct` INTEGER NOT NULL,
-    `quantity` INTEGER NOT NULL,
-
-    PRIMARY KEY (`idRestaurant`, `idProduct`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
 CREATE TABLE `OrderDetail` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `idOrder` INTEGER NOT NULL,
@@ -105,6 +96,15 @@ CREATE TABLE `ProductCategory` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `_ProductToRestaurant` (
+    `A` INTEGER NOT NULL,
+    `B` INTEGER NOT NULL,
+
+    UNIQUE INDEX `_ProductToRestaurant_AB_unique`(`A`, `B`),
+    INDEX `_ProductToRestaurant_B_index`(`B`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `User` ADD CONSTRAINT `User_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
@@ -133,12 +133,6 @@ ALTER TABLE `Order` ADD CONSTRAINT `Order_idRestaurant_fkey` FOREIGN KEY (`idRes
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idTable_fkey` FOREIGN KEY (`idTable`) REFERENCES `RestaurantTable`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ProductToRestaurant` ADD CONSTRAINT `ProductToRestaurant_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE `ProductToRestaurant` ADD CONSTRAINT `ProductToRestaurant_idProduct_fkey` FOREIGN KEY (`idProduct`) REFERENCES `Product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
 ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idOrder_fkey` FOREIGN KEY (`idOrder`) REFERENCES `Order`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
@@ -146,3 +140,9 @@ ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idProduct_fkey` FOREIGN KE
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_idCategory_fkey` FOREIGN KEY (`idCategory`) REFERENCES `ProductCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_ProductToRestaurant` ADD CONSTRAINT `_ProductToRestaurant_A_fkey` FOREIGN KEY (`A`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `_ProductToRestaurant` ADD CONSTRAINT `_ProductToRestaurant_B_fkey` FOREIGN KEY (`B`) REFERENCES `Restaurant`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

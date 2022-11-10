@@ -58,5 +58,18 @@ export class ProductAllComponent implements AfterViewInit {
     };
     this.dialog.open(ProductDetailComponent,dialogConfig);
   }
+
+  crearProduct() {
+    this.router.navigate(['/product/create'], {
+      relativeTo: this.route,
+    });
+  }
+
+  actualizarProduct(id: number) {
+    console.log(id);
+    this.router.navigate(['/product/update', id], {
+      relativeTo: this.route,
+    });
+  }
 }
       
