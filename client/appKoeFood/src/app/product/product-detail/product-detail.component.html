@@ -1,4 +1,4 @@
-<div class="relative rounded-lg">
+<div class="relative rounded-lg min-w-[30rem]">
   <button mat-icon-button class="close-button !absolute right-0 text-white" [mat-dialog-close]="true">
     <mat-icon class="close-icon" color="white">close</mat-icon>
   </button>
@@ -29,10 +29,10 @@
       </div>
       <p class="font-bold flex text-[18px]">Restaurantes:</p>
       <div class="flex">
-        <div *ngFor="let item of datos.ProductToRestaurant">
+        <div *ngFor="let item of datos.restaurants">
           <div class="flex space-x-2 text-[18px] mr-2">
             <p class="!text-[18px] text-green-500 !font-bold border border-white rounded-xl !w-28 !mx-auto py-2 px-1">
-              {{item.productToRestaurantRestaurant.name}}</p>
+              {{item.name}}</p>
           </div>
         </div>
       </div>

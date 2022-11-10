@@ -57,13 +57,13 @@ export class RestaurantTablesComponent implements AfterViewInit {
     this.dialog.open(RestaurantTableDetailComponent, dialogConfig);
   }
 
-  crearVideojuego() {
+  crearRestaurantTable() {
     this.router.navigate(['/restauranttable/create'], {
       relativeTo: this.route,
     });
   }
 
-  actualizarVideojuego(id: number) {
+  actualizarRestaurantTable(id: number) {
     this.router.navigate(['/restauranttable/update', id], {
       relativeTo: this.route,
     });

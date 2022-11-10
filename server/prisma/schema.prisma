@@ -48,15 +48,15 @@ model RestaurantTable {
 }
 
 model Restaurant {
-  id                  Int                   @id
-  name                String
-  ubication           String
-  phoneNumber         String
-  cantidad            Int
-  Order               Order[]
-  ProductToRestaurant ProductToRestaurant[]
-  User                User[]
-  RestaurantTable     RestaurantTable[]
+  id              Int               @id
+  name            String
+  ubication       String
+  phoneNumber     String
+  cantidad        Int
+  Order           Order[]
+  User            User[]
+  RestaurantTable RestaurantTable[]
+  products        Product[]
 }
 
 model Order {
@@ -80,16 +80,6 @@ model Order {
   OrderDetail         OrderDetail[]
 }
 
-model ProductToRestaurant {
-  productToRestaurantRestaurant Restaurant @relation(fields: [idRestaurant], references: [id])
-  idRestaurant                  Int
-  productToRestaurantProduct    Product    @relation(fields: [idProduct], references: [id])
-  idProduct                     Int
-  quantity                      Int
-
-  @@id([idRestaurant, idProduct])
-}
-
 model OrderDetail {
   id                 Int     @id @default(autoincrement())
   OrderDetailOrder   Order   @relation(fields: [idOrder], references: [id])
@@ -102,16 +92,16 @@ model OrderDetail {
 }
 
 model Product {
-  id                         Int                   @id @default(autoincrement())
+  id                         Int             @id @default(autoincrement())
   name                       String
   description                String
   ingredients                String
   price                      Float
-  productToRestaurantProduct ProductCategory       @relation(fields: [idCategory], references: [id])
+  productToRestaurantProduct ProductCategory @relation(fields: [idCategory], references: [id])
   idCategory                 Int
   state                      Boolean
-  ProductToRestaurant        ProductToRestaurant[]
   OrderDetail                OrderDetail[]
+  restaurants                Restaurant[]
 }
 
 model ProductCategory {

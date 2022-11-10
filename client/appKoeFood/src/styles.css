@@ -2,63 +2,91 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
-.mat-form-field-label{
-    background-color: transparent;
-    color: white !important;
-    font-size: 1.5rem!important;
-    
-    margin-bottom: 1rem!important;
+/* html, body { height: 100%; } */
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.backBTN{
+.mat-form-field-label {
+    background-color: transparent;
+    color: white !important;
+    font-size: 1.5rem !important;
+
+    margin-bottom: 1rem !important;
+}
+
+.backBTN {
     width: 100%;
-    margin: 0!important;
-    
-    margin-top: 1rem!important;
+    margin: 0 !important;
+
+    margin-top: 1rem !important;
 }
 
 .mat-select-arrow {
     color: white;
 }
 
-.mat-form-field-underline{
-    background-color: white!important;
+.mat-form-field-underline {
+    background-color: white !important;
 }
 
-.mat-dialog-container{
+.mat-dialog-container {
     color: white
 }
 
 
-.mat-select-value{
-    
-    margin-top: 1rem!important;
+.mat-select-value {
+
+    margin-top: 1rem !important;
     color: white;
-    font-size: 1rem!important;
+    font-size: 1rem !important;
 }
-.mat-card-header .mat-card-title{
-    margin-bottom: 3rem!important
+
+.mat-card-header .mat-card-title {
+    margin-bottom: 3rem !important
 }
 
 .mat-form-field-label {
-    font-size: 1rem!important
+    font-size: 1rem !important
 }
 
-.mat-card-header-text{
+.mat-card-header-text {
     width: 100%
 }
 
 .mat-dialog-container {
-    padding: 0!important;
-    border-radius: 1rem!important;
+    padding: 0 !important;
+    border-radius: 1rem !important;
 }
 
-.ng-star-inserted{
+.ng-star-inserted {
     width: 100%
 }
+
+.mat-radio-input {
+    background-color: white !important
+}
+
+.mat-radio-outer-circle {
+    border-color: white !important
+}
+
+.mat-radio-inner-circle {
+    background-color: white !important
+}
+
+.mat-paginator-container {
+    flex-wrap: nowrap !important;
+}
+
+.mat-paginator-range-label {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
 
 @import '~ngx-toastr/toastr';
 

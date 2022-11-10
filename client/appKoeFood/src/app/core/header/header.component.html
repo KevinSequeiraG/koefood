@@ -35,7 +35,7 @@
           class="flex items-center justify-start w-64 p-4 flex-nowrap space-x-7 relative"
         >
           <!-- Logo -->
-          <a href="#">
+          <a [routerLink]="['#']">
             <span class="sr-only">CurrentUser</span>
             <div class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover">
               <img src="./assets/Images/userProfileImg1.jpg" class="w-[3.1rem] object-fill border border-[#c1c161] rounded-full" />
@@ -72,14 +72,14 @@
         <nav
           class="flex flex-col flex-1 w-min p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold"
         >
-          <a href="home/inicio" class="flex items-center space-x-2">
+          <a [routerLink]="['/home/inicio']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]"> home </span>
             <span
               class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
               >Inicio</span
             >
           </a>
-          <a href="restaurant/tables" class="flex items-center space-x-2">
+          <a [routerLink]="['restaurant/tables']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               chair
               </span>
@@ -89,7 +89,7 @@
             >
           </a>
 
-          <a href="product/productall" class="flex items-center space-x-2">
+          <a [routerLink]="['product/productall']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               ramen_dining
               </span>
@@ -98,7 +98,7 @@
               >Mantenimiento de productos</span
             >
           </a>
-          <a href="order/orderall" class="flex items-center space-x-2">
+          <a [routerLink]="['order/orderall']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               fact_check
               </span>
@@ -107,7 +107,7 @@
               >Mantenimiento de órdenes</span
             >
           </a>
-          <a href="#" class="flex items-center space-x-2">
+          <a  [routerLink]="['#']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               summarize
             </span>
@@ -116,7 +116,7 @@
               >Reportes</span
             >
           </a>
-          <a href="#" class="flex items-center space-x-2">
+          <a  [routerLink]="['/home/about']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               contact_support
             </span>
@@ -126,7 +126,7 @@
             >
           </a>
         </nav>
-        <a href="/" class="flex flex-col justify-center ml-5">
+        <a  [routerLink]="['/']" class="flex flex-col justify-center ml-5">
           <!-- <div class="flex space-x-1 items-end">
             <p class="text-[26px] text-red-800 shadow-inner font-extrabold">
               KÖE
