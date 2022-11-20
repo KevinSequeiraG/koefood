@@ -13,6 +13,8 @@ const orderRoutes = require("./routes/orderRoutes");
 const restaurantRoutes = require("./routes/restaurantRoutes");
 const enumTables = require("./routes/tableStatusEnumRoutes");
 const productCategoryRoutes = require("./routes/productCategoryRoutes");
+const userRouter = require("./routes/userRoutes");
+const rolRouter = require("./routes/rolRoutes");
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
 // Puerto que escucha por defecto 300 o definido .env
@@ -24,9 +26,9 @@ app.use(logger("dev"));
 // Middleware para gestionar Requests y Response json
 app.use(express.json());
 app.use(
-    express.urlencoded({
-        extended: true,
-    })
+  express.urlencoded({
+    extended: true,
+  })
 );
 //---- Definir rutas ----
 app.use("/products/", productRoutes);
@@ -35,8 +37,10 @@ app.use("/orders/", orderRoutes);
 app.use("/restaurants/", restaurantRoutes);
 app.use("/tablestatusenum/", enumTables);
 app.use("/productCategory/", productCategoryRoutes);
+app.use("/user/", userRouter);
+app.use("/rol/", rolRouter); 
 // Servidor
 app.listen(port, () => {
-    console.log(`http://localhost:${port}`);
-    console.log("Presione CTRL-C para deternerlo\n");
+  console.log(`http://localhost:${port}`);
+  console.log("Presione CTRL-C para deternerlo\n");
 });
