@@ -1,17 +1,29 @@
 //Express para agregar las rutas
 const express = require("express");
 const router = express.Router();
-
+const auth = require("../middleware/auth");
 //Videojuego controller para los métodos definidos
 const productController = require("../controllers/productController");
 
 //Definición de rutas para generos
-router.get("/", productController.get);
+router.get(
+  "/",
+  auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  productController.get
+);
 
-router.post("/", productController.create);
+router.post("/", auth.grantRole(["ADMIN"]), productController.create);
 
-router.get("/:id", productController.getById);
+router.get(
+  "/:id",
+  auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  productController.getById
+);
 
-router.put("/:id",productController.update);
+router.put(
+  "/:id",
+  auth.grantRole(["ADMIN", "WAITER"]),
+  productController.update
+);
 
 module.exports = router;
