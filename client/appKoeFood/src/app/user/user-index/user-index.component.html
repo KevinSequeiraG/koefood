@@ -1,11 +1,13 @@
-<mat-card class="main-div">
-  <mat-card-header>
-    <mat-card-title>Usuarios</mat-card-title>
-  </mat-card-header> 
+<div
+  class="flex flex-wrap items-center justify-center min-h-full h-screen"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+<mat-card class="main-div bg-black w-full lg:w-12/12 items-center border border-[#c1c161] rounded-bl-lg rounded-tl-lg">
+    <img class="justify-center max-w-full max-h-96 object-cover" src="./assets/Images/KOEFOODLogo.png" />
   <mat-card-content>
-<nav mat-tab-nav-bar backgroundColor="primary" [tabPanel]="tabPanel">
-  <a mat-tab-link [routerLink]="['/usuario/login']" routerLinkActive="active-link">Login</a>
-  <a mat-tab-link [routerLink]="['/usuario/registrar']" routerLinkActive="active-link">Registrarse</a>
+<nav mat-tab-nav-bar class="bg-black flex items-center justify-between w-full" [tabPanel]="tabPanel">
+  <a class="text-white border-b border-white w-full" mat-tab-link [routerLink]="['/usuario/login']" routerLinkActive="active-link">Login</a>
+  <a class="text-white border-b border-white w-full" mat-tab-link [routerLink]="['/usuario/registrar']" routerLinkActive="active-link">Registrarse</a>
 </nav>
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 <div>	
