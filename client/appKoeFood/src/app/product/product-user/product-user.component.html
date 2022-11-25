@@ -1,0 +1,58 @@
+<div class="py-[5rem] w-full" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+  <h1 class="text-center text-[#e5e5e5] !font-bold">Productos generales de restaurantes</h1>
+  <div class="w-full text-center mb-8">
+    <button class="mx-auto bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]" (click)="crearProduct()">Agregar nuevo
+      producto</button>
+  </div>
+  <div class="mat-elevation-z8 w-[80%] h-full mx-auto border border-[#c1c161]">
+
+    <table mat-table class="full-width-table bg-black" matSort aria-label="Elements" [dataSource]="dataSource">
+      
+      <ng-container matColumnDef="name" class="!w-min !text-center">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td mat-cell class="text-[#e5e5e5] !w-min text-center !p-5 truncate" *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+
+      <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="description">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Descripción
+        </th>
+        <td mat-cell class="text-[#e5e5e5] " *matCellDef="let row">{{row.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Precio</th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{'₡'+row.price}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="productToRestaurantProduct">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Categoría
+        </th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.productToRestaurantProduct.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.state?'Activo':'Inactivo'}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions" >
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef mat-sort-header>Acciones
+        </th>
+        <td mat-cell class="text-[#e5e5e5] truncate !py-4 !pr-0" *matCellDef="let row">
+          <button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">remove_red_eye</span></button>
+          <button (click)="actualizarProduct(row.id)" class="bg-yellow-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">edit</span></button>
+          <button (click)="detailProduct(row.id)" class="bg-red-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">delete</span></button>
+        </td>
+        <!-- <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td> -->
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <!-- <mat-paginator class="bg-gray-500 text-[#e5e5e5] !flex-nowrap " #paginator [length]="dataSource?.data?.length" [pageIndex]="0"
+      [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator> -->
+  </div>
+</div>

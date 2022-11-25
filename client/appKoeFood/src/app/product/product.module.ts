@@ -22,6 +22,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductForm } from './product-form/product-form.component';
+import { ProductUserComponent } from './product-user/product-user.component';
 
 
 
@@ -29,7 +30,8 @@ import { ProductForm } from './product-form/product-form.component';
   declarations: [
     ProductAllComponent,
     ProductDetailComponent,
-    ProductForm
+    ProductForm,
+    ProductUserComponent,
   ],
   imports: [
     CommonModule,

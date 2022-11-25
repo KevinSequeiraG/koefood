@@ -1,3 +1,55 @@
-<div class="h-screen" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
-    <img class="mx-auto absolute inset-x-0 top-16" src="./assets/Images/KOEFOODLogo.png" alt="">
+<!-- Admin View -->
+<div
+  *ngIf="isAdmin"
+  class="h-screen"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <img
+    class="mx-auto absolute inset-x-0 top-16"
+    src="./assets/Images/KOEFOODLogo.png"
+    alt=""
+  />
+</div>
+<!-- User View -->
+<div
+  *ngIf="isUser"
+  class="h-screen"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <h1 class="text-center pt-20 text-white !text-[3rem] !italic">
+    Nuestros Restaurantes
+  </h1>
+  <!-- Restaurants -->
+  <div
+    class="mx-auto w-auto flex items-center justify-between py-4 border-b border-[#c1c161] min-h-[70%] mx-28"
+  >
+    <div
+      *ngFor="let item of restaurantList"
+      class="container max-w-sm bg-white rounded dark:bg-gray-800 shadow-lg transform duration-200 easy-in-out rounded-[3rem]"
+    >
+      <div class="h-2/4 sm:h-40 overflow-hidden rounded-t-[2rem]">
+        <img
+          class="w-full rounded-t"
+          src="./assets/Images/restaurantPhoto.jpg"
+          alt=""
+        />
+      </div>
+      <div class="text-center py-6 bg-black rounded-b-[2.9rem]">
+        <div class="px-7 mb-2">
+          <h2 class="text-2xl font-bold text-green-700 dark:text-gray-400">
+            {{ item.name }}
+          </h2>
+          <p class="text-gray-400 mt-2 dark:text-gray-400">
+            {{ item.ubication }}
+          </p>
+          <p class="mt-2 text-gray-600 dark:text-gray-300"></p>
+          <div (click)="chooseRestaurant(item.id)"
+            class="text-[1.4rem] justify-center px-4 py-2 cursor-pointer bg-green-900 max-w-min mx-auto mt-8 rounded-lg text-gray-300 hover:bg-green-800 hover:text-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-gray-200 truncate"
+          >
+            Entrar
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
