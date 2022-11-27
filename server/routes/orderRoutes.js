@@ -9,7 +9,11 @@ const orderController = require("../controllers/orderController");
 
 router.post("/", auth.grantRole(["ADMIN", "WAITER"]), orderController.create);
 
-router.post("/createByUser", auth.grantRole(["ADMIN", "WAITER"]), orderController.createByUser);
+router.post(
+  "/createByUser",
+  auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  orderController.createByUser
+);
 
 router.get("/", auth.grantRole(["ADMIN", "WAITER"]), orderController.get);
 
