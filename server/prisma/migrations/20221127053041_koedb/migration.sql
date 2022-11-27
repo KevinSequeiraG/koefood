@@ -54,10 +54,10 @@ CREATE TABLE `Order` (
     `clientPaymentInCard` DOUBLE NOT NULL,
     `orderTotal` DOUBLE NOT NULL,
     `idUser` INTEGER NOT NULL,
-    `idWaiter` INTEGER NOT NULL,
+    `idWaiter` INTEGER NULL,
     `idRestaurant` INTEGER NOT NULL,
-    `idTable` INTEGER NOT NULL,
-    `state` ENUM('REGISTERED', 'INPROCESS', 'PENDING', 'DELIVERED', 'TOPAY') NOT NULL,
+    `idTable` INTEGER NULL,
+    `state` ENUM('REGISTERED', 'DELIVERED', 'TOPAY') NOT NULL,
     `paymentOption` ENUM('CASH', 'CARD', 'BOTH') NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -70,7 +70,7 @@ CREATE TABLE `OrderDetail` (
     `idProduct` INTEGER NOT NULL,
     `quantity` INTEGER NOT NULL,
     `total` DOUBLE NOT NULL,
-    `note` VARCHAR(191) NOT NULL,
+    `note` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -124,13 +124,13 @@ ALTER TABLE `RestaurantTable` ADD CONSTRAINT `RestaurantTable_idRestaurant_fkey`
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Order` ADD CONSTRAINT `Order_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Order` ADD CONSTRAINT `Order_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Order` ADD CONSTRAINT `Order_idTable_fkey` FOREIGN KEY (`idTable`) REFERENCES `RestaurantTable`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Order` ADD CONSTRAINT `Order_idTable_fkey` FOREIGN KEY (`idTable`) REFERENCES `RestaurantTable`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idOrder_fkey` FOREIGN KEY (`idOrder`) REFERENCES `Order`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

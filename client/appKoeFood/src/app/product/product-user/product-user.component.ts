@@ -1,8 +1,3 @@
-// import { AfterViewInit, Component, ViewChild } from '@angular/core';
-// import { MatPaginator } from '@angular/material/paginator';
-// import { MatSort } from '@angular/material/sort';
-// import { MatTable } from '@angular/material/table';
-// import { ProductAllDataSource } from './product-all-datasource';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
@@ -30,14 +25,23 @@ export class ProductUserComponent implements AfterViewInit {
   restaurantInfo: any;
   dataCarritoTable = new MatTableDataSource<any>();
   showCarrito: boolean;
+  showFactura: boolean;
+  showNoteModal: boolean;
   carritoToSave: any;
   carritoData: any;
   todayDate: any;
   loggedUser: any;
   ordenState: any;
   typeOfPayment: any;
+  dataFacturaTable = new MatTableDataSource<any>();
+  vuelto: any;
+  product: any;
+  paymentOptionEnum: any;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatSort) sort2!: MatSort;
 
 
   constructor(
@@ -52,11 +56,40 @@ export class ProductUserComponent implements AfterViewInit {
       this.idRestaurant = params['id'] //log the value of id
     });
     this.showCarrito = false;
+    this.typeOfPayment = 0
+
+    this.carritoData = {}
+    this.carritoData.clientPaymentInCard = 0
+    this.carritoData.clientPaymentInCash = 0
   }
 
   onChange(event: MatRadioChange) {
     this.typeOfPayment = event.value;
+    this.getPaymentOptionsEnum()
+    if (this.typeOfPayment == 0) {
+      //Pago en efectivo
+      this.carritoData.clientPaymentInCard = 0
+    } else if (this.typeOfPayment == 1) {
+      //Pago en tarjeta
+      this.vuelto = 0
+      this.carritoData.clientPaymentInCard = this.carritoData.orderTotal
+    } else if (this.typeOfPayment == 2) {
+      //Pago en tarjeta y efectivo
+
+    }
   }
+
+  validarNum(event: any) {
+    var x = event.value;
+    console.log(event);
+    console.log(x);
+  }
+
+  displayedColumns3 = [
+    'product',
+    'cantidad',
+    'subtotal'
+  ];
 
   displayedColumns2 = [
     'product',
@@ -76,20 +109,60 @@ export class ProductUserComponent implements AfterViewInit {
 
   handleCarritoView() {
     this.showCarrito = !this.showCarrito;
-    console.log("pr", this.carritoToSave);
-    console.log("carro", this.carritoData[0]);
+    this.updateTotals()
+  }
+
+  handleFacturaView() {
+    this.showCarrito = false;
+    this.showFactura = !this.showFactura;
+    console.log(this.carritoData);
   }
 
   ngAfterViewInit(): void {
-    this.typeOfPayment = "CASH"
+    this.vuelto = 0
+
     this.todayDate = new Date()
     this.loggedUser = JSON.parse(window.localStorage.getItem('currentUser'));
     this.ordenState = 'INPROCESS'
     this.listaProductsByRestaurant(parseInt(this.idRestaurant))
     this.restaurantData(parseInt(this.idRestaurant))
     this.getDataCarritoTable()
+
+    this.getDataFacturaTable()
+    this.carritoData = {}
+    this.carritoData.clientPaymentInCard = 0
+    this.carritoData.clientPaymentInCash = 0
+    this.carritoToSave = {}
     this.updateTotals()
-    this.carritoToSave = { subTotal: this.carritoData[0]?.subtotal, iva: 0.13, clientPaymentInCash: 0, clientPaymentInCard: 0, orderTotal: 0, idUser: 1234567, idRestaurant: 1, state: "REGISTERED", paymentOption: "CASH", OrderDetail: [{ idProduct: 0, quantity: 0, total: 1, note: "sin lechuga" }] }
+
+    console.log(this.loggedUser);
+
+  }
+
+  handleNoteModal(item: any) {
+    this.product = item
+    console.log(item);
+
+
+    this.showNoteModal = true
+  }
+
+  closeNoteModal() {
+    this.showNoteModal = false;
+  }
+
+  addCommentToProduct() {
+    const input = document.getElementById('comment-ta') as HTMLInputElement | null;
+
+    if (input != null) {
+      const value = input.value;
+      this.cartService.addCommentToProduct(this.product, value)
+      this.notificacion.mensaje(
+        'Orden',
+        'Producto: ' + this.product.product.name + ' agregado a la orden',
+        TipoMessage.success
+      );
+    }
   }
 
   listaProducts() {
@@ -147,6 +220,7 @@ export class ProductUserComponent implements AfterViewInit {
       .get('restaurants/', id)
       .subscribe((data: any) => {
         this.restaurantInfo = data;
+        console.log(this.restaurantInfo);
       });
   }
 
@@ -184,10 +258,13 @@ export class ProductUserComponent implements AfterViewInit {
   }
 
   getDataCarritoTable() {
-    this.cartService.currentDataCart$.subscribe(data => {
-      this.dataCarritoTable = new MatTableDataSource(data);
-      this.carritoData = data;
-    })
+    this.cartService.currentDataCart$
+      .subscribe(data => {
+        this.dataCarritoTable = new MatTableDataSource(data);
+        //this.carritoData = data;
+        this.dataCarritoTable.sort = this.sort2;
+        this.dataCarritoTable.paginator = this.paginator2;
+      })
   }
 
   getTotalCarrito() {
@@ -202,10 +279,123 @@ export class ProductUserComponent implements AfterViewInit {
     this.carritoData.orderTotal = this.carritoData.iva + this.carritoData.subtotal
   }
 
+  getPayInCash(event: any) {
+
+    var totalInCash = event.target.value
+
+
+    //let regex = new RegExp("[^0-9]")
+    //console.log(regex.test(totalInCash));
+    //console.log("error", invalidChars.includes(totalInCash.key));
+
+
+
+    if (parseFloat(totalInCash) >= this.carritoData.orderTotal) {
+      this.vuelto = totalInCash - this.carritoData.orderTotal
+      this.carritoData.clientPaymentInCash = this.carritoData.orderTotal
+    } else {
+      this.vuelto = 0
+      this.carritoData.clientPaymentInCash = 0
+    }
+  }
+
+  getPayInBoth(event: any) {
+    var totalInCash = event.target.value
+    //console.log(totalInCash);
+    if (totalInCash != "") {
+      if (parseFloat(totalInCash) >= this.carritoData.orderTotal) {
+        this.vuelto = totalInCash - this.carritoData.orderTotal
+        this.carritoData.clientPaymentInCard = 0
+      } else {
+        this.carritoData.clientPaymentInCard = parseFloat(this.carritoData.orderTotal) - parseFloat(totalInCash)
+        this.carritoData.clientPaymentInCash = parseFloat(totalInCash);
+      }
+    } else {
+      this.vuelto = 0
+      this.carritoData.clientPaymentInCard = parseFloat(this.carritoData.orderTotal)
+      this.carritoData.clientPaymentInCash = 0
+    }
+
+  }
+
   updateTotals() {
     this.getDataCarritoTable()
     this.getTotalCarrito()
     this.getIvaTotal()
     this.getTotalOrder()
   }
+
+  getDataFacturaTable() {
+    this.cartService.currentDataCart$.subscribe(data => {
+      this.dataFacturaTable = new MatTableDataSource(data);
+      //this.carritoData = data;
+    })
+  }
+
+  getPaymentOptionsEnum() {
+    this.gService
+      .list('paymentOption')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //new var
+        this.paymentOptionEnum = data;
+        console.log(this.paymentOptionEnum);
+      });
+  }
+
+  // getOrderStatesEnum() {
+  //   this.gService
+  //     .list('orderState')
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe((data: any) => {
+  //       //new var
+  //       this.orderStateEnum = data;
+  //       console.log( this.orderStateEnum);
+  //     });
+  // }
+
+  generarOrden() {
+    var productos = this.cartService.getItems;
+
+    var arregloFinal = []
+    productos.map(producto => {
+      var productToSave = { idProduct: producto.idItem, quantity: producto.cantidad, total: producto.subtotal, note: producto.note ? producto.note : "" }
+      arregloFinal.push(productToSave)
+    })
+
+    this.carritoToSave.subTotal = this.carritoData?.subtotal;
+    this.carritoToSave.iva = this.carritoData.iva;
+    this.carritoToSave.clientPaymentInCash = this.carritoData?.clientPaymentInCash;
+    this.carritoToSave.clientPaymentInCard = this.carritoData?.clientPaymentInCard;
+    this.carritoToSave.orderTotal = this.carritoData.orderTotal;
+    this.carritoToSave.idUser = this.loggedUser.user.id;
+    this.carritoToSave.idRestaurant = this.restaurantInfo.id
+    this.carritoToSave.state = "DELIVERED"
+    this.carritoToSave.paymentOption = "BOTH"
+    this.carritoToSave.OrderDetail = arregloFinal;
+
+    console.log(this.carritoToSave);
+    if (this.carritoToSave.clientPaymentInCash == 0 && this.carritoToSave.clientPaymentInCard == 0) {
+      //no han instroducido ninguna opcion que permita pagar
+      this.notificacion.mensaje('Orden',
+        'Debe revisar el metodo de pago o el valor que está pagando',
+        TipoMessage.error);
+    } else {
+      //Si pagaron
+      console.log("pasa");
+      this.gService
+        .create('orders/createByUser', this.carritoToSave)
+        .subscribe((respuesta: any) => {
+          this.notificacion.mensaje('Orden',
+            'Orden registrada',
+            TipoMessage.success);
+          //this.cartService.deleteCart();
+          console.log(respuesta);
+        });
+      this.router.navigate(['/home/inicio']);
+    }
+
+  }
+
+
 }
