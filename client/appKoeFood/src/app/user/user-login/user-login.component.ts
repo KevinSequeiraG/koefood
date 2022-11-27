@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/share/authentication.service';
-import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
+import {
+  NotificacionService,
+  TipoMessage,
+} from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-user-login',
@@ -10,7 +13,7 @@ import { NotificacionService, TipoMessage } from 'src/app/share/notification.ser
   styleUrls: ['./user-login.component.css'],
 })
 export class UserLoginComponent implements OnInit {
-  hide=true;
+  hide = true;
   formulario: FormGroup;
   makeSubmit: boolean = false;
   infoUsuario: any;
@@ -41,8 +44,8 @@ export class UserLoginComponent implements OnInit {
     let auth = false;
     //Obtener parámetros de la URL
     this.route.queryParams.subscribe((params) => {
-      register = params['register']==='true' || false;
-      auth = params['auth']==='no' || false;
+      register = params['register'] === 'true' || false;
+      auth = params['auth'] === 'no' || false;
       if (register) {
         this.notificacion.mensaje(
           'Usuario',
@@ -58,25 +61,28 @@ export class UserLoginComponent implements OnInit {
         );
       }
     });
-   
   }
   onReset() {
     this.formulario.reset();
   }
   submitForm() {
-   this.makeSubmit=true;
-   //Validación
-   if(this.formulario.invalid){
-    return;
-   }
-   console.log(this.formulario.value);
-   this.authService
-   .loginUser(this.formulario.value)
-   .subscribe((respuesta:any)=>{
-console.log(respuesta);
-    //Redireccionar al loguearse
-    this.router.navigate(['/home/inicio']);
-   });
+    this.makeSubmit = true;
+    //Validación
+    if (this.formulario.invalid) {
+      return;
+    }
+    console.log(this.formulario.value);
+    this.authService
+      .loginUser(this.formulario.value)
+      .subscribe((respuesta: any) => {
+        console.log('user', respuesta);
+        //Redireccionar al loguearse
+        if (respuesta.data.user.userType == 'USER') {
+          this.router.navigate(['/home/inicio']);
+        } else {
+          this.router.navigate(['/restaurant/tables/waiter']);
+        }
+      });
   }
   /* Manejar errores de formulario en Angular */
 

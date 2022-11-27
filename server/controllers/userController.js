@@ -22,7 +22,6 @@ module.exports.register = async (request, response, next) => {
       lastname: userData.lastname,
       email: userData.email,
       password: hash,
-      idRestaurant: 1,
     },
   });
   response.status(200).json({

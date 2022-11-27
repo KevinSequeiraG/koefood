@@ -12,6 +12,12 @@ router.get(
   restaurantTableController.get
 );
 
+router.get(
+  "/waiter/:id",
+  //auth.grantRole(["ADMIN", "WAITER"]),
+  restaurantTableController.getByRestaurant
+);
+
 router.post("/", auth.grantRole(["ADMIN"]), restaurantTableController.create);
 
 router.get(

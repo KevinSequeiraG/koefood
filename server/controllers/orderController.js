@@ -63,3 +63,32 @@ module.exports.create = async (req, res, next) => {
   });
   res.json(newOrder);
 };
+
+//Método para crear ordenes desde usuario
+module.exports.createByUser = async (req, res, next) => {
+  let infoOrden = req.body;
+
+  const newOrder = await prisma.order.create({
+    data: {
+      subTotal: infoOrden.subTotal,
+      iva: infoOrden.iva,
+      clientPaymentInCash: infoOrden.clientPaymentInCash,
+      clientPaymentInCard: infoOrden.clientPaymentInCard,
+      orderTotal: infoOrden.orderTotal,
+      orderUser: {
+        connect: { id: infoOrden.idUser },
+      },
+      //orderWaiter: { connect: { id: infoOrden.idWaiter }, },
+      orderRestaurant: { connect: { id: infoOrden.idRestaurant }, },
+      //orderTable: { connect: { id: infoOrden.idTable }, },
+      state: infoOrden.state,
+      paymentOption: infoOrden.paymentOption,
+      OrderDetail: {
+        createMany: {
+          data: infoOrden.OrderDetail,
+        },
+      },
+    },
+  });
+  res.json(newOrder);
+};

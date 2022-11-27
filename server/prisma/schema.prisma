@@ -17,8 +17,8 @@ model User {
   lastname          String
   email             String             @unique
   password          String
-  userRestaurant    Restaurant         @relation(fields: [idRestaurant], references: [id])
-  idRestaurant      Int
+  userRestaurant    Restaurant?         @relation(fields: [idRestaurant], references: [id])
+  idRestaurant      Int?
   TableReservation  TableReservation[] @relation(name: "user")
   TableReservations TableReservation[] @relation(name: "waiter")
 
@@ -123,9 +123,7 @@ enum USERTYPE {
 }
 
 enum ORDERSTATE {
-  REGISTERED
-  INPROCESS
-  PENDING
+  REGISTERED 
   DELIVERED
   TOPAY
 }

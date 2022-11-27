@@ -22,12 +22,14 @@ import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { RestaurantTableForm } from './restauranttable-form/restauranttable-form.component';
+import { RestaurantTablesWaiterComponent } from './restaurant-tables-waiter/restaurant-tables-waiter.component';
 
 @NgModule({
   declarations: [
     RestaurantTablesComponent,
     RestaurantTableDetailComponent,
-    RestaurantTableForm
+    RestaurantTableForm,
+    RestaurantTablesWaiterComponent
   ],
   imports: [
     CommonModule,
