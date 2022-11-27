@@ -15,6 +15,8 @@ const enumTables = require("./routes/tableStatusEnumRoutes");
 const productCategoryRoutes = require("./routes/productCategoryRoutes");
 const userRouter = require("./routes/userRoutes");
 const rolRouter = require("./routes/rolRoutes");
+const payOptionRouter = require("./routes/paymentOptionRoutes");
+const orderStateRoutes = require("./routes/orderStateRoutes");
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
 // Puerto que escucha por defecto 300 o definido .env
@@ -38,7 +40,9 @@ app.use("/restaurants/", restaurantRoutes);
 app.use("/tablestatusenum/", enumTables);
 app.use("/productCategory/", productCategoryRoutes);
 app.use("/user/", userRouter);
-app.use("/rol/", rolRouter); 
+app.use("/rol/", rolRouter);
+app.use("/paymentOption/", payOptionRouter);
+app.use("/orderState/", orderStateRoutes);
 // Servidor
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
