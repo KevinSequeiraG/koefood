@@ -7,6 +7,7 @@ export class ItemCart {
   cantidad: number;
   precio: number;
   subtotal: number;
+  note: any;
 }
 @Injectable({
   providedIn: 'root',
@@ -47,6 +48,32 @@ export class CartService {
         //Actualizar la cantidad de un producto existente
         //listCart[objIndex].cantidad += 1;
         this.removeFromCart(itemCart)
+      }
+    }
+
+  }
+
+  public addCommentToProduct(itemCart: ItemCart, comment: string) {
+    //Obtenemos el valor actual de carrito
+    let listCart = this.cart.getValue();
+    //Buscamos el item del carrito para eliminar
+    let objIndex = listCart.findIndex((obj) => obj.idItem == itemCart.idItem);
+    console.log("object1" , itemCart);
+    if (itemCart.hasOwnProperty('cantidad')) {
+
+      //Si la cantidad es menor o igual a 0 se elimina del carrito
+      if (itemCart.cantidad >= 1) {
+        console.log("object2");
+        listCart[objIndex].note = comment
+        //Actualizar la cantidad total de items del carrito
+        //this.qtyItems.next(this.quantityItems());
+        //Actualizar la información en el localStorage
+        this.saveCart();
+        console.log(this.cart.getValue());
+      } else if (itemCart.cantidad > 0) {
+        //Actualizar la cantidad de un producto existente
+        //listCart[objIndex].cantidad += 1;
+        //this.removeFromCart(itemCart)
       }
     }
 

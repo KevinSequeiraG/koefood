@@ -69,12 +69,12 @@ model Order {
   orderTotal          Float
   orderUser           User            @relation(name: "user", fields: [idUser], references: [id])
   idUser              Int
-  orderWaiter         User            @relation(name: "waiter", fields: [idWaiter], references: [id])
-  idWaiter            Int
+  orderWaiter         User?            @relation(name: "waiter", fields: [idWaiter], references: [id])
+  idWaiter            Int?
   orderRestaurant     Restaurant      @relation(fields: [idRestaurant], references: [id])
   idRestaurant        Int
-  orderTable          RestaurantTable @relation(fields: [idTable], references: [id])
-  idTable             Int
+  orderTable          RestaurantTable? @relation(fields: [idTable], references: [id])
+  idTable             Int?
   state               ORDERSTATE
   paymentOption       PAYMENTTYPE
   OrderDetail         OrderDetail[]
