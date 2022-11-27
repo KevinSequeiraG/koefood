@@ -27,12 +27,38 @@ export class CartService {
   saveCart(): void {
     localStorage.setItem('orden', JSON.stringify(this.cart.getValue()));
   }
+
+  public removeOneFromProduct(itemCart: ItemCart) {
+    //Obtenemos el valor actual de carrito
+    let listCart = this.cart.getValue();
+    //Buscamos el item del carrito para eliminar
+    let objIndex = listCart.findIndex((obj) => obj.idItem == itemCart.idItem);
+
+    if (itemCart.hasOwnProperty('cantidad')) {
+      //Si la cantidad es menor o igual a 0 se elimina del carrito
+      if (itemCart.cantidad > 1) {
+        listCart[objIndex].cantidad -= 1
+        listCart[objIndex].subtotal -= listCart[objIndex].precio
+        //Actualizar la cantidad total de items del carrito
+        this.qtyItems.next(this.quantityItems());
+        //Actualizar la información en el localStorage
+        this.saveCart();
+      } else if (itemCart.cantidad > 0) {
+        //Actualizar la cantidad de un producto existente
+        //listCart[objIndex].cantidad += 1;
+        this.removeFromCart(itemCart)
+      }
+    }
+
+  }
+
+
   addToCart(producto: any) {
     const newItem = new ItemCart();
     //Armar instancia de ItemCart con los valores respectivos del producto
     //producto.id es cuando viene desde el boton comprar y trae la información del API
     newItem.idItem = producto.id | producto.idItem;
-    newItem.precio = producto.precio;
+    newItem.precio = producto.price;
     newItem.cantidad = 1;
     newItem.subtotal = this.calculoSubtotal(newItem);
     newItem.product = producto;
@@ -45,14 +71,14 @@ export class CartService {
       //Si ya cargamos uno aumentamos su cantidad
       if (objIndex != -1) {
         //Verificar que el producto tenga la propiedad cantidad
-        if (producto.hasOwnProperty('cantidad')) {
+        if (producto.hasOwnProperty('quantity')) {
           //Si la cantidad es menor o igual a 0 se elimina del carrito
-          if (producto.cantidad <= 0) {
+          if (producto.quantity <= 0) {
             this.removeFromCart(newItem);
             return;
           } else {
             //Actualizar cantidad
-            listCart[objIndex].cantidad = producto.cantidad;
+            listCart[objIndex].cantidad = producto.quantity;
           }
         } else {
           //Actualizar la cantidad de un producto existente
@@ -99,7 +125,6 @@ export class CartService {
   }
   //Obtener todos los items del carrito
   get getItems() {
-    
     return this.cart.getValue();
   }
   //Gestiona el conteo de los items del carrito como un Observable
@@ -107,19 +132,19 @@ export class CartService {
     this.qtyItems.next(this.quantityItems());
     return this.qtyItems.asObservable();
   }
-  setItems(){
+  setItems() {
     return this.cart.getValue();
   }
-  quantityItems(){
+  quantityItems() {
     let listCart = this.cart.getValue();
     let sum = 0;
     if (listCart != null) {
-      
+
       //Sumando las cantidades de cada uno de los items del carrito
-     listCart.forEach((obj) => {
-       sum +=  obj.cantidad;
-     });
-      
+      listCart.forEach((obj) => {
+        sum += obj.cantidad;
+      });
+
     }
     return sum;
   }
@@ -128,8 +153,8 @@ export class CartService {
     let total = 0;
     let listCart = this.cart.getValue();
     if (listCart != null) {
-       //Sumando los subtotales de cada uno de los items del carrito
-     
+      //Sumando los subtotales de cada uno de los items del carrito
+
       listCart.forEach((item: ItemCart, index) => {
         total += item.subtotal;
       });

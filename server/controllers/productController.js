@@ -20,6 +20,26 @@ module.exports.get = async (request, response, next) => {
     response.json(products);
 };
 
+module.exports.getByRestaurant = async (request, response, next) => {
+    let id = parseInt(request.params.id);
+    const products = await prisma.product.findMany({        
+        orderBy: {
+            name: "asc",
+        },
+        where: { state:true ,restaurants: { some: { id: id } } },
+        include: {
+            restaurants: true,
+            productToRestaurantProduct: {
+                select: {
+                    description: true,
+                    id: true,
+                },
+            },
+        },
+    });
+    response.json(products);
+};
+
 //Obtener por Id
 module.exports.getById = async (request, response, next) => {
     let id = parseInt(request.params.id);
