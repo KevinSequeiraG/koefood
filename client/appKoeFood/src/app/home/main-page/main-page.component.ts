@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { CartService } from 'src/app/share/cart.service';
 import { GenericService } from 'src/app/share/generic.service';
 
 @Component({
@@ -18,17 +19,18 @@ export class MainPageComponent implements OnInit {
   constructor(
     private gService: GenericService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService,
   ) {
     this.isAdmin = false;
     this.isUser = false;
     this.isWaiter = false;
-    this.restaurantList = ['asdf', 'asdfffs'];
   }
 
   ngOnInit(): void {
     this.DefinirTipoUsuario();
     this.listaRestaurantes();
+    this.cartService.deleteCart();
   }
 
   listaRestaurantes() {
