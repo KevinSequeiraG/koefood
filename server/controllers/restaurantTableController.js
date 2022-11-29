@@ -1,4 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
+const { PrismaClient, TABLESTATE } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 //Obtener listado
@@ -79,6 +79,44 @@ module.exports.update = async (request, response, next) => {
       capacity: restaurantTable.capacity,
       state: restaurantTable.state,
       idRestaurant: restaurantTable.idRestaurant,
+    },
+  });
+  response.json(newRestaurantTable);
+};
+
+//Actualizar una mesa
+module.exports.updateStateNotFree = async (request, response, next) => {  
+  let idRestaurantTable = parseInt(request.params.id);
+  //Obtener videojuego viejo
+  // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
+  //     where: { id: idRestaurantTable }
+  // });
+
+  const newRestaurantTable = await prisma.restaurantTable.update({
+    where: {
+      id: idRestaurantTable,
+    },
+    data: {
+      state: TABLESTATE.NOTFREE,
+    },
+  });
+  response.json(newRestaurantTable);
+};
+
+//Actualizar una mesa
+module.exports.updateStateFree = async (request, response, next) => {  
+  let idRestaurantTable = parseInt(request.params.id);
+  //Obtener videojuego viejo
+  // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
+  //     where: { id: idRestaurantTable }
+  // });
+
+  const newRestaurantTable = await prisma.restaurantTable.update({
+    where: {
+      id: idRestaurantTable,
+    },
+    data: {
+      state: TABLESTATE.FREE,
     },
   });
   response.json(newRestaurantTable);

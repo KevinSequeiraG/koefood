@@ -23,11 +23,21 @@
       </button>
       <!-- *ngIf="item.state == 'FREE'" -->
       <button
+        (click)="item.state == 'FREE' ? updateMesaSetNotFree(item.id) : updateMesaSetFree(item.id)"
+        class="absolute right-12"
+      >
+        <span
+          class="material-symbols-outlined text-white bg-red-500 p-1 rounded-full"
+        >
+          block
+        </span>
+      </button>
+      <button
         (click)="item.state == 'FREE' ? addOrder(item.id) : null"
         class="absolute right-2"
       >
         <span
-          class="material-symbols-outlined text-white bg-purple-500 p-2 rounded-full"
+          class="material-symbols-outlined text-white bg-purple-500 p-1 rounded-full"
         >
           list_alt
         </span>

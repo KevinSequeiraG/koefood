@@ -14,7 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
@@ -23,8 +23,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ProductForm } from './product-form/product-form.component';
 import { ProductUserComponent } from './product-user/product-user.component';
-
-
+import { ProductWaiterComponent } from './product-waiter/product-waiter.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +31,7 @@ import { ProductUserComponent } from './product-user/product-user.component';
     ProductDetailComponent,
     ProductForm,
     ProductUserComponent,
+    ProductWaiterComponent,
   ],
   imports: [
     CommonModule,
@@ -52,6 +52,6 @@ import { ProductUserComponent } from './product-user/product-user.component';
     MatRadioModule,
     ReactiveFormsModule,
     ProductRoutingModule,
-  ]
+  ],
 })
-export class ProductModule { }
+export class ProductModule {}

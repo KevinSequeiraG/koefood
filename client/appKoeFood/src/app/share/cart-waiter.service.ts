@@ -8,32 +8,35 @@ export class ItemCart {
   cantidad: number;
   precio: number;
   subtotal: number;
+  note: any;
 }
 @Injectable({
   providedIn: 'root',
 })
-export class CartService {
+export class CartWaiterService {
   private cart = new BehaviorSubject<ItemCart[]>(null); //Definimos nuestro BehaviorSubject, este debe tener un valor inicial siempre
   public currentDataCart$ = this.cart.asObservable(); //Tenemos un observable con el valor actual del BehaviorSubject
   public qtyItems = new Subject<number>();
   constructor() {
     //Obtener los datos de la variable orden guardada en el localStorage
     this.cart = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem('waiter-orden'))
+      JSON.parse(localStorage.getItem('ordenWaiter'))
     );
 
     //Establecer un observable para los datos del carrito
     this.currentDataCart$ = this.cart.asObservable();
   }
   saveCart(): void {
-    localStorage.setItem('waiter-orden', JSON.stringify(this.cart.getValue()));
+    localStorage.setItem('ordenWaiter', JSON.stringify(this.cart.getValue()));
   }
 
   public removeOneFromProduct(itemCart: ItemCart) {
     //Obtenemos el valor actual de carrito
     let listCart = this.cart.getValue();
     //Buscamos el item del carrito para eliminar
-    let objIndex = listCart.findIndex((obj) => obj.idItem == itemCart.idItem);
+    let objIndex = listCart.findIndex(
+      (obj) => obj.idItem == itemCart.idItem && obj.idTable == itemCart.idTable
+    );
 
     if (itemCart.hasOwnProperty('cantidad')) {
       //Si la cantidad es menor o igual a 0 se elimina del carrito
@@ -47,7 +50,35 @@ export class CartService {
       } else if (itemCart.cantidad > 0) {
         //Actualizar la cantidad de un producto existente
         //listCart[objIndex].cantidad += 1;
-        this.removeFromCart(itemCart);
+        this.removeFromCart(itemCart, itemCart.idTable);
+      }
+    }
+  }
+
+  public addCommentToProduct(
+    itemCart: ItemCart,
+    comment: string,
+    idTable: any
+  ) {
+    //Obtenemos el valor actual de carrito
+    let listCart = this.cart.getValue();
+    //Buscamos el item del carrito para eliminar
+    let objIndex = listCart.findIndex(
+      (obj) => obj.idItem == itemCart.idItem && obj.idTable == itemCart.idTable
+    );
+
+    if (itemCart.hasOwnProperty('cantidad')) {
+      //Si la cantidad es menor o igual a 0 se elimina del carrito
+      if (itemCart.cantidad >= 1) {
+        listCart[objIndex].note = comment;
+        //Actualizar la cantidad total de items del carrito
+        //this.qtyItems.next(this.quantityItems());
+        //Actualizar la información en el localStorage
+        this.saveCart();
+      } else if (itemCart.cantidad > 0) {
+        //Actualizar la cantidad de un producto existente
+        //listCart[objIndex].cantidad += 1;
+        //this.removeFromCart(itemCart)
       }
     }
   }
@@ -76,7 +107,7 @@ export class CartService {
         if (producto.hasOwnProperty('quantity')) {
           //Si la cantidad es menor o igual a 0 se elimina del carrito
           if (producto.quantity <= 0) {
-            this.removeFromCart(newItem);
+            this.removeFromCart(newItem, idTable);
             return;
           } else {
             //Actualizar cantidad
@@ -110,11 +141,13 @@ export class CartService {
     return item.precio * item.cantidad;
   }
   //Elimina un elemento del carrito
-  public removeFromCart(newData: ItemCart) {
+  public removeFromCart(newData: ItemCart, idTable: any) {
     //Obtenemos el valor actual de carrito
     let listCart = this.cart.getValue();
     //Buscamos el item del carrito para eliminar
-    let objIndex = listCart.findIndex((obj) => obj.idItem == newData.idItem);
+    let objIndex = listCart.findIndex(
+      (obj) => obj.idItem == newData.idItem && obj.idTable == idTable
+    );
     if (objIndex != -1) {
       //Eliminamos el item del array del carrito
       listCart.splice(objIndex, 1);
@@ -149,7 +182,7 @@ export class CartService {
     return sum;
   }
   //Calcula y retorna el total de los items del carrito
-  public getTotal(): number {
+  public getTotal(idTable: any): number {
     //Total antes de impuestos
     let total = 0;
     let listCart = this.cart.getValue();
@@ -157,7 +190,9 @@ export class CartService {
       //Sumando los subtotales de cada uno de los items del carrito
 
       listCart.forEach((item: ItemCart, index) => {
-        total += item.subtotal;
+        if (item.idTable == idTable) {
+          total += item.subtotal;
+        }
       });
     }
 

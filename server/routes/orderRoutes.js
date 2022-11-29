@@ -15,6 +15,12 @@ router.post(
   orderController.createByUser
 );
 
+router.post(
+  "/createByWaiter",
+  auth.grantRole(["ADMIN", "WAITER"]),
+  orderController.createByWaiter
+);
+
 router.get("/", auth.grantRole(["ADMIN", "WAITER"]), orderController.get);
 
 router.get(
