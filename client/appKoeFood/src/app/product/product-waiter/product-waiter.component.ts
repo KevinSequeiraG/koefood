@@ -42,6 +42,7 @@ export class ProductWaiterComponent implements AfterViewInit {
   product: any;
   paymentOptionEnum: any;
   newCarritoTemp: any;
+  newCarritoTemp2: any;
   respUpdate: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -320,8 +321,15 @@ export class ProductWaiterComponent implements AfterViewInit {
   }
 
   getDataFacturaTable() {
+    this.newCarritoTemp2 = [];
     this.cartService.currentDataCart$.subscribe((data) => {
-      this.dataFacturaTable = new MatTableDataSource(data);
+      data.map((item) => {
+        if (item.idTable == this.idTable) {
+          this.newCarritoTemp2.push(item);
+        }
+      });
+      this.dataFacturaTable = new MatTableDataSource(this.newCarritoTemp2);
+      // this.dataFacturaTable = new MatTableDataSource(data);
     });
   }
 
@@ -341,13 +349,16 @@ export class ProductWaiterComponent implements AfterViewInit {
 
     var arregloFinal = [];
     productos.map((producto) => {
-      var productToSave = {
-        idProduct: producto.idItem,
-        quantity: producto.cantidad,
-        total: producto.subtotal,
-        note: producto.note ? producto.note : '',
-      };
-      arregloFinal.push(productToSave);
+      console.log(this.idTable);
+      if (producto.idTable == this.idTable) {
+        var productToSave = {
+          idProduct: producto.idItem,
+          quantity: producto.cantidad,
+          total: producto.subtotal,
+          note: producto.note ? producto.note : '',
+        };
+        arregloFinal.push(productToSave);
+      }
     });
 
     this.carritoToSave.subTotal = this.carritoData?.subtotal;
@@ -362,6 +373,7 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.carritoToSave.state = 'DELIVERED';
     this.carritoToSave.paymentOption = 'BOTH';
     this.carritoToSave.OrderDetail = arregloFinal;
+    this.carritoToSave.idTable = parseInt(this.idTable);
 
     console.log(this.carritoToSave);
     if (
@@ -378,17 +390,17 @@ export class ProductWaiterComponent implements AfterViewInit {
       //Si pagaron
       console.log('pasa');
       this.gService
-        .create('orders/createByUser', this.carritoToSave)
+        .create('orders/createByWaiter', this.carritoToSave)
         .subscribe((respuesta: any) => {
           this.notificacion.mensaje(
             'Orden',
             'Orden registrada',
             TipoMessage.success
           );
-          //this.cartService.deleteCart();
+          this.cartService.deleteCart();
           console.log(respuesta);
         });
-      this.router.navigate(['/home/inicio']);
+      // this.router.navigate(['/home/inicio']);
     }
   }
 }

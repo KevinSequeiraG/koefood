@@ -146,7 +146,7 @@ export class CartWaiterService {
     let listCart = this.cart.getValue();
     //Buscamos el item del carrito para eliminar
     let objIndex = listCart.findIndex(
-      (obj) => obj.idItem == newData.idItem && obj.idTable == newData.idTable
+      (obj) => obj.idItem == newData.idItem && obj.idTable == idTable
     );
     if (objIndex != -1) {
       //Eliminamos el item del array del carrito
