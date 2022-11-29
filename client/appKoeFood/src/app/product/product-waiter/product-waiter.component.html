@@ -1,0 +1,316 @@
+<div class="py-[5rem] w-full min-h-screen" style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+  <h1 class="text-center text-[#e5e5e5] !font-bold">Restaurante {{restaurantInfo?.name}}</h1>
+  <div class="w-full text-center mb-8">
+    <button class="mx-auto bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]" (click)="handleCarritoView()">Ver
+      carrito</button>
+  </div>
+  <div class="mat-elevation-z8 w-[80%] h-full mx-auto border border-[#c1c161]">
+
+    <table mat-table class="full-width-table bg-black" matSort aria-label="Elements" [dataSource]="dataSource">
+
+      <ng-container matColumnDef="name" class="!w-min !text-center">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+          mat-sort-header>Nombre</th>
+        <td mat-cell class="text-[#e5e5e5] !w-min text-center !p-5 truncate" *matCellDef="let row">{{row.name}}</td>
+      </ng-container>
+
+      <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="description">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+          mat-sort-header>Descripción
+        </th>
+        <td mat-cell class="text-[#e5e5e5] " *matCellDef="let row">{{row.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+          mat-sort-header>Precio</th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{'₡'+row.price}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="productToRestaurantProduct">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+          mat-sort-header>Categoría
+        </th>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.productToRestaurantProduct.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+          mat-sort-header>Acciones
+        </th>
+        <td mat-cell class="text-[#e5e5e5] truncate !py-4 !pr-0" *matCellDef="let row">
+          <button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg mx-1">
+            <span class="material-icons flex items-center">remove_red_eye</span></button>
+          <button (click)="comprar(row.id)" class="bg-purple-800 px-2 py-1 rounded-lg mx-1"><span
+              class="material-icons flex items-center">add</span></button>
+
+        </td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator class="bg-gray-500 text-[#e5e5e5] !flex-nowrap " #paginator [length]="dataSource?.data?.length"
+      [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 20]" aria-label="Select page">
+    </mat-paginator>
+  </div>
+  <!-- Carrito Modal -->
+  <div *ngIf="showCarrito"
+    class="absolute top-0 bg-black bg-opacity-50 min-w-full min-h-screen text-gray-300 overflow-y-auto ">
+    <div
+      class="pb-32 absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-gray-500 min-w-[70rem] min-h-[40rem] px-6 py-6"
+      style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+      <button
+        class="mx-auto bg-red-500 border border-white text-center hover:bg-red-800 px-2 py-1 rounded-lg text-white text-[1.2rem] min-h-min"
+        (click)="handleCarritoView()"><span class="material-icons text-[2rem]">close</span></button>
+      <h1 class="text-center text-white">Detalles de carrito</h1>
+
+      <div class="flex justify-around">
+        <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center">
+          <p class="!mb-0 font-bold">Nombre Restaurante</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{restaurantInfo?.name}}</p>
+        </div>
+        <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center">
+          <p class="!mb-0 font-bold">Cliente</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{loggedUser.user.name + ' ' + loggedUser.user.lastname}}
+          </p>
+        </div>
+        <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center">
+          <p class="!mb-0 font-bold">Estado de orden</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
+            {{ordenState=='INPROCESS'?'En proceso':''}}</p>
+        </div>
+        <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center">
+          <p class="!mb-0 font-bold">Fecha de orden</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
+            {{todayDate | date:'dd/MM/YYYY'}}</p>
+        </div>
+      </div>
+
+      <div class="overflow-y-auto max-h-96">
+        <table mat-table class="full-width-table bg-black" matSort aria-label="Elements"
+          [dataSource]="dataCarritoTable">
+
+          <ng-container matColumnDef="subtotal" class="!w-min !text-center">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Subtotal</th>
+            <td mat-cell class="text-[#e5e5e5] !w-min text-center !p-5 truncate" *matCellDef="let row">
+              {{'₡'+row.subtotal}}
+            </td>
+          </ng-container>
+
+          <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="product">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Producto
+            </th>
+            <td mat-cell class="text-[#e5e5e5] " *matCellDef="let row">{{row.product.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Cantidad</th>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.cantidad}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Precio unitario
+            </th>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{'₡'+row.precio}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Acciones
+            </th>
+            <td mat-cell class="text-[#e5e5e5] truncate !py-4 !pr-0" *matCellDef="let row">
+              <!-- Remove one from product -->
+              <button (click)="eliminarOneFromItem(row)" class="bg-red-800 hover:bg-red-600 px-2 py-1 rounded-lg mx-1">
+                <span class="material-icons flex items-center">remove</span>
+              </button>
+              <!-- Delete line -->
+              <button (click)="eliminarItem(row)" class="bg-red-800 px-2 hover:bg-red-600 py-1 rounded-lg mx-1">
+                <span class="material-icons flex items-center">delete</span>
+              </button>
+              <button (click)="handleNoteModal(row)"
+                class="bg-yellow-800 hover:bg-yellow-600 px-2 py-1 rounded-lg mx-1">
+                <span class="material-icons flex items-center">edit_note</span>
+              </button>
+            </td>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+        </table>
+      </div>
+
+      <div class="grid grid-cols-4 relative justify-items-end mt-6">
+        <div class="col-start-4 w-min truncate flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center ">
+          <p class="!mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Subtotal:</p>
+          <p class="!mb-0">{{'₡'+carritoData.subtotal}}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 relative justify-items-end">
+        <div
+          class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center ">
+          <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">IVA:</p>
+          <p class="!mb-0">{{'₡'+carritoData.iva }}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 relative justify-items-end">
+        <div
+          class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center ">
+          <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Total:</p>
+          <p class="!mb-0">{{'₡'+carritoData.orderTotal}}</p>
+        </div>
+      </div>
+      <!-- button for pay -->
+      <button (click)="handleFacturaView()"
+        class="bg-green-700 px-3 py-2 rounded-xl text-[1.3rem] min-w-min items-center flex absolute right-10 hover:bg-green-900 bottom-10">Ir
+        a pagar <span class="material-icons w-[1.2rem]">arrow_forwards_ios</span></button>
+    </div>
+    <div *ngIf="showNoteModal"
+      class="text-center  absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-gray-500 min-w-[40rem] !max-w-[40rem] min-h-[20rem] px-6 py-6"
+      style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+      <h2>Agregar nota al producto {{product?.product.name}}</h2>
+      <textarea class="text-black p-5" name="" id="comment-ta" cols="60" rows="10"></textarea>
+      <br>
+      <div class="flex justify-between w-[80%] mx-auto">
+        <button (click)="closeNoteModal()" class="px-4 py-2 bg-red-700 hover:bg-red-900 rounded-xl text-[1.2rem]">Cancelar</button>
+        <button (click)="addCommentToProduct()" class="px-4 py-2 bg-green-700 hover:bg-green-900 rounded-xl text-[1.2rem]">Aceptar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for pay -->
+  <div *ngIf="showFactura"
+    class="absolute top-0 bg-black bg-opacity-50 min-w-full min-h-screen text-gray-300 overflow-y-auto">
+    <div
+      class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-gray-500 min-w-[70rem] min-h-[40rem] px-6 py-6"
+      style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
+      <button
+        class="mx-auto bg-red-500 border border-white text-center hover:bg-red-800 px-2 py-1 rounded-lg text-white text-[1.2rem] min-h-min"
+        (click)="handleFacturaView()"><span class="material-icons text-[2rem]">close</span></button>
+      <h1 class="text-center text-white">Pagar cuenta</h1>
+
+      <div class="flex">
+        <div>
+          <h2 class="truncate">Tipo de pago</h2>
+
+          <mat-radio-group (change)="onChange($event)" class="flex-col flex ">
+            <mat-radio-button [checked]="true" class="my-1" [value]="0">En efectivo</mat-radio-button>
+            <mat-radio-button [checked]="false" class="my-1" [value]="1">Con tarjeta</mat-radio-button>
+            <mat-radio-button [checked]="false" class="my-1" [value]="2">Ambas</mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <!-- Card pay sections -->
+        <div *ngIf="typeOfPayment == 0" class="ml-10">
+          <div class="flex my-2 items-center">
+            <label for="onlyCash-label"
+              class="min-w-[15rem] block text-sm font-medium text-gray-900 dark:text-white">Con cuanto desea
+              pagar</label>
+            <input (keyup)="getPayInCash($event)" type="number" id="onlyCash-label"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="0" required>
+          </div>
+        </div>
+        <div class="ml-10" *ngIf="typeOfPayment != 0">
+          <div class="flex my-2 items-center">
+            <label for="card-number"
+              class="min-w-[15rem] block text-sm font-medium text-gray-900 dark:text-white flex items-center">
+              <span class="material-icons mr-1">credit_card</span>Número de tarjeta</label>
+            <input type="number" id="card-number"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Ej: 0000-0000-0000-0000" required>
+          </div>
+          <div class="flex my-2 items-center">
+            <label class="min-w-[15rem] block text-sm font-medium text-gray-900 dark:text-white flex items-center"
+              for="date-card"><span class="material-icons mr-1">date_range</span>Fecha de vencimiento</label>
+            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+            </div>
+            <input id="date-card" datepicker type="date"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Select date">
+          </div>
+          <div class="flex my-2 items-center">
+            <label for="cvv-card"
+              class="min-w-[15rem] block text-sm font-medium text-gray-900 dark:text-white">CVV</label>
+            <input type="number" id="cvv-card"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Ej: xxx" required>
+          </div>
+          <div class="flex my-2 items-center" *ngIf="typeOfPayment == 2">
+            <label for="cash-label" class="min-w-[15rem] block text-sm font-medium text-gray-900 dark:text-white">Monto
+              a pagar con efectivo</label>
+            <input (keyup)="getPayInBoth($event)" type="number" id="cash-label"
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="0" required>
+          </div>
+        </div>
+
+      </div>
+      <div class="overflow-y-auto max-h-96">
+        <table mat-table class="full-width-table bg-black" matSort aria-label="Elements"
+          [dataSource]="dataFacturaTable">
+
+          <ng-container matColumnDef="subtotal" class="!w-min !text-center">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Subtotal</th>
+            <td mat-cell class="text-[#e5e5e5] !w-min text-center !p-5 truncate" *matCellDef="let row">
+              {{'₡'+row.subtotal}}
+            </td>
+          </ng-container>
+
+          <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="product">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Producto
+            </th>
+            <td mat-cell class="text-[#e5e5e5] " *matCellDef="let row">{{row.product.name}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Cantidad</th>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.cantidad}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="precio">
+            <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0" *matHeaderCellDef
+              mat-sort-header>Precio unitario
+            </th>
+            <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{'₡'+row.precio}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+        </table>
+      </div>
+
+      <div class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center">
+        <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Vuelto:</p>
+        <p class="!mb-0">{{'₡'+vuelto}}</p>
+      </div>
+      <div class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center">
+        <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Total por tarjeta:</p>
+        <p class="!mb-0">{{'₡'+carritoData.clientPaymentInCard}}</p>
+      </div>
+      <div class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center">
+        <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Total en efectivo:</p>
+        <p class="!mb-0">{{'₡'+carritoData?.clientPaymentInCash}}</p>
+      </div>
+      <div class="col-start-4  w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center ">
+        <p class=" !mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">Total:</p>
+        <p class="!mb-0 ">{{'₡'+carritoData?.orderTotal}}</p>
+      </div>
+
+      <button (click)="generarOrden()"
+        class="bg-green-700 px-3 py-2 rounded-xl text-[1.3rem] min-w-min items-center flex absolute right-10 hover:bg-green-900 bottom-10">Confirmar
+        compra</button>
+    </div>
+  </div>
+</div>

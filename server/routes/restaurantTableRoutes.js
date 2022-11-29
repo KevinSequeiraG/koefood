@@ -1,7 +1,7 @@
 //Express para agregar las rutas
 const express = require("express");
 const router = express.Router();
-const auth=require('../middleware/auth');
+const auth = require("../middleware/auth");
 //Videojuego controller para los métodos definidos
 const restaurantTableController = require("../controllers/restaurantTableController");
 
@@ -27,5 +27,17 @@ router.get(
 );
 
 router.put("/:id", auth.grantRole(["ADMIN"]), restaurantTableController.update);
+
+router.put(
+  "/updateStateSetFree/:id",
+  //auth.grantRole(["ADMIN", "WAITER"]),
+  restaurantTableController.updateStateFree
+);
+
+router.put(
+  "/updateStateSetNotFree/:id",
+  //auth.grantRole(["ADMIN", "WAITER"]),
+  restaurantTableController.updateStateNotFree
+);
 
 module.exports = router;

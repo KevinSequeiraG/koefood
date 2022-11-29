@@ -23,7 +23,7 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
   loggedUser: any = JSON.parse(window.localStorage.getItem('currentUser'));
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
-
+  respUpdate: any;
   constructor(
     private router: Router,
     private gService: GenericService,
@@ -64,6 +64,27 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
     this.router.navigate([
       'product/listofproducts/',
       this.loggedUser.user.idRestaurant,
+      id,
     ]);
+  }
+
+  updateMesaSetNotFree(idT:any) {
+    console.log("iddd",idT);
+    this.gService.update(`restauranttables/updateStateSetNotFree/free`, idT)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        this.respUpdate = data;
+      });
+  }
+
+  updateMesaSetFree(idT:any) {
+    console.log("iddd",idT);
+    this.gService.update('restauranttables/updateStateSetFree', idT)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        this.respUpdate = data;
+      });
   }
 }
