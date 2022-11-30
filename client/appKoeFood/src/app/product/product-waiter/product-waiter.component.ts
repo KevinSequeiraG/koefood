@@ -44,7 +44,7 @@ export class ProductWaiterComponent implements AfterViewInit {
   newCarritoTemp: any;
   newCarritoTemp2: any;
   respUpdate: any;
-
+  paymentUserChoose: any="CASH";
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -74,14 +74,17 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.typeOfPayment = event.value;
     this.getPaymentOptionsEnum();
     if (this.typeOfPayment == 0) {
-      //Pago en efectivo
+      //Pago en efectivoTHIS
+      this.paymentUserChoose="CASH"
       this.carritoData.clientPaymentInCard = 0;
     } else if (this.typeOfPayment == 1) {
       //Pago en tarjeta
       this.vuelto = 0;
+      this.paymentUserChoose="CARD"
       this.carritoData.clientPaymentInCard = this.carritoData.orderTotal;
     } else if (this.typeOfPayment == 2) {
       //Pago en tarjeta y efectivo
+      this.paymentUserChoose="BOTH"
     }
   }
 
@@ -372,7 +375,7 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.carritoToSave.idUser = this.loggedUser.user.id;
     this.carritoToSave.idRestaurant = this.restaurantInfo.id;
     this.carritoToSave.state = 'REGISTERED';
-    this.carritoToSave.paymentOption = 'BOTH';
+    this.carritoToSave.paymentOption = this.paymentUserChoose;
     this.carritoToSave.OrderDetail = arregloFinal;
     this.carritoToSave.idTable = parseInt(this.idTable);
 
