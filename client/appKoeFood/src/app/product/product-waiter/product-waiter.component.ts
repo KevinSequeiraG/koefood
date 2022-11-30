@@ -371,7 +371,7 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.carritoToSave.orderTotal = this.carritoData.orderTotal;
     this.carritoToSave.idUser = this.loggedUser.user.id;
     this.carritoToSave.idRestaurant = this.restaurantInfo.id;
-    this.carritoToSave.state = 'DELIVERED';
+    this.carritoToSave.state = 'REGISTERED';
     this.carritoToSave.paymentOption = 'BOTH';
     this.carritoToSave.OrderDetail = arregloFinal;
     this.carritoToSave.idTable = parseInt(this.idTable);
