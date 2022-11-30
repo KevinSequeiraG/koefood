@@ -68,9 +68,9 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
     ]);
   }
 
-  updateMesaSetNotFree(idT:any) {
+  updateMesaSetNotFree(idT:number) {
     console.log("iddd",idT);
-    this.gService.update(`restauranttables/updateStateSetNotFree/free`, idT)
+    this.gService.updateState(`restauranttables/updateStateSetNotFree`, idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta
@@ -78,9 +78,9 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
       });
   }
 
-  updateMesaSetFree(idT:any) {
+  updateMesaSetFree(idT:number) {
     console.log("iddd",idT);
-    this.gService.update('restauranttables/updateStateSetFree', idT)
+    this.gService.updateState('restauranttables/updateStateSetFree', idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta

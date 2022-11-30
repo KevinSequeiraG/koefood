@@ -111,6 +111,7 @@ export class ProductWaiterComponent implements AfterViewInit {
   handleFacturaView() {
     this.showCarrito = false;
     this.showFactura = !this.showFactura;
+    this.getDataFacturaTable();
     console.log(this.carritoData);
   }
 
@@ -370,7 +371,7 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.carritoToSave.orderTotal = this.carritoData.orderTotal;
     this.carritoToSave.idUser = this.loggedUser.user.id;
     this.carritoToSave.idRestaurant = this.restaurantInfo.id;
-    this.carritoToSave.state = 'DELIVERED';
+    this.carritoToSave.state = 'REGISTERED';
     this.carritoToSave.paymentOption = 'BOTH';
     this.carritoToSave.OrderDetail = arregloFinal;
     this.carritoToSave.idTable = parseInt(this.idTable);
@@ -397,10 +398,10 @@ export class ProductWaiterComponent implements AfterViewInit {
             'Orden registrada',
             TipoMessage.success
           );
-          this.cartService.deleteCart();
+          this.cartService.deleteCart(this.idTable);
           console.log(respuesta);
         });
-      // this.router.navigate(['/home/inicio']);
+      this.router.navigate(['/restaurant/tables/waiter']);
     }
   }
 }
