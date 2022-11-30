@@ -37,12 +37,17 @@
           <!-- Logo -->
           <a [routerLink]="['#']">
             <span class="sr-only">CurrentUser</span>
-            <div class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover">
-              <img src="./assets/Images/userProfileImg1.jpg" class="w-[3.1rem] object-fill border border-[#c1c161] rounded-full" />
-              <p
+            <div
+              class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover"
+            >
+              <img
+                src="./assets/Images/userProfileImg1.jpg"
+                class="w-[3.1rem] object-fill border border-[#c1c161] rounded-full"
+              />
+              <p *ngIf="loggedUser != null"
                 class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold"
               >
-                Nombre usuario
+                {{ loggedUser.user.name + " " + loggedUser.user.lastname }}
               </p>
             </div>
           </a>
@@ -72,42 +77,62 @@
         <nav
           class="flex flex-col flex-1 w-min p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold"
         >
-          <a [routerLink]="['/home/inicio']" class="flex items-center space-x-2">
+          <a
+            [routerLink]="
+              loggedUser.user.userType == 'WAITER'
+                ? ['/restaurant/tables/waiter']
+                : ['/home/inicio']
+            "
+
+            class="flex items-center space-x-2"
+          >
             <span class="material-symbols-outlined text-[#c1c161]"> home </span>
             <span
               class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
               >Inicio</span
             >
           </a>
-          <a [routerLink]="['restaurant/tables']" class="flex items-center space-x-2">
+          <a
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            [routerLink]="['restaurant/tables']"
+            class="flex items-center space-x-2"
+          >
             <span class="material-symbols-outlined text-[#c1c161]">
               chair
-              </span>
+            </span>
             <span
               class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
               >Mantenimiento de mesas</span
             >
           </a>
 
-          <a [routerLink]="['product/productall']" class="flex items-center space-x-2">
+          <a
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            [routerLink]="['product/productall']"
+            class="flex items-center space-x-2"
+          >
             <span class="material-symbols-outlined text-[#c1c161]">
               ramen_dining
-              </span>
+            </span>
             <span
               class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
               >Mantenimiento de productos</span
             >
           </a>
-          <a [routerLink]="['order/orderall']" class="flex items-center space-x-2">
+          <a
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            [routerLink]="['order/orderall']"
+            class="flex items-center space-x-2"
+          >
             <span class="material-symbols-outlined text-[#c1c161]">
               fact_check
-              </span>
+            </span>
             <span
               class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
               >Mantenimiento de órdenes</span
             >
           </a>
-          <a  [routerLink]="['#']" class="flex items-center space-x-2">
+          <a [routerLink]="['#']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               summarize
             </span>
@@ -116,17 +141,17 @@
               >Reportes</span
             >
           </a>
-          <a  [routerLink]="['/home/about']" class="flex items-center space-x-2">
+          <a [routerLink]="['/home/about']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               contact_support
             </span>
             <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
+              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161] truncate"
               >Acerca de</span
             >
           </a>
         </nav>
-        <a  [routerLink]="['/']" class="flex flex-col justify-center ml-5">
+        <a [routerLink]="['/']" class="flex flex-col justify-center ml-5">
           <!-- <div class="flex space-x-1 items-end">
             <p class="text-[26px] text-red-800 shadow-inner font-extrabold">
               KÖE
@@ -135,20 +160,18 @@
               Food
             </p>
           </div> -->
-          <img src="./assets/Images/img3.jpg.png" class="w-20 object-cover ml-3"/>
-          <div
-            class="text-[#e5e5e5] mb-10 w-min flex justify-center mt-1 ml-2 "
-          >
+          <img
+            src="./assets/Images/img3.jpg.png"
+            class="w-20 object-cover ml-3"
+          />
+          <div class="text-[#e5e5e5] mb-10 w-min flex justify-center mt-1 ml-2">
             <button
               class="flex items-center space-x-1 justify-center w-full mx-auto border border-[#c1c161] rounded-[10px] py-1 px-3 hover:bg-[#c1c161] text-[#c1c161] hover:!text-white"
             >
-              <span
-                class="material-symbols-outlined font-semibold"
-              >
+              <span class="material-symbols-outlined font-semibold">
                 logout
               </span>
-              <span
-                class=" text-[14px] lg:text-[15px] text-center font-bold"
+              <span class="text-[14px] lg:text-[15px] text-center font-bold"
                 >Salir</span
               >
             </button>

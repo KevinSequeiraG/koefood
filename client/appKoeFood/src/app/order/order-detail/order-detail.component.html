@@ -14,18 +14,18 @@
         </div>
         <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
           <p class="!mb-0 font-bold">Código de la mesa</p>
-          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{datos.orderTable.code}}</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{datos.orderTable?datos.orderTable.code:'No aplica'}}</p>
         </div>
         <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
           <p class="!mb-0 font-bold">Cliente</p>
           <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{datos.orderUser.name + " " + datos.orderUser.lastname + " - " +
             datos.orderUser.id}}</p>
         </div>
-        <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
+        <!-- <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
           <p class="!mb-0 font-bold">Mesero</p>
           <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">{{datos.orderWaiter.name + " " + datos.orderWaiter.lastname + " -
             " + datos.orderWaiter.id}}</p>
-        </div>
+        </div> -->
         <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
           <p class="!mb-0 font-bold">Tipo de pago</p>
           <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
@@ -35,7 +35,7 @@
           <p class="!mb-0 font-bold">Estado de orden</p>
           <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
             {{datos.state=='REGISTERED'?'Registrada':datos.state=='INPROCESS'?'En
-            proceso':datos.state=='PENDING'?'Pendiente':datos.state=='DELIVERED'?'Entregada':'Por pagar'}}</p>
+            proceso':datos.state=='PENDING'?'Pendiente':datos.state=='DELIVERED'?'Enviada':'Por pagar'}}</p>
         </div>
         <div class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4">
           <p class="!mb-0 font-bold">Fecha de orden</p>

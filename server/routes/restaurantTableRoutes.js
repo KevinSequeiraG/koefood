@@ -26,18 +26,18 @@ router.get(
   restaurantTableController.getById
 );
 
-router.put("/:id", auth.grantRole(["ADMIN"]), restaurantTableController.update);
-
 router.put(
-  "/updateStateSetFree/:id",
+  "/updateStateSetFree",
   //auth.grantRole(["ADMIN", "WAITER"]),
   restaurantTableController.updateStateFree
 );
 
 router.put(
-  "/updateStateSetNotFree/:id",
+  "/updateStateSetNotFree",
   //auth.grantRole(["ADMIN", "WAITER"]),
   restaurantTableController.updateStateNotFree
 );
+router.put("/:id", auth.grantRole(["ADMIN"]), restaurantTableController.update);
+
 
 module.exports = router;

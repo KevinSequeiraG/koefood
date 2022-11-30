@@ -11,7 +11,7 @@
       <!-- Name Column -->
       <ng-container class="text-[#e5e5e5]" matColumnDef="orderTable">
         <th mat-header-cell class="text-[#e5e5e5] text-[1rem] border-b-4" *matHeaderCellDef mat-sort-header>Código de mesa</th>
-        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.orderTable.code}}</td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">{{row.orderTable?row.orderTable.code:'No aplica'}}</td>
       </ng-container>
 
       <ng-container matColumnDef="orderUser">

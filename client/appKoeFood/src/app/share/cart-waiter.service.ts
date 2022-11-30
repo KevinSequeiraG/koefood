@@ -199,11 +199,14 @@ export class CartWaiterService {
     return total;
   }
   //Borra toda los items del carrito
-  public deleteCart() {
-    this.cart.next(null); //Enviamos el valor al Observable
-    //Actualizar cantidad de items a 0
-    this.qtyItems.next(0);
-    //Actualizar la información en el localStorage
+  public deleteCart(idTable: any) {
+    let listCart = this.cart.getValue();
+    let filterCart = listCart.filter((x) => x.idTable != idTable);
+
+    this.cart.next(filterCart); //Enviamos el valor al Observable
+    // //Actualizar cantidad de items a 0
+    // this.qtyItems.next(0);
+    // //Actualizar la información en el localStorage
     this.saveCart();
   }
 }

@@ -10,7 +10,7 @@ import { AuthenticationService } from 'src/app/share/authentication.service';
 export class HeaderComponent implements OnInit {
   isSidebarOpen: boolean = false;
   isLoginPage: boolean = true;
-
+  loggedUser: any = null;
   constructor(
     private router: Router,
     private authService: AuthenticationService
@@ -22,15 +22,19 @@ export class HeaderComponent implements OnInit {
           event.url == '/usuario/login' ||
           event.url == '/usuario/registrar';
       }
+      if (!this.isLoginPage) {
+        this.loggedUser = JSON.parse(window.localStorage.getItem('currentUser'));
+      }
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   openCloseSidenavbar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
-  
+
   logout() {
     this.authService.logout();
     this.router.navigate(['usuario/login']);
