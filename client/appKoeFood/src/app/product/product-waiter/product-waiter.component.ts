@@ -165,9 +165,10 @@ export class ProductWaiterComponent implements AfterViewInit {
       this.cartService.addCommentToProduct(this.product, value, this.idTable);
       this.notificacion.mensaje(
         'Orden',
-        'Producto: ' + this.product.product.name + ' agregado a la orden',
+        'Nota agregada con éxito',
         TipoMessage.success
       );
+      this.showNoteModal = false;
     }
   }
 

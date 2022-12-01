@@ -41,11 +41,11 @@
               class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover"
             >
               <img
-                src="./assets/Images/userProfileImg1.jpg"
-                class="w-[3.1rem] object-fill border border-[#c1c161] rounded-full"
+                src="./assets/Images/si.png"
+                class="w-[3.1rem]  object-cover justify-center border border-[#c1c161] rounded-full mb-3"
               />
               <p *ngIf="loggedUser != null"
-                class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold"
+                class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold items-center"
               >
                 {{ loggedUser.user.name + " " + loggedUser.user.lastname }}
               </p>
