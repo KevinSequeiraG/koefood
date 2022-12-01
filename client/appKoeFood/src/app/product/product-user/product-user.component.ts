@@ -371,7 +371,7 @@ export class ProductUserComponent implements AfterViewInit {
     this.carritoToSave.idUser = this.loggedUser.user.id;
     this.carritoToSave.idRestaurant = this.restaurantInfo.id
     this.carritoToSave.state = "DELIVERED"
-    this.carritoToSave.paymentOption = "BOTH"
+    this.carritoToSave.paymentOption = this.typeOfPayment==0?"CASH":this.typeOfPayment==1?"CARD":"BOTH"
     this.carritoToSave.OrderDetail = arregloFinal;
 
     console.log(this.carritoToSave);
