@@ -9,6 +9,10 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+mat-labe{
+    color: white;
+}
+
 .mat-form-field-label {
     background-color: transparent;
     color: white !important;

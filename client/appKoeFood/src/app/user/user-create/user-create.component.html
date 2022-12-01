@@ -1,14 +1,15 @@
-<form [formGroup]="formCreate" novalidate>
+<form [formGroup]="formCreate" novalidate >
   <mat-card class="shipping-card bg-black">
     <mat-card-header>
-      <mat-card-title>Crear Usuario </mat-card-title>
+      <mat-card-title class="text-white">Crear Usuario </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="row text-white">
-        <div class="col">
-          <mat-form-field class="full-width">
+      <div class="row !text-white">
+        <div class="col text-white">
+          <mat-form-field class="full-width text-white">
             <mat-label class="text-white">Identificación</mat-label>
             <input
+            class="text-white"
               type="number"
               matInput
               placeholder="Identificación"
@@ -110,11 +111,11 @@
       </div>
     </div> -->
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full" (click)="submitForm()">
+    <mat-card-actions class="flex justify-between w-full">
+      <button mat-raised-button class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out " (click)="submitForm()">
         Registrar
       </button>
-      <button class="inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full" mat-raised-button color="accent" type="reset" (click)="onReset()">
+      <button class="inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out " mat-raised-button color="accent" type="reset" (click)="onReset()">
         Cancelar
       </button>
     </mat-card-actions>
