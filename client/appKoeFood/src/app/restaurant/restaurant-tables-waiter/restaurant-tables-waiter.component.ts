@@ -25,6 +25,7 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
   dataSource = new MatTableDataSource<any>();
   respUpdate: any;
   constructor(
+    private notificacion: NotificacionService,
     private router: Router,
     private gService: GenericService,
     private dialog: MatDialog
@@ -33,6 +34,14 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
   displayedColumns = ['id'];
 
   ngAfterViewInit(): void {
+    if (this.loggedUser.user.userType == 'USER') {
+      this.notificacion.mensaje(
+        'Acceso',
+        'Su perfil no tiene acceso a esta ruta',
+        TipoMessage.error
+      );
+      this.router.navigate(['/home/inicio']);
+    }
     this.listaTables();
   }
 
@@ -68,8 +77,9 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
     ]);
   }
 
-  updateMesaSetNotFree(idT:number) {
-    this.gService.updateState(`restauranttables/updateStateSetNotFree`, idT)
+  updateMesaSetNotFree(idT: number) {
+    this.gService
+      .updateState(`restauranttables/updateStateSetNotFree`, idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta
@@ -78,8 +88,9 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
       });
   }
 
-  updateMesaSetFree(idT:number) {
-    this.gService.updateState('restauranttables/updateStateSetFree', idT)
+  updateMesaSetFree(idT: number) {
+    this.gService
+      .updateState('restauranttables/updateStateSetFree', idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta
