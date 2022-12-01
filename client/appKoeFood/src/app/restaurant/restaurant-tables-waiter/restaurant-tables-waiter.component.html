@@ -23,17 +23,30 @@
       </button>
       <!-- *ngIf="item.state == 'FREE'" -->
       <button
-        (click)="item.state == 'FREE' ? updateMesaSetNotFree(item.id) : updateMesaSetFree(item.id)"
+        (click)="
+          item.state == 'FREE'
+            ? updateMesaSetNotFree(item.id)
+            : item.state == 'NOTFREE'
+            ? updateMesaSetFree(item.id)
+            : null
+        "
         class="absolute right-12"
       >
         <span
+        *ngIf="item.state == 'FREE'"
+          class="material-symbols-outlined text-white bg-green-500 p-1 rounded-full"
+        >
+         lock_open
+        </span>
+        <span
+        *ngIf="item.state == 'NOTFREE'"
           class="material-symbols-outlined text-white bg-red-500 p-1 rounded-full"
         >
-          block
+         lock
         </span>
       </button>
       <button
-        (click)="item.state == 'FREE' ? addOrder(item.id) : null"
+        (click)="item.state != 'INACTIVE' ? addOrder(item.id) : null"
         class="absolute right-2"
       >
         <span

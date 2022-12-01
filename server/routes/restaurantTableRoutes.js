@@ -18,6 +18,18 @@ router.get(
   restaurantTableController.getByRestaurant
 );
 
+router.get(
+  "/updateStateSetFree/:id",
+  //auth.grantRole(["ADMIN", "WAITER"]),
+  restaurantTableController.updateStateFree
+);
+
+router.get(
+  "/updateStateSetNotFree/:id",
+  //auth.grantRole(["ADMIN", "WAITER"]),
+  restaurantTableController.updateStateNotFree
+);
+
 router.post("/", auth.grantRole(["ADMIN"]), restaurantTableController.create);
 
 router.get(
@@ -26,17 +38,8 @@ router.get(
   restaurantTableController.getById
 );
 
-router.put(
-  "/updateStateSetFree",
-  //auth.grantRole(["ADMIN", "WAITER"]),
-  restaurantTableController.updateStateFree
-);
 
-router.put(
-  "/updateStateSetNotFree",
-  //auth.grantRole(["ADMIN", "WAITER"]),
-  restaurantTableController.updateStateNotFree
-);
+
 router.put("/:id", auth.grantRole(["ADMIN"]), restaurantTableController.update);
 
 

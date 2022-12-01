@@ -69,22 +69,22 @@ export class RestaurantTablesWaiterComponent implements AfterViewInit {
   }
 
   updateMesaSetNotFree(idT:number) {
-    console.log("iddd",idT);
     this.gService.updateState(`restauranttables/updateStateSetNotFree`, idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta
         this.respUpdate = data;
+        this.listaTables();
       });
   }
 
   updateMesaSetFree(idT:number) {
-    console.log("iddd",idT);
     this.gService.updateState('restauranttables/updateStateSetFree', idT)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         //Obtener respuesta
         this.respUpdate = data;
+        this.listaTables();
       });
   }
 }
