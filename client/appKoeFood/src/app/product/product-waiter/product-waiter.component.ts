@@ -44,7 +44,13 @@ export class ProductWaiterComponent implements AfterViewInit {
   newCarritoTemp: any;
   newCarritoTemp2: any;
   respUpdate: any;
-  paymentUserChoose: any="CASH";
+  paymentUserChoose: any = 'CASH';
+  noNumberCard: boolean = true;
+  noDateCard: boolean = true;
+  noCVV: boolean = true;
+  incorrectCardNumber: boolean;
+  incorrectCardDate: boolean;
+  incorrectCVV: boolean;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -75,16 +81,16 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.getPaymentOptionsEnum();
     if (this.typeOfPayment == 0) {
       //Pago en efectivoTHIS
-      this.paymentUserChoose="CASH"
+      this.paymentUserChoose = 'CASH';
       this.carritoData.clientPaymentInCard = 0;
     } else if (this.typeOfPayment == 1) {
       //Pago en tarjeta
       this.vuelto = 0;
-      this.paymentUserChoose="CARD"
+      this.paymentUserChoose = 'CARD';
       this.carritoData.clientPaymentInCard = this.carritoData.orderTotal;
     } else if (this.typeOfPayment == 2) {
       //Pago en tarjeta y efectivo
-      this.paymentUserChoose="BOTH"
+      this.paymentUserChoose = 'BOTH';
     }
   }
 
@@ -241,11 +247,11 @@ export class ProductWaiterComponent implements AfterViewInit {
 
   eliminarOneFromItem(item: any) {
     this.cartService.removeOneFromProduct(item);
-    this.notificacion.mensaje(
-      'Orden',
-      'Cantidad de producto disminuida',
-      TipoMessage.warning
-    );
+    // this.notificacion.mensaje(
+    //   'Orden',
+    //   'Cantidad de producto disminuida',
+    //   TipoMessage.warning
+    // );
     this.updateTotals();
   }
 
@@ -294,6 +300,45 @@ export class ProductWaiterComponent implements AfterViewInit {
     } else {
       this.vuelto = 0;
       this.carritoData.clientPaymentInCash = 0;
+    }
+  }
+  validateCardNumber(event: any) {
+    var cardNumber = event.target.value;
+    var regex =
+      /^(?:4\d([\- ])?\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ])?\d{4}\2\d{4}\2\d{4})$/;
+    if (regex.test(`${cardNumber}`)) {
+      this.noNumberCard = false;
+      console.log('validooooooooooooooooo');
+      this.incorrectCardNumber = false;
+      // this.vuelto = totalInCash - this.carritoData.orderTotal;
+      // this.carritoData.clientPaymentInCash = this.carritoData.orderTotal;
+    } else {
+      this.incorrectCardNumber = true;
+      this.noNumberCard = false;
+      console.log('ayudaaaaaaaaaaa');
+    }
+  }
+
+  validateCardDate(event: any) {
+    this.noDateCard = false;
+    var cardDate = event.target.value;
+    var fecha = new Date();
+    var fechaC = new Date(cardDate);
+    if (fechaC >= fecha) {
+      this.incorrectCardDate = false;
+    } else {
+      this.incorrectCardDate = true;
+    }
+  }
+
+  validateCVV(event: any) {
+    this.noCVV = false;
+    var CVV = event.target.value;
+
+    if (CVV.length == '3') {
+      this.incorrectCVV = false;
+    } else {
+      this.incorrectCVV = true;
     }
   }
 
@@ -348,6 +393,16 @@ export class ProductWaiterComponent implements AfterViewInit {
       });
   }
 
+  updateMesaSetFree(idT: number) {
+    this.gService
+      .updateState('restauranttables/updateStateSetFree', idT)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        this.respUpdate = data;
+      });
+  }
+
   generarOrden() {
     var productos = this.cartService.getItems;
 
@@ -379,32 +434,91 @@ export class ProductWaiterComponent implements AfterViewInit {
     this.carritoToSave.OrderDetail = arregloFinal;
     this.carritoToSave.idTable = parseInt(this.idTable);
 
-    console.log(this.carritoToSave);
+    if (this.paymentUserChoose == 'CARD' || this.paymentUserChoose == 'BOTH') {
+      //VALIDAR TARJETA
+      if (this.noNumberCard) {
+        this.notificacion.mensaje(
+          'Orden',
+          'Debe ingresar una tarjeta',
+          TipoMessage.error
+        );
+        return;
+      }
+      if (this.incorrectCardNumber) {
+        this.notificacion.mensaje(
+          'Orden',
+          'Número de tarjeta incorrecto',
+          TipoMessage.error
+        );
+        return;
+      }
+      if (this.noDateCard) {
+        this.notificacion.mensaje(
+          'Orden',
+          'Debe ingresar la fecha de vencimiento',
+          TipoMessage.error
+        );
+        return;
+      }
+      if (this.incorrectCardDate) {
+        this.notificacion.mensaje(
+          'Orden',
+          'La tarjeta está vencida',
+          TipoMessage.error
+        );
+        return;
+      }
+
+      // validar campo cvv
+      if (this.noCVV) {
+        this.notificacion.mensaje(
+          'Orden',
+          'Debe ingresar el cvv',
+          TipoMessage.error
+        );
+        return;
+      }
+      if (this.incorrectCVV) {
+        this.notificacion.mensaje('Orden', 'Cvv incorrecto', TipoMessage.error);
+        return;
+      }
+    }
+
+    if (this.paymentUserChoose == 'BOTH') {
+      if (this.carritoToSave.clientPaymentInCash == 0) {
+        this.notificacion.mensaje(
+          'Orden',
+          'Debe ingresar el monto correspondiente',
+          TipoMessage.error
+        );
+        return;
+      }
+    }
     if (
-      this.carritoToSave.clientPaymentInCash == 0 &&
-      this.carritoToSave.clientPaymentInCard == 0
+      this.paymentUserChoose == 'CASH' &&
+      this.carritoToSave.clientPaymentInCash == 0
     ) {
-      //no han instroducido ninguna opcion que permita pagar
       this.notificacion.mensaje(
         'Orden',
-        'Debe revisar el metodo de pago o el valor que está pagando',
+        'Debe ingresar el monto correspondiente',
         TipoMessage.error
       );
-    } else {
-      //Si pagaron
-      console.log('pasa');
-      this.gService
-        .create('orders/createByWaiter', this.carritoToSave)
-        .subscribe((respuesta: any) => {
-          this.notificacion.mensaje(
-            'Orden',
-            'Orden registrada',
-            TipoMessage.success
-          );
-          this.cartService.deleteCart(this.idTable);
-          console.log(respuesta);
-        });
-      this.router.navigate(['/restaurant/tables/waiter']);
+      return;
     }
+
+    //Si pagaron
+    this.updateMesaSetFree(this.idTable);
+    this.gService
+      .create('orders/createByWaiter', this.carritoToSave)
+      .subscribe((respuesta: any) => {
+        this.notificacion.mensaje(
+          'Orden',
+          'Orden registrada',
+          TipoMessage.success
+        );
+        this.cartService.deleteCart(this.idTable);
+        console.log(respuesta);
+      });
+    this.router.navigate(['/restaurant/tables/waiter']);
   }
 }

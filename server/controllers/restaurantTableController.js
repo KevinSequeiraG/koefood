@@ -84,14 +84,10 @@ module.exports.update = async (request, response, next) => {
   response.json(newRestaurantTable);
 };
 
-//Actualizar una mesa
+//Update table, set not free
 module.exports.updateStateNotFree = async (request, response, next) => {  
-  let idRestaurantTable = parseInt(request.body);
-  //Obtener videojuego viejo
-  // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
-  //     where: { id: idRestaurantTable }
-  // });
-  console.log(idRestaurantTable);
+  let idRestaurantTable = parseInt(request.params.id);
+  //console.log(idRestaurantTable);
   const newRestaurantTable = await prisma.restaurantTable.update({
     where: {
       id: idRestaurantTable,
@@ -103,15 +99,10 @@ module.exports.updateStateNotFree = async (request, response, next) => {
   response.json(newRestaurantTable);
 };
 
-//Actualizar una mesa
+//Update table, set free
 module.exports.updateStateFree = async (request, response, next) => {  
-  let idRestaurantTable = parseInt(request.body);
-  console.log(idRestaurantTable);
-  //Obtener videojuego viejo
-  // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
-  //     where: { id: idRestaurantTable }
-  // });
-
+  let idRestaurantTable = parseInt(request.params.id);
+  //console.log(idRestaurantTable);
   const newRestaurantTable = await prisma.restaurantTable.update({
     where: {
       id: idRestaurantTable,

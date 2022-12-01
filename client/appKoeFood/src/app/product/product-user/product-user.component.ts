@@ -243,9 +243,9 @@ export class ProductUserComponent implements AfterViewInit {
 
   eliminarOneFromItem(item: any) {
     this.cartService.removeOneFromProduct(item);
-    this.notificacion.mensaje('Orden',
-      'Cantidad de producto disminuida',
-      TipoMessage.warning);
+    // this.notificacion.mensaje('Orden',
+    //   'Cantidad de producto disminuida',
+    //   TipoMessage.warning);
     this.updateTotals()
   }
 
@@ -378,7 +378,7 @@ export class ProductUserComponent implements AfterViewInit {
     if (this.carritoToSave.clientPaymentInCash == 0 && this.carritoToSave.clientPaymentInCard == 0) {
       //no han instroducido ninguna opcion que permita pagar
       this.notificacion.mensaje('Orden',
-        'Debe revisar el metodo de pago o el valor que está pagando',
+        'Debe revisar el método de pago o el valor que está pagando',
         TipoMessage.error);
     } else {
       //Si pagaron
