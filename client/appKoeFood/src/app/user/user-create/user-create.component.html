@@ -1,4 +1,4 @@
-<form [formGroup]="formCreate" novalidate >
+<form [formGroup]="formCreate" novalidate>
   <mat-card class="shipping-card bg-black">
     <mat-card-header>
       <mat-card-title class="text-white">Crear Usuario </mat-card-title>
@@ -8,13 +8,7 @@
         <div class="col text-white">
           <mat-form-field class="full-width text-white">
             <mat-label class="text-white">Identificación</mat-label>
-            <input
-            class="text-white"
-              type="number"
-              matInput
-              placeholder="Identificación"
-              formControlName="id"
-            />
+            <input class="text-white" type="number" matInput placeholder="Identificación" formControlName="id" />
             <mat-error *ngIf="errorHandling('id', 'required')">
               Identificación es <strong>requerida</strong>
             </mat-error>
@@ -26,12 +20,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label class="text-white">Nombre</mat-label>
-            <input
-              matInput
-              type="text"
-              placeholder="Nombre"
-              formControlName="name"
-            />
+            <input matInput type="text" placeholder="Nombre" formControlName="name" />
             <mat-error *ngIf="errorHandling('name', 'required')">
               Nombre es <strong>requerido</strong>
             </mat-error>
@@ -42,12 +31,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label class="text-white">Apellidos</mat-label>
-            <input
-              matInput
-              type="text"
-              placeholder="Apellidos"
-              formControlName="lastname"
-            />
+            <input matInput type="text" placeholder="Apellidos" formControlName="lastname" />
             <mat-error *ngIf="errorHandling('lastname', 'required')">
               Apellidos es <strong>requerido</strong>
             </mat-error>
@@ -58,12 +42,7 @@
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label class="text-white">Email</mat-label>
-            <input
-              matInput
-              type="text"
-              placeholder="Email"
-              formControlName="email"
-            />
+            <input matInput type="text" placeholder="Email" formControlName="email" />
             <mat-error *ngIf="errorHandling('email', 'required')">
               Email es <strong>requerido</strong>
             </mat-error>
@@ -73,30 +52,22 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row text-white">
+      <div class="row text-white relative">
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
-            <input
-              matInput
-              [type]="hide ? 'password' : 'text'"
-              placeholder="Password usuario"
-              formControlName="password"
-            />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-            >
-              <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
-            </button>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password usuario"
+              formControlName="password" />
+
             <mat-error *ngIf="errorHandling('password', 'required')">
               Password es <strong>requerido</strong>
             </mat-error>
           </mat-form-field>
         </div>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" class="absolute right-0"
+          [attr.aria-pressed]="hide">
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+        </button>
       </div>
       <!-- <div class="row">
       <div class="col">
@@ -112,10 +83,14 @@
     </div> -->
     </mat-card-content>
     <mat-card-actions class="flex justify-between w-full">
-      <button mat-raised-button class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out " (click)="submitForm()">
+      <button mat-raised-button
+        class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out "
+        (click)="submitForm()">
         Registrar
       </button>
-      <button class="inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out " mat-raised-button color="accent" type="reset" (click)="onReset()">
+      <button
+        class="inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out "
+        mat-raised-button color="accent" type="reset" (click)="onReset()">
         Cancelar
       </button>
     </mat-card-actions>
