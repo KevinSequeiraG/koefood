@@ -1,15 +1,17 @@
 <form [formGroup]="formulario" (ngSubmit)="submitForm()" novalidate>
   <mat-card class="shipping-card bg-black">
     <mat-card-header>
-      <mat-card-title class="mb-4 text-[#e5e5e5] text-center text-[30px] font-bold italic">Iniciar sesión</mat-card-title>
-    </mat-card-header> 
+      <mat-card-title class="mb-4 text-[#e5e5e5] text-center text-[30px] font-bold italic">Iniciar sesión
+      </mat-card-title>
+    </mat-card-header>
     <mat-card-content>
+
       <div class="row text-white w-1/2 mx-auto">
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label class="text-white">Email</mat-label>
-            <input matInput type="text" placeholder="Email usuario" formControlName="email"/>
-           <mat-error *ngIf="errorHandling('email', 'required')">
+            <input matInput type="text" placeholder="Email usuario" formControlName="email" />
+            <mat-error *ngIf="errorHandling('email', 'required')">
               Email es <strong>requerido</strong>
             </mat-error>
             <mat-error *ngIf="errorHandling('email','email')">
@@ -18,23 +20,30 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row !text-white w-1/2 mx-auto">
-        <div class="col text-white">
-          <mat-form-field class="full-width !text-white">
-          <mat-label class="!text-white">Password</mat-label>
-          <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password usuario" formControlName="password" class="!text-white"/>
-          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-            <mat-icon class="text-white">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-         <mat-error *ngIf="errorHandling('password', 'required')">
-            Password es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
+      <div class="row text-white w-1/2 mx-auto relative">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label class="text-white">Password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password usuario"
+              formControlName="password" />
+            <mat-error *ngIf="errorHandling('email', 'required')">
+              Password es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="errorHandling('email','email')">
+              Verifique el <strong>formato</strong> de la contraseña
+            </mat-error>
+          </mat-form-field>
+
         </div>
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="" [attr.aria-pressed]="hide"
+          class="absolute right-0 ">
+          <mat-icon class="text-white w-[10px]">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
       </div>
     </mat-card-content>
     <mat-card-actions class="w-1/2 justify-center !mx-auto">
-      <button mat-raised-button type="submit" class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full">Ingresar</button>
+      <button mat-raised-button type="submit"
+        class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full">Ingresar</button>
     </mat-card-actions>
   </mat-card>
-  </form>
+</form>
