@@ -1,13 +1,13 @@
 <form [formGroup]="formCreate" novalidate>
-  <mat-card class="shipping-card">
+  <mat-card class="shipping-card bg-black">
     <mat-card-header>
       <mat-card-title>Crear Usuario </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="row">
+      <div class="row text-white">
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-label>Identificación</mat-label>
+            <mat-label class="text-white">Identificación</mat-label>
             <input
               type="number"
               matInput
@@ -21,10 +21,10 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row text-white">
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-label>Nombre</mat-label>
+            <mat-label class="text-white">Nombre</mat-label>
             <input
               matInput
               type="text"
@@ -37,10 +37,10 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+      <div class="row text-white">
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-label>Apellidos</mat-label>
+            <mat-label class="text-white">Apellidos</mat-label>
             <input
               matInput
               type="text"
@@ -53,10 +53,10 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+      <div class="row text-white">
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
+            <mat-label class="text-white">Email</mat-label>
             <input
               matInput
               type="text"
@@ -72,7 +72,7 @@
           </mat-form-field>
         </div>
       </div>
-      <div class="row">
+      <div class="row text-white">
         <div class="col">
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
@@ -111,10 +111,10 @@
     </div> -->
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="submitForm()">
+      <button mat-raised-button class="bg-[#c1c161] inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full" (click)="submitForm()">
         Registrar
       </button>
-      <button mat-raised-button color="accent" type="reset" (click)="onReset()">
+      <button class="inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded-xl shadow-md hover:bg-[#C81D11] hover:text-white hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full" mat-raised-button color="accent" type="reset" (click)="onReset()">
         Cancelar
       </button>
     </mat-card-actions>
