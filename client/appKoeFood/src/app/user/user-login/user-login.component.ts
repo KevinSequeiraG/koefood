@@ -79,8 +79,10 @@ export class UserLoginComponent implements OnInit {
         //Redireccionar al loguearse
         if (respuesta.data.user.userType == 'USER') {
           this.router.navigate(['/home/inicio']);
-        } else {
+        } else if(respuesta.data.user.userType == 'WAITER'){
           this.router.navigate(['/restaurant/tables/waiter']);
+        } else{ this.router.navigate(['/restaurant/tables/admin']);
+
         }
       });
   }

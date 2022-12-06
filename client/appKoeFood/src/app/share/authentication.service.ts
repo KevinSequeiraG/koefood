@@ -51,6 +51,15 @@ export class AuthenticationService {
     );
   }
 
+  //Crear usuario desde admin
+  createUserByAdmin(user: any): Observable<any> {
+    console.log(user);
+    return this.http.post<any>(
+      this.ServerUrl + 'user/registraradmin',
+      user
+    );
+  }
+
   //Login
   loginUser(user: any): Observable<any> {
     return this.http

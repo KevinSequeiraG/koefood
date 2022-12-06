@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ProductAdminComponent } from './product-admin/product-admin.component';
 import { ProductAllComponent } from './product-all/product-all.component';
 import { ProductForm } from './product-form/product-form.component';
 import { ProductUserComponent } from './product-user/product-user.component';
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'product/listofproducts/:idRes/:idTable',
     component: ProductWaiterComponent,
+  },
+  {
+    path: 'product/listofproductsadmin/:idRes/:idTable',
+    component: ProductAdminComponent,
   },
 ];
 

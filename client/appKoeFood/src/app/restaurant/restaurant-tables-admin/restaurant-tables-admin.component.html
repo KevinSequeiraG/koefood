@@ -1,0 +1,298 @@
+<div
+  class="h-full pb-60 relative pt-20"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <h1
+    class="mt-10 mb-4 text-[#e5e5e5] text-center text-[30px] font-bold italic"
+  >
+    Mesas de los restaurante
+  </h1>
+  <div class="w-min justify-center mx-auto" >
+    <mat-form-field appearance="fill" *ngIf="loggedUser.user.userType == 'ADMIN'">
+      <mat-label class="text-[22px]">Elige el restaurante</mat-label>
+      <select id="restaurant-select" (change)="changeRes()" matNativeControl class="!mt-3 !text-[18px]">
+        <option value="0" selected>Todos</option>
+        <option value="1" >Alajuela</option>
+        <option value="2" >Heredia</option>
+        <option value="3" >San José</option>
+      </select>
+    </mat-form-field>
+  </div>
+  <div
+    class="w-2/3 mx-auto justify-center pt-10 overflow-auto grid grid-cols-3 gap-4"
+  >
+    <div
+      class="text-center border-2 border-[#c1c161] rounded-lg p-2 relative"
+      *ngFor="let item of datos"
+    >
+      <button (click)="detalleRestaurantTable(item.id)" class="absolute left-2">
+        <span
+          class="material-symbols-outlined text-white bg-green-500 rounded-full"
+        >
+          info
+        </span>
+      </button>
+      <!-- *ngIf="item.state == 'FREE'" -->
+      <button
+        (click)="
+          item.state == 'FREE'
+            ? updateMesaSetNotFree(item.id)
+            : item.state == 'NOTFREE'
+            ? updateMesaSetFree(item.id)
+            : null
+        "
+        class="absolute right-12"
+      >
+        <span
+          *ngIf="item.state == 'FREE'"
+          class="material-symbols-outlined text-white bg-green-500 p-1 rounded-full"
+        >
+          lock_open
+        </span>
+        <span
+          *ngIf="item.state == 'NOTFREE'"
+          class="material-symbols-outlined text-white bg-red-500 p-1 rounded-full"
+        >
+          lock
+        </span>
+      </button>
+      <button
+        (click)="item.state != 'INACTIVE' ? addOrder(item.idRestaurant, item.id) : null"
+        class="absolute right-2"
+      >
+        <span
+          class="material-symbols-outlined text-white bg-purple-500 p-1 rounded-full"
+        >
+          list_alt
+        </span>
+      </button>
+      <p class="text-[#e5e5e5]">{{ item.restaurantRestaurantTable.name }}</p>
+      <p class="text-[#e5e5e5]">{{ item.code }}</p>
+      <p class="text-[#e5e5e5]">{{ "Capacidad " + item.capacity }}</p>
+      <img src="./assets/Images/table.png" alt="" class="w-[15rem] m-auto" />
+      <!-- <button
+                [ngClass]="item.state=='RESERVED'?'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white ': 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'">Reservada</button> -->
+      <button
+        [ngClass]="
+          item.state == 'FREE'
+            ? 'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white '
+            : 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'
+        "
+      >
+        Libre
+      </button>
+      <button
+        [ngClass]="
+          item.state == 'NOTFREE'
+            ? 'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white '
+            : 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'
+        "
+      >
+        Ocupada
+      </button>
+      <button
+        [ngClass]="
+          item.state == 'INACTIVE'
+            ? 'mx-1 rounded-lg px-4 py-1 h-auto  bg-[#c1c161] text-black font-bold border-white '
+            : 'mx-1 rounded-lg px-4 py-1 h-auto  bg-black text-white'
+        "
+      >
+        Inactiva
+      </button>
+    </div>
+  </div>
+  <!-- Carrito Modal -->
+  <!-- <div
+    *ngIf="carritoModal"
+    class="absolute top-0 bg-black bg-opacity-50 min-w-full min-h-screen text-gray-300"
+  >
+    <div
+      class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 bg-gray-500 min-w-[70rem] min-h-[40rem] px-6 py-6"
+      style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+    >
+      <button
+        class="mx-auto bg-red-500 border border-white text-center hover:bg-red-800 px-2 py-1 rounded-lg text-white text-[1.2rem] min-h-min"
+        (click)="handleCarritoView()"
+      >
+        <span class="material-icons text-[2rem]">close</span>
+      </button>
+      <h1 class="text-center text-white">Detalles de carrito</h1>
+
+      <div class="flex justify-around">
+        <div
+          class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center"
+        >
+          <p class="!mb-0 font-bold">Nombre Restaurante</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
+            {{ restaurantInfo?.name }}
+          </p>
+        </div>
+        <div
+          class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center"
+        >
+          <p class="!mb-0 font-bold">Cliente</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
+            {{ loggedUser.user.name + " " + loggedUser.user.lastname }}
+          </p>
+        </div>
+        <div
+          class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center"
+        >
+          <p class="!mb-0 font-bold">Estado de orden</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">En proceso</p>
+        </div>
+        <div
+          class="bg-red-900 px-3 p-2 rounded-lg border border-black mb-4 text-center"
+        >
+          <p class="!mb-0 font-bold">Fecha de orden</p>
+          <p class="!mb-0 bg-gray-800 px-2 py-1 rounded-lg">
+            {{ todayDate | date: "dd/MM/YYYY" }}
+          </p>
+        </div>
+      </div>
+
+      <table
+        mat-table
+        class="full-width-table bg-black"
+        matSort
+        aria-label="Elements"
+        [dataSource]="dataCarritoTable"
+      >
+        <ng-container matColumnDef="subtotal" class="!w-min !text-center">
+          <th
+            mat-header-cell
+            class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Subtotal
+          </th>
+          <td
+            mat-cell
+            class="text-[#e5e5e5] !w-min text-center !p-5 truncate"
+            *matCellDef="let row"
+          >
+            {{ "₡" + row.subtotal }}
+          </td>
+        </ng-container>
+
+        <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="product">
+          <th
+            mat-header-cell
+            class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Producto
+          </th>
+          <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">
+            {{ row.product.name }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cantidad">
+          <th
+            mat-header-cell
+            class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Cantidad
+          </th>
+          <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">
+            {{ row.cantidad }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="precio">
+          <th
+            mat-header-cell
+            class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Precio unitario
+          </th>
+          <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row">
+            {{ "₡" + row.precio }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th
+            mat-header-cell
+            class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+            *matHeaderCellDef
+            mat-sort-header
+          >
+            Acciones
+          </th>
+          <td
+            mat-cell
+            class="text-[#e5e5e5] truncate !py-4 !pr-0"
+            *matCellDef="let row"
+          >
+       
+            <button
+              (click)="eliminarOneFromItem(row)"
+              class="bg-red-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">remove</span>
+            </button>
+
+            <button
+              (click)="eliminarItem(row)"
+              class="bg-red-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">delete</span>
+            </button>
+          </td>
+          <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+          <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns2"></tr>
+      </table>
+
+      <div class="grid grid-cols-4 relative justify-items-end mt-6">
+        <div
+          class="col-start-4 w-min truncate flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center"
+        >
+          <p class="!mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">
+            Subtotal:
+          </p>
+          <p class="!mb-0">{{ "₡" + carritoData.subtotal }}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 relative justify-items-end">
+        <div
+          class="col-start-4 w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center"
+        >
+          <p class="!mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">
+            IVA:
+          </p>
+          <p class="!mb-0">{{ "₡" + carritoData.iva }}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-4 relative justify-items-end">
+        <div
+          class="col-start-4 w-min truncate right-0 flex items-center bg-gray-800 rounded-lg px-2 my-1 text-center"
+        >
+          <p class="!mr-2 !mb-0 bg-gray-800 rounded-lg px-2 py-1 text-center">
+            Total:
+          </p>
+          <p class="!mb-0">{{ "₡" + carritoData.orderTotal }}</p>
+        </div>
+      </div>
+    
+      <button
+        class="bg-green-700 px-3 py-2 rounded-xl text-[1.3rem] min-w-min items-center flex absolute right-10 hover:bg-green-900 bottom-10"
+      >
+        Ir a pagar
+        <span class="material-icons w-[1.2rem]">arrow_forwards_ios</span>
+      </button>
+    </div>
+  </div> -->
+  <!-- end carrito -->
+</div>

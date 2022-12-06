@@ -13,23 +13,25 @@ import { MatButtonModule } from '@angular/material/button';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort'; 
-import {MatDividerModule} from '@angular/material/divider'; 
-import {MatDialogModule} from "@angular/material/dialog";
+import { MatSortModule } from '@angular/material/sort';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { RestaurantTableForm } from './restauranttable-form/restauranttable-form.component';
 import { RestaurantTablesWaiterComponent } from './restaurant-tables-waiter/restaurant-tables-waiter.component';
+import { RestaurantTablesAdminComponent } from './restaurant-tables-admin/restaurant-tables-admin.component';
 
 @NgModule({
   declarations: [
     RestaurantTablesComponent,
     RestaurantTableDetailComponent,
     RestaurantTableForm,
-    RestaurantTablesWaiterComponent
+    RestaurantTablesWaiterComponent,
+    RestaurantTablesAdminComponent,
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,7 @@ import { RestaurantTablesWaiterComponent } from './restaurant-tables-waiter/rest
     MatInputModule,
     MatSelectModule,
     MatRadioModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class RestaurantModule { }
+export class RestaurantModule {}
