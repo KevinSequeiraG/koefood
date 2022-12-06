@@ -5,6 +5,18 @@ const jwt = require("jsonwebtoken");
 //--npm install bcrypt
 const bcrypt = require("bcrypt");
 
+module.exports.get = async (request, response, next) => {
+  const users = await prisma.user.findMany({
+    orderBy: {
+      name: "asc",
+    },
+    include: {
+      userRestaurant: true,
+    },
+  });
+  response.json(users);
+};
+
 //Crear nuevo usuario
 module.exports.register = async (request, response, next) => {
   const userData = request.body;
@@ -30,6 +42,34 @@ module.exports.register = async (request, response, next) => {
     data: user,
   });
 };
+
+//Crear nuevo usuario
+module.exports.registerByAdmin = async (request, response, next) => {
+  const userData = request.body;
+  //Salt es una cadena aleatoria.
+  //"salt round" factor de costo controla cuánto tiempo se necesita para calcular un solo hash de BCrypt
+  // salt es un valor aleatorio y debe ser diferente para cada cálculo, por lo que el resultado casi nunca debe ser el mismo, incluso para contraseñas iguales
+  let salt = bcrypt.genSaltSync(10);
+  // Hash password
+  let hash = bcrypt.hashSync(userData.password, salt);
+  const user = await prisma.user.create({
+    data: {
+      id: userData.id,
+      userType: userData.userType,
+      name: userData.name,
+      lastname: userData.lastname,
+      email: userData.email,
+      password: hash,
+      idRestaurant: userData.idRestaurant,
+    },
+  });
+  response.status(200).json({
+    status: true,
+    message: "Usuario creado",
+    data: user,
+  });
+};
+
 module.exports.login = async (request, response, next) => {
   let userReq = request.body;
   //Buscar el usuario según el email dado
@@ -79,6 +119,15 @@ module.exports.login = async (request, response, next) => {
 module.exports.getById = async (request, response, next) => {
   let id = parseInt(request.params.id);
   const user = await prisma.user.findUnique({
+    where: { id: id },
+    include: { userRestaurant: true },
+  });
+  response.json(user);
+};
+
+module.exports.delete = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const user = await prisma.user.delete({
     where: { id: id },
   });
   response.json(user);

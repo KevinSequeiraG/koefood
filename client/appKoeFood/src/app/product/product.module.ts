@@ -24,6 +24,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { ProductForm } from './product-form/product-form.component';
 import { ProductUserComponent } from './product-user/product-user.component';
 import { ProductWaiterComponent } from './product-waiter/product-waiter.component';
+import { ProductAdminComponent } from './product-admin/product-admin.component';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +34,7 @@ import { ProductWaiterComponent } from './product-waiter/product-waiter.componen
     ProductForm,
     ProductUserComponent,
     ProductWaiterComponent,
+    ProductAdminComponent,
   ],
   imports: [
     CommonModule,
