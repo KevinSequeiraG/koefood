@@ -34,6 +34,7 @@ module.exports.register = async (request, response, next) => {
       lastname: userData.lastname,
       email: userData.email,
       password: hash,
+      state: true,
     },
   });
   response.status(200).json({
@@ -61,6 +62,7 @@ module.exports.registerByAdmin = async (request, response, next) => {
       email: userData.email,
       password: hash,
       idRestaurant: userData.idRestaurant,
+      state: true,
     },
   });
   response.status(200).json({
@@ -125,13 +127,13 @@ module.exports.getById = async (request, response, next) => {
   response.json(user);
 };
 
-module.exports.delete = async (request, response, next) => {
-  let id = parseInt(request.params.id);
-  const user = await prisma.user.delete({
-    where: { id: id },
-  });
-  response.json(user);
-};
+// module.exports.delete = async (request, response, next) => {
+//   let id = parseInt(request.params.id);
+//   const user = await prisma.user.delete({
+//     where: { id: id },
+//   });
+//   response.json(user);
+// };
 
 //Obtener por Id
 module.exports.getByEmail = async (request, response, next) => {
@@ -140,4 +142,58 @@ module.exports.getByEmail = async (request, response, next) => {
     where: { email: email },
   });
   response.json(user);
+};
+
+//Actualizar una mesa
+module.exports.update = async (request, response, next) => {
+  let userData = request.body;
+  let idUser = parseInt(request.params.id);
+  //Obtener videojuego viejo
+  // const restaurantTableViejo = await prisma.restaurantTable.findUnique({
+  //     where: { id: idRestaurantTable }
+  // });
+
+  const newUser = await prisma.user.update({
+    where: {
+      id: idUser,
+    },
+    data: {
+      //id: userData.id,
+      userType: userData.userType,
+      name: userData.name,
+      lastname: userData.lastname,
+      //email: userData.email,
+      //password: hash,
+      idRestaurant: userData.idRestaurant,
+    },
+  });
+  response.json(newUser);
+};
+
+module.exports.updateStateSetActive = async (request, response, next) => {
+  let idUser = parseInt(request.params.id);
+
+  const newUser = await prisma.user.update({
+    where: {
+      id: idUser,
+    },
+    data: {
+      state: true,
+    },
+  });
+  response.json(newUser);
+};
+
+module.exports.updateStateSetInactive = async (request, response, next) => {
+  let idUser = parseInt(request.params.id);
+
+  const newUser = await prisma.user.update({
+    where: {
+      id: idUser,
+    },
+    data: {
+      state: false,
+    },
+  });
+  response.json(newUser);
 };

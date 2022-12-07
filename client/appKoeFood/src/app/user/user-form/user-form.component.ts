@@ -16,6 +16,7 @@ import {
 })
 export class UserForm implements OnInit {
   titleForm: string = 'Crear';
+  hide = true;
   destroy$: Subject<boolean> = new Subject<boolean>();
   restaurantList: any;
   categoryList: any;
@@ -33,7 +34,7 @@ export class UserForm implements OnInit {
     private router: Router,
     private activeRouter: ActivatedRoute,
     private notificacion: NotificacionService,
-    private authService: AuthenticationService,
+    private authService: AuthenticationService
   ) {
     this.formularioReactive();
     this.listaRestaurantes();
@@ -50,10 +51,9 @@ export class UserForm implements OnInit {
 
         //Obtener videojuego a actualizar del API
         this.gService
-          .get('user', this.idUser)
+          .get('user/validateid', this.idUser)
           .pipe(takeUntil(this.destroy$))
           .subscribe((data: any) => {
-            console.log(data);
             this.userInfo = data;
             console.log('info', this.userInfo);
             // if (this.userInfo.userType == 'WAITER') {
@@ -75,10 +75,9 @@ export class UserForm implements OnInit {
     });
   }
 
-  onChangeType(){
-
-   // const rolSelected = document.getElementById("selectRol");
-    console.log("ayua");
+  onChangeType() {
+    // const rolSelected = document.getElementById("selectRol");
+    console.log('ayua');
   }
 
   //Crear Formulario
@@ -91,9 +90,9 @@ export class UserForm implements OnInit {
       name: [null, Validators.required],
       lastname: [null, Validators.required],
       userType: [null, Validators.required],
-      email: [null, Validators.required],
-      password: [null, Validators.required],
-      idRestaurant: [true, Validators.required],
+      email: [null, [Validators.required, Validators.email]],
+      password: [null, [Validators.required, Validators.minLength(8)]],
+      idRestaurant: [null, null],
       //restaurants: [null, Validators.required],
     });
     console.log(this.userForm.controls['userType']);
@@ -128,62 +127,94 @@ export class UserForm implements OnInit {
   crearUsuario(): void {
     //Establecer submit verdadero
     this.submitted = true;
+
     //Verificar validación
-    if (this.userForm.invalid) {
+    if (
+      this.userForm.invalid ||
+      (this.userForm.controls['idRestaurant'].value == null &&
+        this.userForm.controls['userType'].value == 'WAITER')
+    ) {
+      this.notificacion.mensaje(
+        'Creación de usuarios',
+        'Falta completar espacios',
+        TipoMessage.error
+      );
       return;
     }
 
-    // //Obtener id Generos del Formulario y Crear arreglo con {id: value}
-    // let gFormat: any = this.userForm
-    //   .get('restaurants')
-    //   .value.map((x) => ({ ['id']: x }));
-    // //Asignar valor al formulario
-    // this.userForm.patchValue({ restaurants: gFormat });
-
-    this.authService
-    .createUser(this.userForm.value)
-    .subscribe((respuesta: any) => {
-      //Redireccionar al loguearse
-      this.router.navigate(['/usuario/login'], {
-        //Mostrar mensaje
-        queryParams: { register: 'true' },
+    //validar id y email
+    this.gService
+      .get('user/validateId', this.userForm.controls['id'].value)
+      .subscribe((data: any) => {
+        if (data != null) {
+          this.notificacion.mensaje(
+            'Creación de usuarios',
+            'La identificación ingresada ya existe',
+            TipoMessage.error
+          );
+          return;
+        }
+        this.gService
+          .get('user/validateemail', this.userForm.controls['email'].value)
+          .subscribe((data: any) => {
+            if (data != null) {
+              this.notificacion.mensaje(
+                'Creación de usuarios',
+                'El correo ingresado ya existe',
+                TipoMessage.error
+              );
+              return;
+            }
+            this.authService
+              .createUserByAdmin(this.userForm.value)
+              .subscribe((respuesta: any) => {
+                //Redireccionar al loguearse
+                this.router.navigate(['/users/userall'], {
+                  //Mostrar mensaje
+                  queryParams: { register: 'true' },
+                });
+              });
+            this.notificacion.mensaje(
+              'Creación de usuarios',
+              'El usuario ha sido creado satisfactoriamente',
+              TipoMessage.success
+            );
+          });
       });
-    });
-    this.notificacion.mensaje(
-      'Creación de productos',
-      'El producto ha sido creadp satisfactoriamente',
-      TipoMessage.success
-    );
   }
   //Actualizar Videojuego
   actualizarUsuario() {
     // Establecer submit verdadero
     this.submitted = true;
     //Verificar validación
-    if (this.userForm.invalid) {
+    //Verificar validación
+    if (
+      this.userForm.invalid ||
+      (this.userForm.controls['idRestaurant'].value == null &&
+        this.userForm.controls['userType'].value == 'WAITER')
+    ) {
+      this.notificacion.mensaje(
+        'Creación de usuarios',
+        'Falta completar espacios',
+        TipoMessage.error
+      );
       return;
     }
-    //Obtener id Generos del Formulario y Crear arreglo con {id: value}
-    let gFormat: any = this.userForm
-      .get('restaurants')
-      .value.map((x) => ({ ['id']: x }));
-    // Asignar valor al formulario
-    this.userForm.patchValue({ restaurants: gFormat });
-    //Accion API create enviando toda la informacion del formulario
+
+    //validar id y email
     this.gService
-      .update('products', this.userForm.value)
+      .update('user', this.userForm.value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        console.log(data);
         //Obtener respuesta
         this.userForm = data;
-        this.router.navigate(['/product/productall'], {
+        this.router.navigate(['/users/userall'], {
           queryParams: { update: 'true' },
         });
       });
     this.notificacion.mensaje(
-      'Actualización de productos',
-      'El producto ha sido actualizado satisfactoriamente',
+      'Actualización de usuarios',
+      'El usuario ha sido actualizado satisfactoriamente',
       TipoMessage.success
     );
   }

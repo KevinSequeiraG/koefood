@@ -21,10 +21,27 @@
           >
         </mat-card-header>
         <mat-card-content>
-          <div class="row text-[white] text-[1rem]">
+          <div class="row text-[white] text-[1rem]" *ngIf="isCreate">
             <div class="col">
               <mat-form-field class="full-width">
                 <input
+                  matInput
+                  type="number"
+                  placeholder="Identificación"
+                  #id
+                  formControlName="id"
+                />
+                <mat-error *ngIf="userForm.controls['id'].hasError('required')">
+                  Identificación es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row text-[white] text-[1rem]" *ngIf="!isCreate">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  readonly
                   matInput
                   type="number"
                   placeholder="Identificación"
@@ -93,7 +110,7 @@
             </div>
           </div>
 
-          <div class="row text-[white] text-[1rem]">
+          <div class="row text-[white] text-[1rem]" *ngIf="isCreate">
             <div class="col">
               <mat-form-field class="full-width">
                 <input
@@ -107,14 +124,43 @@
                 >
                   Correo electrónico <strong>requerido</strong>
                 </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                  Formato <strong>incorrecto</strong>
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
 
-          <div class="row text-[white] text-[1rem]">
+          <div class="row text-[white] text-[1rem]" *ngIf="!isCreate">
             <div class="col">
               <mat-form-field class="full-width">
                 <input
+                  readonly
+                  matInput
+                  placeholder="Correo electrónico"
+                  #email
+                  formControlName="email"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['email'].hasError('required')"
+                >
+                  Correo electrónico <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                  Formato <strong>incorrecto</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div
+            class="!relative !min-w-full row text-[white] text-[1rem]"
+            *ngIf="isCreate"
+          >
+            <div class="col !min-w-full">
+              <mat-form-field class="full-width">
+                <input
+                  [type]="hide ? 'password' : 'text'"
                   matInput
                   placeholder="Contraseña"
                   #password
@@ -125,8 +171,25 @@
                 >
                   Contraseña <strong>requerida</strong>
                 </mat-error>
+                <mat-error
+                  *ngIf="userForm.controls['password'].hasError('minlength')"
+                >
+                  Contraseña debe tener <strong>8</strong> caracteres
+                </mat-error>
               </mat-form-field>
             </div>
+            <button
+              class="!absolute !right-0"
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]=""
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon class="text-white">{{
+                hide ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
           </div>
 
           <div

@@ -100,7 +100,32 @@
           {{ row.email }}
         </td>
       </ng-container>
-
+      <ng-container matColumnDef="idRestaurant">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Restaurante asociado
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.userRestaurant ? row.userRestaurant.name : "No aplica" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="state">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Estado
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.state ? "Activo" : "Inactivo" }}
+        </td>
+      </ng-container>
       <ng-container matColumnDef="actions">
         <th
           mat-header-cell
@@ -116,23 +141,27 @@
           *matCellDef="let row"
         >
           <button
-            (click)="detailProduct(row.id)"
-            class="bg-green-800 px-2 py-1 rounded-lg mx-1"
-          >
-            <span class="material-icons flex items-center">remove_red_eye</span>
-          </button>
-          <button
             (click)="actualizarProduct(row.id)"
             class="bg-yellow-800 px-2 py-1 rounded-lg mx-1"
           >
             <span class="material-icons flex items-center">edit</span>
           </button>
-          <button
-            (click)="eliminarUsuario(row.id)"
-            class="bg-red-800 px-2 py-1 rounded-lg mx-1"
-          >
-            <span class="material-icons flex items-center">delete</span>
-          </button>
+          <div class="inline" *ngIf="row.state">
+            <button
+              (click)="desactivarUsuario(row.id)"
+              class="bg-green-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">account_circle</span>
+            </button>
+          </div>
+          <div class="inline" *ngIf="!row.state">
+            <button
+              (click)="activarUsuario(row.id)"
+              class="bg-red-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">no_accounts</span>
+            </button>
+          </div>
         </td>
         <!-- <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
         <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td> -->

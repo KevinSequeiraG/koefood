@@ -20,6 +20,7 @@ import { ProductDetailComponent } from 'src/app/product/product-detail/product-d
 })
 export class UserAllComponent implements AfterViewInit {
   datos: any;
+  
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -29,7 +30,7 @@ export class UserAllComponent implements AfterViewInit {
     private route: ActivatedRoute, private gService: GenericService, private dialog:MatDialog) {
   }
 
-  displayedColumns = ['name', 'lastname', 'id', 'userType', 'email', 'actions'];
+  displayedColumns = ['name', 'lastname', 'id', 'userType', 'email','idRestaurant','state', 'actions'];
 
   ngAfterViewInit(): void {
     this.listaUsers();
@@ -69,13 +70,24 @@ export class UserAllComponent implements AfterViewInit {
     });
   }
 
-  eliminarUsuario(id:any){
+  activarUsuario(id:any){
     this.gService
-    .delete('user', id)
+    .get('user/updatestateactive', id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((data: any) => {
       //Obtener respuesta
-      console.log(data);
+      console.log(data);this.listaUsers();
+    });
+  }
+
+  
+  desactivarUsuario(id:any){
+    this.gService
+    .get('user/updatestateinactive', id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: any) => {
+      //Obtener respuesta
+      console.log(data);this.listaUsers();
     });
   }
 
