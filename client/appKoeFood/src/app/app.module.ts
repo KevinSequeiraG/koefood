@@ -16,6 +16,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
 import { HttpErrorInterceptorService } from './share/http-error-interceptor.service';
+import { CuponModule } from './cupon/cupon.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { HttpErrorInterceptorService } from './share/http-error-interceptor.serv
     HomeModule,
     UserModule,
     OrderModule,
-    RestaurantModule,
+    RestaurantModule,    
+    CuponModule,
     ProductModule,
     MatTableModule,
     MatPaginatorModule,
