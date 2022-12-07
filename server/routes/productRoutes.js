@@ -18,6 +18,18 @@ router.get(
   productController.getByRestaurant
 );
 
+router.get(
+  "/restaurantandcat/:id/:cat",
+  //auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  productController.getByCategory
+);
+
+router.get(
+  "/restaurantandcatadmin/:cat",
+  //auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  productController.getByCategoryAdmin
+);
+
 router.get("/updatestateactive/:id", productController.updateStateSetActive);
 
 router.get("/updatestateinactive/:id", productController.updateStateSetInactive);

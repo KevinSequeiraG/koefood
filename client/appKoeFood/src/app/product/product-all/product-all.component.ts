@@ -16,24 +16,77 @@ import { ProductDetailComponent } from '../product-detail/product-detail.compone
 @Component({
   selector: 'app-product-all',
   templateUrl: './product-all.component.html',
-  styleUrls: ['./product-all.component.css']
+  styleUrls: ['./product-all.component.css'],
 })
 export class ProductAllComponent implements AfterViewInit {
   datos: any;
+  categoryList: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router,
-    private route: ActivatedRoute, private gService: GenericService, private dialog:MatDialog) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private gService: GenericService,
+    private dialog: MatDialog
+  ) {
+    this.listaCategorias();
   }
 
-  displayedColumns = ['name', 'description', 'price', 'productToRestaurantProduct', 'state', 'actions'];
+  displayedColumns = [
+    'name',
+    'description',
+    'price',
+    'productToRestaurantProduct',
+    'state',
+    'actions',
+  ];
 
   ngAfterViewInit(): void {
     this.listaProducts();
+    this.listaCategorias();
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  listaCategorias() {
+    this.categoryList = null;
+    this.gService
+      .list('productCategory')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.categoryList = data;
+      });
+  }
+  changeRes() {
+    const input = document.getElementById(
+      'category-select'
+    ) as HTMLSelectElement;
+    if (parseInt(input.value) == 0) {
+      this.listaProducts();
+    } else {
+      this.listaProductsByRestaurantAndCategory(input.value);
+    }
+  }
+  listaProductsByRestaurantAndCategory(idCat: any) {
+    this.gService
+      .list(`products/restaurantandcatadmin/${idCat}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.datos = data;
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
+
   listaProducts() {
     this.gService
       .list('products/')
@@ -50,13 +103,13 @@ export class ProductAllComponent implements AfterViewInit {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-  detailProduct(id:number){
-    const dialogConfig=new MatDialogConfig();
-    dialogConfig.disableClose=false;
-    dialogConfig.data={
-      id:id
+  detailProduct(id: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = {
+      id: id,
     };
-    this.dialog.open(ProductDetailComponent,dialogConfig);
+    this.dialog.open(ProductDetailComponent, dialogConfig);
   }
 
   crearProduct() {
@@ -65,25 +118,26 @@ export class ProductAllComponent implements AfterViewInit {
     });
   }
 
-  activarProducto(id:any){
+  activarProducto(id: any) {
     this.gService
-    .get('products/updatestateactive', id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((data: any) => {
-      //Obtener respuesta
-      console.log(data);this.listaProducts();
-    });
+      .get('products/updatestateactive', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        console.log(data);
+        this.listaProducts();
+      });
   }
 
-  
-  desactivarProducto(id:any){
+  desactivarProducto(id: any) {
     this.gService
-    .get('products/updatestateinactive', id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((data: any) => {
-      //Obtener respuesta
-      console.log(data);this.listaProducts();
-    });
+      .get('products/updatestateinactive', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        console.log(data);
+        this.listaProducts();
+      });
   }
 
   actualizarProduct(id: number) {
@@ -93,4 +147,3 @@ export class ProductAllComponent implements AfterViewInit {
     });
   }
 }
-      
