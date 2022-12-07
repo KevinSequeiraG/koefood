@@ -7,6 +7,21 @@ module.exports.get = async (request, response, next) => {
     orderBy: {
       id: "asc",
     },
+    where: { state: TABLESTATE.FREE || TABLESTATE.NOTFREE },
+    include: {
+      restaurantRestaurantTable: true,
+    },
+  });
+  response.json(restaurantTables);
+};
+
+//Obtener listado
+module.exports.getByAdmin = async (request, response, next) => {
+  const restaurantTables = await prisma.restaurantTable.findMany({
+    orderBy: {
+      id: "asc",
+    },
+    //where: { state: TABLESTATE.FREE || TABLESTATE.NOTFREE },
     include: {
       restaurantRestaurantTable: true,
     },
