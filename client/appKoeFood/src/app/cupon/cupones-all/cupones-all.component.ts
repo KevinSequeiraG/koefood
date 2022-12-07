@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-cupones-all',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CuponesAllComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router, private route: ActivatedRoute) { 
+    
+  }
 
   ngOnInit(): void {
+  }
+
+  crearOrden() {
+    this.router.navigate(['/cupon/create'], {
+      relativeTo: this.route,
+    });
   }
 
 }

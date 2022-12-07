@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { GenericService } from 'src/app/share/generic.service';
@@ -11,6 +14,7 @@ import { NotificacionService, TipoMessage } from 'src/app/share/notification.ser
   styleUrls: ['./cupones-form.component.css']
 })
 export class CuponesForm implements OnInit {
+  datos: any;
   titleForm: string = 'Crear';
   destroy$: Subject<boolean> = new Subject<boolean>();
   restaurantList: any;
@@ -21,12 +25,16 @@ export class CuponesForm implements OnInit {
   productForm: FormGroup;
   idProduct: number = 0;
   isCreate: boolean = true;
+  productsFromRestaurant = new MatTableDataSource<any>();
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private fb: FormBuilder, private gService: GenericService,
     private router: Router, private activeRouter: ActivatedRoute, private notificacion: NotificacionService) {
     this.formularioReactive();
     this.listaRestaurantes();
     this.listaCategorias();
+    
   }
   ngOnInit(): void {
     //Verificar si se envio un id por parametro para crear formulario para actualizar
@@ -58,6 +66,19 @@ export class CuponesForm implements OnInit {
     });
   }
 
+  displayedColumns = [
+    'name',
+    'description',
+    'price',
+    'productToRestaurantProduct',
+    'actions',
+  ];
+
+  select(restaurantId){
+    console.log(event);
+    this.listaProductsByRestaurant(restaurantId);
+  }
+
   //Crear Formulario
   formularioReactive() {
     //[null, Validators.required]
@@ -87,6 +108,18 @@ export class CuponesForm implements OnInit {
       .subscribe((data: any) => {
         console.log(data);
         this.restaurantList = data;
+      });
+  }
+
+  listaProductsByRestaurant(id: any) {
+    this.gService
+      .list(`products/restaurant/${id}`)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.datos = data;
+        this.productsFromRestaurant = new MatTableDataSource(this.datos);
+        this.productsFromRestaurant.sort = this.sort;
+        this.productsFromRestaurant.paginator = this.paginator;
       });
   }
 
@@ -168,7 +201,7 @@ export class CuponesForm implements OnInit {
     this.productForm.reset();
   }
   onBack() {
-    this.router.navigate(['/product/productall']);
+    this.router.navigate(['/cupon/cuponall']);
   }
   ngOnDestroy() {
     this.destroy$.next(true);
