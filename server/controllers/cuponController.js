@@ -8,7 +8,10 @@ module.exports.get = async (request, response, next) => {
       nombre: "asc",
     },
     include: {
-      OrderDetail: { include: { OrderDetailProduct: true } },
+      OrderDetail: {
+        include: { OrderDetailProduct: true },
+      },
+      CuponRestaurant: true,
     },
   });
   response.json(cupon);
@@ -20,7 +23,28 @@ module.exports.getById = async (request, response, next) => {
   const cupon = await prisma.cupon.findUnique({
     where: { id: id },
     include: {
-      OrderDetail: { include: { OrderDetailProduct: true } },
+      OrderDetail: {
+        include: { OrderDetailProduct: true },
+      },
+      CuponRestaurant: true,
+    },
+  });
+  response.json(cupon);
+};
+
+//Obtener por Id
+module.exports.getByRestaurant = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const cupon = await prisma.cupon.findMany({
+    orderBy: {
+      nombre: "asc",
+    },
+    where: { idRestaurant: id },
+    include: {
+      OrderDetail: {
+        include: { OrderDetailProduct: true },
+      },
+      //CuponRestaurant: true,
     },
   });
   response.json(cupon);
@@ -34,6 +58,7 @@ module.exports.create = async (req, res, next) => {
     data: {
       nombre: infoCupon.nombre,
       descuento: infoCupon.descuento,
+      CuponRestaurant: { connect: { id: infoCupon.idRestaurant } },
       OrderDetail: {
         createMany: {
           data: infoCupon.OrderDetail,
@@ -71,6 +96,7 @@ module.exports.update = async (request, response, next) => {
     where: { id: idCupon },
     include: {
       OrderDetail: true,
+      CuponRestaurant: true,
     },
   });
 
@@ -84,6 +110,10 @@ module.exports.update = async (request, response, next) => {
       OrderDetail: {
         disconnect: cuponOld.OrderDetail,
         connect: infoCupon.OrderDetail,
+      },
+      CuponRestaurant: {
+        disconnect: cuponOld.CuponRestaurant,
+        connect: infoCupon.CuponRestaurant,
       },
     },
   });

@@ -103,6 +103,7 @@ CREATE TABLE `Cupon` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(191) NOT NULL,
     `descuento` DOUBLE NOT NULL,
+    `idRestaurant` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -154,6 +155,9 @@ ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_cuponId_fkey` FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_idCategory_fkey` FOREIGN KEY (`idCategory`) REFERENCES `ProductCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Cupon` ADD CONSTRAINT `Cupon_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `_ProductToRestaurant` ADD CONSTRAINT `_ProductToRestaurant_A_fkey` FOREIGN KEY (`A`) REFERENCES `Product`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

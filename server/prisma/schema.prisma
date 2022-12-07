@@ -58,6 +58,7 @@ model Restaurant {
   User            User[]
   RestaurantTable RestaurantTable[]
   products        Product[]
+  Cupon           Cupon[]
 }
 
 model Order {
@@ -114,9 +115,11 @@ model ProductCategory {
 }
 
 model Cupon {
-  id          Int            @id @default(autoincrement())
-  nombre      String
-  descuento   Float
+  id              Int        @id @default(autoincrement())
+  nombre          String
+  descuento       Float
+  CuponRestaurant Restaurant @relation(fields: [idRestaurant], references: [id])
+  idRestaurant    Int
   OrderDetail OrderDetail[]
 }
 
