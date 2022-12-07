@@ -147,6 +147,19 @@
               >Mantenimiento de usuarios</span
             >
           </a>
+          <a
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            [routerLink]="['cupon/cuponall']"
+            class="flex items-center space-x-2"
+          >
+            <span class="material-symbols-outlined text-[#c1c161]">
+              group
+            </span>
+            <span
+              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
+              >Mantenimiento de cupones</span
+            >
+          </a>
           <a [routerLink]="['#']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               summarize
