@@ -58,6 +58,7 @@ model Restaurant {
   User            User[]
   RestaurantTable RestaurantTable[]
   products        Product[]
+  Cupon           Cupon[]
 }
 
 model Order {
@@ -83,8 +84,8 @@ model Order {
 
 model OrderDetail {
   id                 Int     @id @default(autoincrement())
-  OrderDetailOrder   Order   @relation(fields: [idOrder], references: [id])
-  idOrder            Int
+  OrderDetailOrder   Order?  @relation(fields: [idOrder], references: [id])
+  idOrder            Int?
   OrderDetailProduct Product @relation(fields: [idProduct], references: [id])
   idProduct          Int
   quantity           Int
@@ -114,11 +115,12 @@ model ProductCategory {
 }
 
 model Cupon {
-  id            Int           @id
-  nombre        String
-  descuento     Float
-  idOrderDetail Int
-  OrderDetail   OrderDetail[]
+  id              Int        @id @default(autoincrement())
+  nombre          String
+  descuento       Float
+  CuponRestaurant Restaurant @relation(fields: [idRestaurant], references: [id])
+  idRestaurant    Int
+  OrderDetail OrderDetail[]
 }
 
 enum TABLESTATE {
