@@ -12,6 +12,12 @@ router.post("/", auth.grantRole(["ADMIN", "WAITER"]), cuponController.create);
 router.get("/", auth.grantRole(["ADMIN", "WAITER"]), cuponController.get);
 
 router.get(
+  "/byrestaurant/:id",
+  auth.grantRole(["ADMIN", "WAITER"]),
+  cuponController.getByRestaurant
+);
+
+router.get(
   "/:id",
   auth.grantRole(["ADMIN", "WAITER"]),
   cuponController.getById
