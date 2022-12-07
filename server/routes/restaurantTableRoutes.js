@@ -20,19 +20,19 @@ router.get(
 
 router.get(
   "/waiter/:id",
-  //auth.grantRole(["ADMIN", "WAITER"]),
+  auth.grantRole(["ADMIN", "WAITER"]),
   restaurantTableController.getByRestaurant
 );
 
 router.get(
   "/updateStateSetFree/:id",
-  //auth.grantRole(["ADMIN", "WAITER"]),
+  auth.grantRole(["ADMIN", "WAITER"]),
   restaurantTableController.updateStateFree
 );
 
 router.get(
   "/updateStateSetNotFree/:id",
-  //auth.grantRole(["ADMIN", "WAITER"]),
+  auth.grantRole(["ADMIN", "WAITER"]),
   restaurantTableController.updateStateNotFree
 );
 
@@ -44,9 +44,6 @@ router.get(
   restaurantTableController.getById
 );
 
-
-
 router.put("/:id", auth.grantRole(["ADMIN"]), restaurantTableController.update);
-
 
 module.exports = router;

@@ -55,29 +55,68 @@ export class UserCreateComponent implements OnInit {
     if (this.formCreate.invalid) {
       return;
     }
+
     //validar si usuario ya existe
+    // this.gService
+    //   .get('user/', this.formCreate.get('id').value)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe((data: any) => {
+    //     if (data != null) {
+    //       this.notificacion.mensaje(
+    //         'Usuario',
+    //         'La identificación del usuario ya se encuentra registrada',
+    //         TipoMessage.warning
+    //       );
+    //       return;
+    //     } else {
+    //       this.authService
+    //         .createUser(this.formCreate.value)
+    //         .subscribe((respuesta: any) => {
+    //           //Redireccionar al loguearse
+    //           this.router.navigate(['/usuario/login'], {
+    //             //Mostrar mensaje
+    //             queryParams: { register: 'true' },
+    //           });
+    //         });
+    //     }
+    //   });
     this.gService
-      .get('user/', this.formCreate.get('id').value)
-      .pipe(takeUntil(this.destroy$))
+      .get('user/validateId', this.formCreate.get('id').value)
       .subscribe((data: any) => {
         if (data != null) {
           this.notificacion.mensaje(
-            'Usuario',
-            'La identificación del usuario ya se encuentra registrada',
-            TipoMessage.warning
+            'Creación de usuarios',
+            'La identificación ingresada ya existe',
+            TipoMessage.error
           );
           return;
-        } else {
-          this.authService
-            .createUser(this.formCreate.value)
-            .subscribe((respuesta: any) => {
-              //Redireccionar al loguearse
-              this.router.navigate(['/usuario/login'], {
-                //Mostrar mensaje
-                queryParams: { register: 'true' },
-              });
-            });
         }
+        this.gService
+          .get('user/validateemail', this.formCreate.get('email').value)
+          .subscribe((data: any) => {
+            if (data != null) {
+              this.notificacion.mensaje(
+                'Creación de usuarios',
+                'El correo ingresado ya existe',
+                TipoMessage.error
+              );
+              return;
+            }
+            this.authService
+              .createUser(this.formCreate.value)
+              .subscribe((respuesta: any) => {
+                //Redireccionar al loguearse
+                this.router.navigate(['/usuario/login'], {
+                  //Mostrar mensaje
+                  queryParams: { register: 'true' },
+                });
+              });
+            // this.notificacion.mensaje(
+            //   'Creación de usuarios',
+            //   'El usuario ha sido creado satisfactoriamente',
+            //   TipoMessage.success
+            // );
+          });
       });
   }
   onReset() {

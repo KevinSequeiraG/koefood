@@ -6,42 +6,41 @@ const auth = require("../middleware/auth");
 const productController = require("../controllers/productController");
 
 //Definición de rutas para generos
-router.get(
-  "/",
-  auth.grantRole(["ADMIN", "WAITER", "USER"]),
-  productController.get
-);
+router.get("/", auth.verifyToken, productController.get);
 
 router.get(
   "/restaurant/:id",
-  //auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  auth.verifyToken,
   productController.getByRestaurant
 );
 
 router.get(
   "/restaurantandcat/:id/:cat",
-  //auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  auth.verifyToken,
   productController.getByCategory
 );
 
 router.get(
   "/restaurantandcatadmin/:cat",
-  //auth.grantRole(["ADMIN", "WAITER", "USER"]),
+  auth.verifyToken,
   productController.getByCategoryAdmin
 );
 
-router.get("/updatestateactive/:id", productController.updateStateSetActive);
+router.get(
+  "/updatestateactive/:id",
+  auth.grantRole(["ADMIN", "WAITER"]),
+  productController.updateStateSetActive
+);
 
-router.get("/updatestateinactive/:id", productController.updateStateSetInactive);
-
+router.get(
+  "/updatestateinactive/:id",
+  auth.grantRole(["ADMIN", "WAITER"]),
+  productController.updateStateSetInactive
+);
 
 router.post("/", auth.grantRole(["ADMIN"]), productController.create);
 
-router.get(
-  "/:id",
-  auth.grantRole(["ADMIN", "WAITER", "USER"]),
-  productController.getById
-);
+router.get("/:id", auth.verifyToken, productController.getById);
 
 router.put(
   "/:id",
