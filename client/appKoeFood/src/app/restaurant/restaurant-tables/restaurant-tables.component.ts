@@ -34,7 +34,7 @@ export class RestaurantTablesComponent implements AfterViewInit {
   }
   listaProducts() {
     this.gService
-      .list('restauranttables/')
+      .list('restauranttables/alltables')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
