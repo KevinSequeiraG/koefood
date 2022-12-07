@@ -57,14 +57,14 @@
           <mat-form-field class="full-width">
             <mat-label>Password</mat-label>
             <input matInput [type]="hide ? 'password' : 'text'" placeholder="Password usuario"
-              formControlName="password" />
+              formControlName="password" class="min-w-full"/>
 
             <mat-error *ngIf="errorHandling('password', 'required')">
               Password es <strong>requerido</strong>
             </mat-error>
           </mat-form-field>
         </div>
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" class="absolute right-0"
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" class="!absolute right-0"
           [attr.aria-pressed]="hide">
           <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
