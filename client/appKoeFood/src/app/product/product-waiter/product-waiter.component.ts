@@ -55,7 +55,7 @@ export class ProductWaiterComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatSort) sort2!: MatSort;
-
+  categoryList: any;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -64,6 +64,7 @@ export class ProductWaiterComponent implements AfterViewInit {
     private cartService: CartWaiterService,
     private notificacion: NotificacionService
   ) {
+    this.listaCategorias();
     this.route.params.subscribe((params) => {
       this.idRestaurant = params['idRes']; //log the value of id
       this.idTable = params['idTable']; //log the value of id
@@ -125,6 +126,7 @@ export class ProductWaiterComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.listaCategorias();
     this.vuelto = 0;
 
     this.todayDate = new Date();
@@ -195,7 +197,44 @@ export class ProductWaiterComponent implements AfterViewInit {
         this.dataSource.paginator = this.paginator;
       });
   }
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  listaCategorias() {
+    this.categoryList = null;
+    this.gService
+      .list('productCategory')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.categoryList = data;
+      });
+  }
+  changeRes() {
+    const input = document.getElementById(
+      'category-select'
+    ) as HTMLSelectElement;
+    if (parseInt(input.value) == 0) {
+      this.listaProductsByRestaurant(parseInt(this.idRestaurant));
+    } else {
+      this.listaProductsByRestaurantAndCategory(input.value);
+    }
+  }
+  listaProductsByRestaurantAndCategory(idCat: any) {
+    this.gService
+      .list(
+        `products/restaurantandcat/${parseInt(this.idRestaurant) + '/' + idCat}`
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.datos = data;
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -8,7 +8,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { CartService } from 'src/app/share/cart.service';
-import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
+import {
+  NotificacionService,
+  TipoMessage,
+} from 'src/app/share/notification.service';
 import { FormsModule } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
 
@@ -20,7 +23,7 @@ import { MatRadioChange } from '@angular/material/radio';
 export class ProductUserComponent implements AfterViewInit {
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  idRestaurant: any
+  idRestaurant: any;
   dataSource = new MatTableDataSource<any>();
   restaurantInfo: any;
   dataCarritoTable = new MatTableDataSource<any>();
@@ -47,7 +50,7 @@ export class ProductUserComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator2!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatSort) sort2!: MatSort;
-
+  categoryList: any;
 
   constructor(
     private router: Router,
@@ -55,32 +58,32 @@ export class ProductUserComponent implements AfterViewInit {
     private gService: GenericService,
     private dialog: MatDialog,
     private cartService: CartService,
-    private notificacion: NotificacionService,
+    private notificacion: NotificacionService
   ) {
-    this.route.params.subscribe(params => {
-      this.idRestaurant = params['id'] //log the value of id
+    this.listaCategorias();
+    this.route.params.subscribe((params) => {
+      this.idRestaurant = params['id']; //log the value of id
     });
     this.showCarrito = false;
-    this.typeOfPayment = 0
+    this.typeOfPayment = 0;
 
-    this.carritoData = {}
-    this.carritoData.clientPaymentInCard = 0
-    this.carritoData.clientPaymentInCash = 0
+    this.carritoData = {};
+    this.carritoData.clientPaymentInCard = 0;
+    this.carritoData.clientPaymentInCash = 0;
   }
 
   onChange(event: MatRadioChange) {
     this.typeOfPayment = event.value;
-    this.getPaymentOptionsEnum()
+    this.getPaymentOptionsEnum();
     if (this.typeOfPayment == 0) {
       //Pago en efectivo
-      this.carritoData.clientPaymentInCard = 0
+      this.carritoData.clientPaymentInCard = 0;
     } else if (this.typeOfPayment == 1) {
       //Pago en tarjeta
-      this.vuelto = 0
-      this.carritoData.clientPaymentInCard = this.carritoData.orderTotal
+      this.vuelto = 0;
+      this.carritoData.clientPaymentInCard = this.carritoData.orderTotal;
     } else if (this.typeOfPayment == 2) {
       //Pago en tarjeta y efectivo
-
     }
   }
 
@@ -90,19 +93,9 @@ export class ProductUserComponent implements AfterViewInit {
     console.log(x);
   }
 
-  displayedColumns3 = [
-    'product',
-    'cantidad',
-    'subtotal'
-  ];
+  displayedColumns3 = ['product', 'cantidad', 'subtotal'];
 
-  displayedColumns2 = [
-    'product',
-    'cantidad',
-    'precio',
-    'subtotal',
-    'actions'
-  ];
+  displayedColumns2 = ['product', 'cantidad', 'precio', 'subtotal', 'actions'];
 
   displayedColumns = [
     'name',
@@ -114,7 +107,7 @@ export class ProductUserComponent implements AfterViewInit {
 
   handleCarritoView() {
     this.showCarrito = !this.showCarrito;
-    this.updateTotals()
+    this.updateTotals();
   }
 
   handleFacturaView() {
@@ -124,32 +117,31 @@ export class ProductUserComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.vuelto = 0
-
-    this.todayDate = new Date()
+    //this.categoryList();
+    this.listaCategorias();
+    this.vuelto = 0;
+    this.todayDate = new Date();
     this.loggedUser = JSON.parse(window.localStorage.getItem('currentUser'));
-    this.ordenState = 'INPROCESS'
-    this.listaProductsByRestaurant(parseInt(this.idRestaurant))
-    this.restaurantData(parseInt(this.idRestaurant))
-    this.getDataCarritoTable()
+    this.ordenState = 'INPROCESS';
+    this.listaProductsByRestaurant(parseInt(this.idRestaurant));
+    this.restaurantData(parseInt(this.idRestaurant));
+    this.getDataCarritoTable();
 
-    this.getDataFacturaTable()
-    this.carritoData = {}
-    this.carritoData.clientPaymentInCard = 0
-    this.carritoData.clientPaymentInCash = 0
-    this.carritoToSave = {}
-    this.updateTotals()
+    this.getDataFacturaTable();
+    this.carritoData = {};
+    this.carritoData.clientPaymentInCard = 0;
+    this.carritoData.clientPaymentInCash = 0;
+    this.carritoToSave = {};
+    this.updateTotals();
 
     console.log(this.loggedUser);
-
   }
 
   handleNoteModal(item: any) {
-    this.product = item
+    this.product = item;
     console.log(item);
 
-
-    this.showNoteModal = true
+    this.showNoteModal = true;
   }
 
   closeNoteModal() {
@@ -157,11 +149,13 @@ export class ProductUserComponent implements AfterViewInit {
   }
 
   addCommentToProduct() {
-    const input = document.getElementById('comment-ta') as HTMLInputElement | null;
+    const input = document.getElementById(
+      'comment-ta'
+    ) as HTMLInputElement | null;
 
     if (input != null) {
       const value = input.value;
-      this.cartService.addCommentToProduct(this.product, value)
+      this.cartService.addCommentToProduct(this.product, value);
       this.notificacion.mensaje(
         'Orden',
         'Nota agregada con éxito',
@@ -169,6 +163,45 @@ export class ProductUserComponent implements AfterViewInit {
       );
       this.showNoteModal = false;
     }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  listaCategorias() {
+    this.categoryList = null;
+    this.gService
+      .list('productCategory')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.categoryList = data;
+      });
+  }
+  changeRes() {
+    const input = document.getElementById(
+      'category-select'
+    ) as HTMLSelectElement;
+    if (parseInt(input.value) == 0) {
+      this.listaProductsByRestaurant(parseInt(this.idRestaurant));
+    } else {
+      this.listaProductsByRestaurantAndCategory(input.value);
+    }
+  }
+  listaProductsByRestaurantAndCategory(idCat: any) {
+    this.gService
+      .list(
+        `products/restaurantandcat/${parseInt(this.idRestaurant) + '/' + idCat}`
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.datos = data;
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   listaProducts() {
@@ -222,12 +255,10 @@ export class ProductUserComponent implements AfterViewInit {
 
   restaurantData(id: number) {
     //this.listaRestaurantes = null;
-    this.gService
-      .get('restaurants/', id)
-      .subscribe((data: any) => {
-        this.restaurantInfo = data;
-        console.log(this.restaurantInfo);
-      });
+    this.gService.get('restaurants/', id).subscribe((data: any) => {
+      this.restaurantInfo = data;
+      console.log(this.restaurantInfo);
+    });
   }
 
   comprar(id: number) {
@@ -244,7 +275,7 @@ export class ProductUserComponent implements AfterViewInit {
           TipoMessage.success
         );
       });
-    this.updateTotals()
+    this.updateTotals();
   }
 
   eliminarOneFromItem(item: any) {
@@ -252,56 +283,54 @@ export class ProductUserComponent implements AfterViewInit {
     // this.notificacion.mensaje('Orden',
     //   'Cantidad de producto disminuida',
     //   TipoMessage.warning);
-    this.updateTotals()
+    this.updateTotals();
   }
 
   eliminarItem(item: any) {
     this.cartService.removeFromCart(item);
-    this.notificacion.mensaje('Orden',
+    this.notificacion.mensaje(
+      'Orden',
       'Producto eliminado',
-      TipoMessage.warning);
-    this.updateTotals()
+      TipoMessage.warning
+    );
+    this.updateTotals();
   }
 
   getDataCarritoTable() {
-    this.cartService.currentDataCart$
-      .subscribe(data => {
-        this.dataCarritoTable = new MatTableDataSource(data);
-        //this.carritoData = data;
-        this.dataCarritoTable.sort = this.sort2;
-        this.dataCarritoTable.paginator = this.paginator2;
-      })
+    this.cartService.currentDataCart$.subscribe((data) => {
+      this.dataCarritoTable = new MatTableDataSource(data);
+      //this.carritoData = data;
+      this.dataCarritoTable.sort = this.sort2;
+      this.dataCarritoTable.paginator = this.paginator2;
+    });
   }
 
   getTotalCarrito() {
-    this.carritoData.subtotal = this.cartService.getTotal()
+    this.carritoData.subtotal = this.cartService.getTotal();
   }
 
   getIvaTotal() {
-    this.carritoData.iva = this.carritoData.subtotal * 0.13
+    this.carritoData.iva = this.carritoData.subtotal * 0.13;
   }
 
   getTotalOrder() {
-    this.carritoData.orderTotal = this.carritoData.iva + this.carritoData.subtotal
+    this.carritoData.orderTotal =
+      this.carritoData.iva + this.carritoData.subtotal;
   }
 
   getPayInCash(event: any) {
-
-    var totalInCash = event.target.value
-
+    var totalInCash = event.target.value;
 
     //let regex = new RegExp("[^0-9]")
     //console.log(regex.test(totalInCash));
     //console.log("error", invalidChars.includes(totalInCash.key));
 
-
-
     if (parseFloat(totalInCash) >= this.carritoData.orderTotal) {
-      this.vuelto = totalInCash - this.carritoData.orderTotal
-      this.carritoData.clientPaymentInCash = this.carritoData.orderTotal
+      this.vuelto = totalInCash - this.carritoData.orderTotal;
+      this.carritoData.clientPaymentInCash = this.carritoData.orderTotal;
     } else {
-      this.vuelto = 0
-      this.carritoData.clientPaymentInCash = 0
+      this.vuelto = 0;
+      this.carritoData.clientPaymentInCash = 0;
     }
   }
   validateCardNumber(event: any) {
@@ -345,36 +374,38 @@ export class ProductUserComponent implements AfterViewInit {
   }
 
   getPayInBoth(event: any) {
-    var totalInCash = event.target.value
+    var totalInCash = event.target.value;
     //console.log(totalInCash);
-    if (totalInCash != "") {
+    if (totalInCash != '') {
       if (parseFloat(totalInCash) >= this.carritoData.orderTotal) {
-        this.vuelto = totalInCash - this.carritoData.orderTotal
-        this.carritoData.clientPaymentInCard = 0
+        this.vuelto = totalInCash - this.carritoData.orderTotal;
+        this.carritoData.clientPaymentInCard = 0;
       } else {
-        this.carritoData.clientPaymentInCard = parseFloat(this.carritoData.orderTotal) - parseFloat(totalInCash)
+        this.carritoData.clientPaymentInCard =
+          parseFloat(this.carritoData.orderTotal) - parseFloat(totalInCash);
         this.carritoData.clientPaymentInCash = parseFloat(totalInCash);
       }
     } else {
-      this.vuelto = 0
-      this.carritoData.clientPaymentInCard = parseFloat(this.carritoData.orderTotal)
-      this.carritoData.clientPaymentInCash = 0
+      this.vuelto = 0;
+      this.carritoData.clientPaymentInCard = parseFloat(
+        this.carritoData.orderTotal
+      );
+      this.carritoData.clientPaymentInCash = 0;
     }
-
   }
 
   updateTotals() {
-    this.getDataCarritoTable()
-    this.getTotalCarrito()
-    this.getIvaTotal()
-    this.getTotalOrder()
+    this.getDataCarritoTable();
+    this.getTotalCarrito();
+    this.getIvaTotal();
+    this.getTotalOrder();
   }
 
   getDataFacturaTable() {
-    this.cartService.currentDataCart$.subscribe(data => {
+    this.cartService.currentDataCart$.subscribe((data) => {
       this.dataFacturaTable = new MatTableDataSource(data);
       //this.carritoData = data;
-    })
+    });
   }
 
   getPaymentOptionsEnum() {
@@ -402,21 +433,33 @@ export class ProductUserComponent implements AfterViewInit {
   generarOrden() {
     var productos = this.cartService.getItems;
 
-    var arregloFinal = []
-    productos.map(producto => {
-      var productToSave = { idProduct: producto.idItem, quantity: producto.cantidad, total: producto.subtotal, note: producto.note ? producto.note : "" }
-      arregloFinal.push(productToSave)
-    })
+    var arregloFinal = [];
+    productos.map((producto) => {
+      var productToSave = {
+        idProduct: producto.idItem,
+        quantity: producto.cantidad,
+        total: producto.subtotal,
+        note: producto.note ? producto.note : '',
+      };
+      arregloFinal.push(productToSave);
+    });
 
     this.carritoToSave.subTotal = this.carritoData?.subtotal;
     this.carritoToSave.iva = this.carritoData.iva;
-    this.carritoToSave.clientPaymentInCash = this.carritoData?.clientPaymentInCash;
-    this.carritoToSave.clientPaymentInCard = this.carritoData?.clientPaymentInCard;
+    this.carritoToSave.clientPaymentInCash =
+      this.carritoData?.clientPaymentInCash;
+    this.carritoToSave.clientPaymentInCard =
+      this.carritoData?.clientPaymentInCard;
     this.carritoToSave.orderTotal = this.carritoData.orderTotal;
     this.carritoToSave.idUser = this.loggedUser.user.id;
-    this.carritoToSave.idRestaurant = this.restaurantInfo.id
-    this.carritoToSave.state = "DELIVERED"
-    this.carritoToSave.paymentOption = this.typeOfPayment==0?"CASH":this.typeOfPayment==1?"CARD":"BOTH"
+    this.carritoToSave.idRestaurant = this.restaurantInfo.id;
+    this.carritoToSave.state = 'DELIVERED';
+    this.carritoToSave.paymentOption =
+      this.typeOfPayment == 0
+        ? 'CASH'
+        : this.typeOfPayment == 1
+        ? 'CARD'
+        : 'BOTH';
     this.carritoToSave.OrderDetail = arregloFinal;
 
     console.log(this.carritoToSave);
@@ -491,21 +534,19 @@ export class ProductUserComponent implements AfterViewInit {
       );
       return;
     }
-      //Si pagaron
-      console.log("pasa");
-      this.gService
-        .create('orders/createByUser', this.carritoToSave)
-        .subscribe((respuesta: any) => {
-          this.notificacion.mensaje('Orden',
-            'Orden registrada',
-            TipoMessage.success);
-          this.cartService.deleteCart();
-          console.log(respuesta);
-        });
-      this.router.navigate(['/home/inicio']);
-
-
+    //Si pagaron
+    console.log('pasa');
+    this.gService
+      .create('orders/createByUser', this.carritoToSave)
+      .subscribe((respuesta: any) => {
+        this.notificacion.mensaje(
+          'Orden',
+          'Orden registrada',
+          TipoMessage.success
+        );
+        this.cartService.deleteCart();
+        console.log(respuesta);
+      });
+    this.router.navigate(['/home/inicio']);
   }
-
-
 }

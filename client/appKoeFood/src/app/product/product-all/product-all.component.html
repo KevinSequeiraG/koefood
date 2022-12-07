@@ -4,6 +4,30 @@
     <button class="mx-auto bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]" (click)="crearProduct()">Agregar nuevo
       producto</button>
   </div>
+  <div class="w-[80%] mx-auto flex justify-between">
+    <mat-form-field class="!w-min bg-black rounded-lg px-5 bg-opacity-25 mb-5">
+      <mat-label>Buscar producto</mat-label>
+      <input
+        class="!text-white"
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Buscar"
+        #input
+      />
+    </mat-form-field>
+
+    <div class="relative !w-min bg-black rounded-lg px-5 bg-opacity-25 mb-5 ">
+      <h4 class="absolute -top-6 left-0 text-center text-[#e5e5e5] ">
+       Categorías
+      </h4>
+      <select class="flex justify-center items-center h-full bg-transparent text-white !w-32" placeholder="Categoría" id="category-select" (change)="changeRes()">
+        <option class="text-black " value="0" selected>Todos</option>
+        <option class="text-black " *ngFor="let s of categoryList" [value]="s.id" >
+          {{ s.description }}
+        </option>
+      </select>
+    </div>
+  </div>
   <div class="mat-elevation-z8 w-[80%] h-full mx-auto border border-[#c1c161]">
 
     <table mat-table class="full-width-table bg-black" matSort aria-label="Elements" [dataSource]="dataSource">
