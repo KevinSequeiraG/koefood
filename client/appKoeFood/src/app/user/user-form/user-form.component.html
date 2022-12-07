@@ -1,0 +1,240 @@
+<div
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+  class="w-auto"
+>
+  <form
+    [formGroup]="userForm"
+    novalidate
+    (ngSubmit)="isCreate ? crearUsuario() : actualizarUsuario()"
+  >
+    <input type="hidden" formControlName="id" />
+    <mat-card
+      class="shipping-card w-screen h-screen !my-0 text-white mx-auto w-auto"
+      style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+    >
+      <div
+        class="border border-[1px] min-w-[40rem] px-5 py-8 rounded-lg absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
+      >
+        <mat-card-header class="text-center w-full">
+          <mat-card-title class="!text-[2.5rem] mb-34 mx-auto"
+            >{{ titleForm }} usuario</mat-card-title
+          >
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row text-[white] text-[1rem]" *ngIf="isCreate">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  type="number"
+                  placeholder="Identificación"
+                  #id
+                  formControlName="id"
+                />
+                <mat-error *ngIf="userForm.controls['id'].hasError('required')">
+                  Identificación es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row text-[white] text-[1rem]" *ngIf="!isCreate">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  readonly
+                  matInput
+                  type="number"
+                  placeholder="Identificación"
+                  #id
+                  formControlName="id"
+                />
+                <mat-error *ngIf="userForm.controls['id'].hasError('required')">
+                  Identificación es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row text-[white] text-[1rem]">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  placeholder="Nombre"
+                  #name
+                  formControlName="name"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['name'].hasError('required')"
+                >
+                  Nombre es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row text-[white] text-[1rem]">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  placeholder="Apellidos"
+                  #lastname
+                  formControlName="lastname"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['lastname'].hasError('required')"
+                >
+                  Apellidos <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <mat-select
+                  placeholder="Tipo de usuario"
+                  formControlName="userType"
+                >
+                  <mat-option *ngFor="let s of categoryList" [value]="s.id">
+                    {{ s.nombre }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="userForm.controls['userType'].hasError('required')"
+                >
+                  Tipo de usuario <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row text-[white] text-[1rem]" *ngIf="isCreate">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  matInput
+                  placeholder="Correo electrónico"
+                  #email
+                  formControlName="email"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['email'].hasError('required')"
+                >
+                  Correo electrónico <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                  Formato <strong>incorrecto</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row text-[white] text-[1rem]" *ngIf="!isCreate">
+            <div class="col">
+              <mat-form-field class="full-width">
+                <input
+                  readonly
+                  matInput
+                  placeholder="Correo electrónico"
+                  #email
+                  formControlName="email"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['email'].hasError('required')"
+                >
+                  Correo electrónico <strong>requerido</strong>
+                </mat-error>
+                <mat-error *ngIf="userForm.controls['email'].hasError('email')">
+                  Formato <strong>incorrecto</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div
+            class="!relative !min-w-full row text-[white] text-[1rem]"
+            *ngIf="isCreate"
+          >
+            <div class="col !min-w-full">
+              <mat-form-field class="full-width">
+                <input
+                  [type]="hide ? 'password' : 'text'"
+                  matInput
+                  placeholder="Contraseña"
+                  #password
+                  formControlName="password"
+                />
+                <mat-error
+                  *ngIf="userForm.controls['password'].hasError('required')"
+                >
+                  Contraseña <strong>requerida</strong>
+                </mat-error>
+                <mat-error
+                  *ngIf="userForm.controls['password'].hasError('minlength')"
+                >
+                  Contraseña debe tener <strong>8</strong> caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <button
+              class="!absolute !right-0"
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]=""
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon class="text-white">{{
+                hide ? "visibility_off" : "visibility"
+              }}</mat-icon>
+            </button>
+          </div>
+
+          <div
+            class="row"
+            *ngIf="userForm.controls['userType'].value == 'WAITER'"
+          >
+            <div class="col" *ngIf="restaurantList">
+              <mat-form-field class="full-width">
+                <mat-select
+                  placeholder="Restaurante al que pertenece"
+                  formControlName="idRestaurant"
+                >
+                  <mat-option *ngFor="let g of restaurantList" [value]="g.id">
+                    {{ g.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="userForm.controls['idRestaurant'].hasError('required')"
+                >
+                  Restaurante es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            class="mx-auto w-full"
+            mat-raised-button
+            color="primary"
+            type="submit"
+          >
+            Guardar
+          </button>
+
+          <button
+            class="backBTN !mt-3"
+            mat-raised-button
+            color="primary"
+            (click)="onBack()"
+          >
+            Volver
+          </button>
+        </mat-card-actions>
+      </div>
+    </mat-card>
+  </form>
+</div>

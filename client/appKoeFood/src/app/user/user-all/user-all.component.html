@@ -1,0 +1,185 @@
+<div
+  class="py-[5rem] w-full"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <h1 class="text-center text-[#e5e5e5] !font-bold">
+    Lista general de usuarios
+  </h1>
+  <div class="w-full text-center mb-8">
+    <button
+      class="mx-auto bg-green-500 px-3 py-2 rounded-lg text-white text-[1.2rem]"
+      (click)="crearUsuario()"
+    >
+      Agregar nuevo usuario
+    </button>
+  </div>
+  <div class="mat-elevation-z8 w-[80%] h-full mx-auto border border-[#c1c161]">
+    <table
+      mat-table
+      class="full-width-table bg-black"
+      matSort
+      aria-label="Elements"
+      [dataSource]="dataSource"
+    >
+      <ng-container matColumnDef="name" class="!w-min !text-center">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Nombre
+        </th>
+        <td
+          mat-cell
+          class="text-[#e5e5e5] !w-min text-center !p-5 truncate"
+          *matCellDef="let row"
+        >
+          {{ row.name }}
+        </td>
+      </ng-container>
+
+      <ng-container class="text-[#e5e5e5] !w-min" matColumnDef="lastname">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0 !w-min"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Apellidos
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.lastname }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Identificación
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.id }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="userType">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Tipo de usuario
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{
+            row.userType == "USER"
+              ? "Usuario"
+              : row.userType == "ADMIN"
+              ? "Administrador"
+              : "Mesero"
+          }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Correo electrónico
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.email }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="idRestaurant">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Restaurante asociado
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.userRestaurant ? row.userRestaurant.name : "No aplica" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="state">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Estado
+        </th>
+        <td mat-cell class="text-[#e5e5e5] !w-min" *matCellDef="let row">
+          {{ row.state ? "Activo" : "Inactivo" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th
+          mat-header-cell
+          class="text-[#e5e5e5] text-[1rem] border-b-4 !text-center !pl-5 !m-0"
+          *matHeaderCellDef
+          mat-sort-header
+        >
+          Acciones
+        </th>
+        <td
+          mat-cell
+          class="text-[#e5e5e5] truncate !py-4 !pr-0 !w-min"
+          *matCellDef="let row"
+        >
+          <button
+            (click)="actualizarProduct(row.id)"
+            class="bg-yellow-800 px-2 py-1 rounded-lg mx-1"
+          >
+            <span class="material-icons flex items-center">edit</span>
+          </button>
+          <div class="inline" *ngIf="row.state">
+            <button
+              (click)="desactivarUsuario(row.id)"
+              class="bg-green-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">account_circle</span>
+            </button>
+          </div>
+          <div class="inline" *ngIf="!row.state">
+            <button
+              (click)="activarUsuario(row.id)"
+              class="bg-red-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">no_accounts</span>
+            </button>
+          </div>
+        </td>
+        <!-- <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
+        <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td> -->
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      class="bg-gray-500 text-[#e5e5e5] !flex-nowrap"
+      #paginator
+      [length]="dataSource?.data?.length"
+      [pageIndex]="0"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+</div>

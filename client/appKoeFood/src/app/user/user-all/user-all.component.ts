@@ -11,15 +11,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { ProductDetailComponent } from 'src/app/product/product-detail/product-detail.component';
 
 @Component({
-  selector: 'app-product-all',
-  templateUrl: './product-all.component.html',
-  styleUrls: ['./product-all.component.css']
+  selector: 'app-user-all',
+  templateUrl: './user-all.component.html',
+  styleUrls: ['./user-all.component.css']
 })
-export class ProductAllComponent implements AfterViewInit {
+export class UserAllComponent implements AfterViewInit {
   datos: any;
+  
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -29,14 +30,15 @@ export class ProductAllComponent implements AfterViewInit {
     private route: ActivatedRoute, private gService: GenericService, private dialog:MatDialog) {
   }
 
-  displayedColumns = ['name', 'description', 'price', 'productToRestaurantProduct', 'state', 'actions'];
+  displayedColumns = ['name', 'lastname', 'id', 'userType', 'email','idRestaurant','state', 'actions'];
 
   ngAfterViewInit(): void {
-    this.listaProducts();
+    this.listaUsers();
   }
-  listaProducts() {
+
+  listaUsers() {
     this.gService
-      .list('products/')
+      .list('user/')
       .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
         console.log(data);
@@ -46,10 +48,13 @@ export class ProductAllComponent implements AfterViewInit {
         this.dataSource.paginator = this.paginator;
       });
   }
+
   ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
+  //faltaaaaaaaaaaaaaaaaa
   detailProduct(id:number){
     const dialogConfig=new MatDialogConfig();
     dialogConfig.disableClose=false;
@@ -59,36 +64,36 @@ export class ProductAllComponent implements AfterViewInit {
     this.dialog.open(ProductDetailComponent,dialogConfig);
   }
 
-  crearProduct() {
-    this.router.navigate(['/product/create'], {
+  crearUsuario() {
+    this.router.navigate(['/user/create'], {
       relativeTo: this.route,
     });
   }
 
-  activarProducto(id:any){
+  activarUsuario(id:any){
     this.gService
-    .get('products/updatestateactive', id)
+    .get('user/updatestateactive', id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((data: any) => {
       //Obtener respuesta
-      console.log(data);this.listaProducts();
+      console.log(data);this.listaUsers();
     });
   }
 
   
-  desactivarProducto(id:any){
+  desactivarUsuario(id:any){
     this.gService
-    .get('products/updatestateinactive', id)
+    .get('user/updatestateinactive', id)
     .pipe(takeUntil(this.destroy$))
     .subscribe((data: any) => {
       //Obtener respuesta
-      console.log(data);this.listaProducts();
+      console.log(data);this.listaUsers();
     });
   }
 
   actualizarProduct(id: number) {
     console.log(id);
-    this.router.navigate(['/product/update', id], {
+    this.router.navigate(['/user/update', id], {
       relativeTo: this.route,
     });
   }

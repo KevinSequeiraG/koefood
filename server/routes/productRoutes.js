@@ -18,6 +18,11 @@ router.get(
   productController.getByRestaurant
 );
 
+router.get("/updatestateactive/:id", productController.updateStateSetActive);
+
+router.get("/updatestateinactive/:id", productController.updateStateSetInactive);
+
+
 router.post("/", auth.grantRole(["ADMIN"]), productController.create);
 
 router.get(
