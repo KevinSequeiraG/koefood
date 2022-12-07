@@ -17,7 +17,7 @@ model User {
   lastname          String
   email             String             @unique
   password          String
-  userRestaurant    Restaurant?         @relation(fields: [idRestaurant], references: [id])
+  userRestaurant    Restaurant?        @relation(fields: [idRestaurant], references: [id])
   idRestaurant      Int?
   TableReservation  TableReservation[] @relation(name: "user")
   TableReservations TableReservation[] @relation(name: "waiter")
@@ -60,18 +60,18 @@ model Restaurant {
 }
 
 model Order {
-  id                  Int             @id @default(autoincrement())
-  date                DateTime        @default(now())
+  id                  Int              @id @default(autoincrement())
+  date                DateTime         @default(now())
   subTotal            Float
   iva                 Float
   clientPaymentInCash Float
   clientPaymentInCard Float
   orderTotal          Float
-  orderUser           User            @relation(name: "user", fields: [idUser], references: [id])
+  orderUser           User             @relation(name: "user", fields: [idUser], references: [id])
   idUser              Int
   orderWaiter         User?            @relation(name: "waiter", fields: [idWaiter], references: [id])
   idWaiter            Int?
-  orderRestaurant     Restaurant      @relation(fields: [idRestaurant], references: [id])
+  orderRestaurant     Restaurant       @relation(fields: [idRestaurant], references: [id])
   idRestaurant        Int
   orderTable          RestaurantTable? @relation(fields: [idTable], references: [id])
   idTable             Int?
@@ -89,6 +89,8 @@ model OrderDetail {
   quantity           Int
   total              Float
   note               String?
+  Cupon              Cupon?  @relation(fields: [cuponId], references: [id])
+  cuponId            Int?
 }
 
 model Product {
@@ -110,6 +112,14 @@ model ProductCategory {
   Product     Product[]
 }
 
+model Cupon {
+  id            Int           @id
+  nombre        String
+  descuento     Float
+  idOrderDetail Int
+  OrderDetail   OrderDetail[]
+}
+
 enum TABLESTATE {
   FREE
   NOTFREE
@@ -123,7 +133,7 @@ enum USERTYPE {
 }
 
 enum ORDERSTATE {
-  REGISTERED 
+  REGISTERED
   DELIVERED
   TOPAY
 }
