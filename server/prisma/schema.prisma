@@ -19,6 +19,7 @@ model User {
   password          String
   userRestaurant    Restaurant?         @relation(fields: [idRestaurant], references: [id])
   idRestaurant      Int?
+  state             Boolean
   TableReservation  TableReservation[] @relation(name: "user")
   TableReservations TableReservation[] @relation(name: "waiter")
 

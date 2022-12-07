@@ -42,9 +42,10 @@
             >
               <img
                 src="./assets/Images/si.png"
-                class="w-[3.1rem]  object-cover justify-center border border-[#c1c161] rounded-full mb-3"
+                class="w-[3.1rem] object-cover justify-center border border-[#c1c161] rounded-full mb-3"
               />
-              <p *ngIf="loggedUser != null"
+              <p
+                *ngIf="loggedUser != null"
                 class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold items-center"
               >
                 {{ loggedUser.user.name + " " + loggedUser.user.lastname }}
@@ -81,9 +82,10 @@
             [routerLink]="
               loggedUser.user.userType == 'WAITER'
                 ? ['/restaurant/tables/waiter']
+                : loggedUser.user.userType == 'ADMIN'
+                ? ['/restaurant/tables/admin']
                 : ['/home/inicio']
             "
-
             class="flex items-center space-x-2"
           >
             <span class="material-symbols-outlined text-[#c1c161]"> home </span>
