@@ -67,11 +67,12 @@ CREATE TABLE `Order` (
 -- CreateTable
 CREATE TABLE `OrderDetail` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `idOrder` INTEGER NOT NULL,
+    `idOrder` INTEGER NULL,
     `idProduct` INTEGER NOT NULL,
     `quantity` INTEGER NOT NULL,
     `total` DOUBLE NOT NULL,
     `note` VARCHAR(191) NULL,
+    `cuponId` INTEGER NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -93,6 +94,15 @@ CREATE TABLE `Product` (
 CREATE TABLE `ProductCategory` (
     `id` INTEGER NOT NULL,
     `description` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Cupon` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `nombre` VARCHAR(191) NOT NULL,
+    `descuento` DOUBLE NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -134,10 +144,13 @@ ALTER TABLE `Order` ADD CONSTRAINT `Order_idRestaurant_fkey` FOREIGN KEY (`idRes
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idTable_fkey` FOREIGN KEY (`idTable`) REFERENCES `RestaurantTable`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idOrder_fkey` FOREIGN KEY (`idOrder`) REFERENCES `Order`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idOrder_fkey` FOREIGN KEY (`idOrder`) REFERENCES `Order`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_idProduct_fkey` FOREIGN KEY (`idProduct`) REFERENCES `Product`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `OrderDetail` ADD CONSTRAINT `OrderDetail_cuponId_fkey` FOREIGN KEY (`cuponId`) REFERENCES `Cupon`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Product` ADD CONSTRAINT `Product_idCategory_fkey` FOREIGN KEY (`idCategory`) REFERENCES `ProductCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

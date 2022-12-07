@@ -17,6 +17,7 @@ const userRouter = require("./routes/userRoutes");
 const rolRouter = require("./routes/rolRoutes");
 const payOptionRouter = require("./routes/paymentOptionRoutes");
 const orderStateRoutes = require("./routes/orderStateRoutes");
+const cuponRoutes = require("./routes/cuponRoutes");
 // Acceder a la configuracion del archivo .env
 dotEnv.config();
 // Puerto que escucha por defecto 300 o definido .env
@@ -43,6 +44,7 @@ app.use("/user/", userRouter);
 app.use("/rol/", rolRouter);
 app.use("/paymentOption/", payOptionRouter);
 app.use("/orderState/", orderStateRoutes);
+app.use("/cupon/", cuponRoutes);
 // Servidor
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
