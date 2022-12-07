@@ -40,8 +40,23 @@
         </th>
         <td mat-cell class="text-[#e5e5e5] truncate !py-4 !pr-0" *matCellDef="let row">
           <button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">remove_red_eye</span></button>
-          <button (click)="actualizarProduct(row.id)" class="bg-yellow-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">edit</span></button>
-          <button (click)="detailProduct(row.id)" class="bg-red-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">delete</span></button>
+          <button (click)="actualizarProduct(row.id)" class="bg-yellow-800 px-2 py-1 rounded-lg mx-1"><span class="material-icons flex items-center">edit</span></button>     
+          <div class="inline" *ngIf="row.state">
+            <button
+              (click)="desactivarProducto(row.id)"
+              class="bg-green-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">add_circle</span>
+            </button>
+          </div>
+          <div class="inline" *ngIf="!row.state">
+            <button
+              (click)="activarProducto(row.id)"
+              class="bg-red-800 px-2 py-1 rounded-lg mx-1"
+            >
+              <span class="material-icons flex items-center">do_not_disturb_on</span>
+            </button>
+          </div>
         </td>
         <!-- <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
         <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td> -->

@@ -65,6 +65,27 @@ export class ProductAllComponent implements AfterViewInit {
     });
   }
 
+  activarProducto(id:any){
+    this.gService
+    .get('products/updatestateactive', id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: any) => {
+      //Obtener respuesta
+      console.log(data);this.listaProducts();
+    });
+  }
+
+  
+  desactivarProducto(id:any){
+    this.gService
+    .get('products/updatestateinactive', id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((data: any) => {
+      //Obtener respuesta
+      console.log(data);this.listaProducts();
+    });
+  }
+
   actualizarProduct(id: number) {
     console.log(id);
     this.router.navigate(['/product/update', id], {
