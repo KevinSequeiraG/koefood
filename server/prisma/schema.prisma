@@ -83,8 +83,8 @@ model Order {
 
 model OrderDetail {
   id                 Int     @id @default(autoincrement())
-  OrderDetailOrder   Order   @relation(fields: [idOrder], references: [id])
-  idOrder            Int
+  OrderDetailOrder   Order?  @relation(fields: [idOrder], references: [id])
+  idOrder            Int?
   OrderDetailProduct Product @relation(fields: [idProduct], references: [id])
   idProduct          Int
   quantity           Int
@@ -114,11 +114,10 @@ model ProductCategory {
 }
 
 model Cupon {
-  id            Int           @id
-  nombre        String
-  descuento     Float
-  idOrderDetail Int
-  OrderDetail   OrderDetail[]
+  id          Int            @id @default(autoincrement())
+  nombre      String
+  descuento   Float
+  OrderDetail OrderDetail[]
 }
 
 enum TABLESTATE {
