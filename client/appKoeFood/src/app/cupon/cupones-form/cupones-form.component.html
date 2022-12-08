@@ -1,6 +1,7 @@
 <div style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));" class="w-auto">
   <form [formGroup]="productForm" novalidate (ngSubmit)="isCreate ? crearCupon(): actualizarProducto()">
     <input type="hidden" formControlName="id" />
+
     <mat-card class="shipping-card w-screen h-screen !my-0 text-white mx-auto w-auto"
       style="background: linear-gradient(to bottom, #C81D11, rgb(0, 0, 0));">
       <div
@@ -36,7 +37,7 @@
           <div class="row">
             <div class="col">
               <mat-form-field class="full-width ">
-                <input min="1" type=number step=0.01 matInput placeholder="Descuento" #capacity formControlName="disccount">
+                <input min="1" type=number matInput placeholder="Descuento" #capacity formControlName="disccount">
                 <mat-error *ngIf="productForm.controls['disccount'].hasError('required')">
                   La descuento es <strong>requerido</strong>
                 </mat-error>
@@ -137,8 +138,10 @@
               <td mat-cell class="text-[#e5e5e5] truncate !py-4 !pr-0" *matCellDef="let row">
                 <!-- <button (click)="detailProduct(row.id)" class="bg-green-800 px-2 py-1 rounded-lg mx-1">
                   <span class="material-icons flex items-center">remove_red_eye</span></button> -->
-                <button class="bg-green-600 px-2 py-1 rounded-lg mx-auto" type="button" (click)="addLineaDetalle(row)"><span
-                    class="material-icons flex items-center">add</span></button>
+                <button class="bg-green-600 px-2 py-1 rounded-lg mx-auto !mx-1" type="button"
+                  (click)="addLineaDetalle(row)"><span class="material-icons flex items-center ">add</span></button>
+                  <button class="bg-red-600 px-2 py-1 rounded-lg mx-auto !mx-1" type="button"
+                  (click)="removeLineaDetalle(row)"><span class="material-icons flex items-center ">delete</span></button>
 
               </td>
               <td mat-cell class="text-[#e5e5e5]" *matCellDef="let row"></td>
@@ -159,6 +162,12 @@
 
           <button class="backBTN !mt-3" mat-raised-button color="primary" (click)="onBack()">Volver</button>
         </mat-card-actions>
+      </div>
+      <div class="absolute right-28 top-[25rem] px-4 py-3 min-h-[10rem] min-w-[10rem] bg-black rounded-xl border border-4 border-yellow-700 text-center">
+        <h1 class="text-yellow-700">Productos de Cupón</h1>
+        <ul *ngFor="let item of productsForShow">
+          <li class="text-yellow-700">{{item.name + " - " +item.quantity}}</li>
+        </ul>
       </div>
     </mat-card>
   </form>

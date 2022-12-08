@@ -86,8 +86,8 @@ module.exports.login = async (request, response, next) => {
       success: false,
       message: "Usuario no registrado",
     });
+    return
   }
-
   if (user.state == false) {
     response.status(401).send({
       success: false,

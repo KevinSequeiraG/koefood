@@ -18,7 +18,7 @@
                 <!-- <button class="bg-red-800 px-2 py-1 rounded-lg mx-1"><span
                         class="material-icons flex items-center">delete</span></button> -->
             </div>
-            <div *ngIf="isUser" class="absolute min-w-min right-3 top-3">
+            <div *ngIf="isUser" class="absolute min-w-min right-3 top-3 !w-auto">
                 <button (click)="generarFact(cupon)"
                     class="flex w-[6rem] text-center items-center bg-green-500 px-2 py-1 rounded-lg mx-1 font-semibold">Comprar<span
                         class="material-icons flex items-center">arrow_forward__ios</span></button>
@@ -28,14 +28,14 @@
             <div *ngFor="let producto of cupon.OrderDetail" class="text-center border border-1 w-full py-4">
                 <h2>Nombre: {{producto.OrderDetailProduct.name}}</h2>
                 <h2>Cantidad: {{producto.quantity}}</h2>
-                <h2>Precio Unitario: {{producto.OrderDetailProduct.price}}</h2>
+                <h2>Precio Unitario: ₡{{producto.OrderDetailProduct.price}}</h2>
             </div>
         </div>
         <div class="text-right mr-[5%] border border-1 border-white w-full py-2 flex flex-row justify-end">
-            <h2 class="!mx-8 !my-0">Subtotal: {{cupon.subTotal}}</h2>
-            <h2 class="!mx-8 !my-0">Impuestos: {{cupon.iva}}</h2>
-            <h2 class="!mx-8 !my-0">Descuento: {{cupon.disccountTotal}}</h2>
-            <h2 class="!mx-8 !my-0">Total: {{cupon.total}}</h2>
+            <h2 class="!mx-8 !my-0">Subtotal: ₡{{cupon.subTotal}}</h2>
+            <h2 class="!mx-8 !my-0">Impuestos: ₡{{cupon.iva}}</h2>
+            <h2 class="!mx-8 !my-0">Descuento: ₡{{cupon.disccountTotal}}</h2>
+            <h2 class="!mx-8 !my-0">Total: ₡{{cupon.total}}</h2>
         </div>
     </div>
 

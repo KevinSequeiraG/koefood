@@ -29,6 +29,7 @@ export class CuponesForm implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   productsForCupon: any;
+  productsForShow: any;
 
   constructor(private fb: FormBuilder, private gService: GenericService,
     private router: Router, private activeRouter: ActivatedRoute, private notificacion: NotificacionService) {
@@ -38,6 +39,7 @@ export class CuponesForm implements OnInit {
   }
   ngOnInit(): void {
     this.productsForCupon = []
+    this.productsForShow = []
     //Verificar si se envio un id por parametro para crear formulario para actualizar
     this.activeRouter.params.subscribe((params: Params) => {
       this.idProduct = params['id'];
@@ -68,9 +70,10 @@ export class CuponesForm implements OnInit {
     console.log(this.productInfo);
   }
 
-  addLineaDetalle(producto: { id: any; price: number; }) {
+  addLineaDetalle(producto: { id: any; price: number; name: any }) {
     console.log(producto);
     var lineaDetalle = {}
+    var lineaDetalle2 = {}
     var isInCupon = false
     var positionOfProduct: number;
     if (this.productsForCupon?.length > 0) {
@@ -85,17 +88,67 @@ export class CuponesForm implements OnInit {
       if (isInCupon) {
         //sumar cantidad del producto
         this.productsForCupon[positionOfProduct] = { idProduct: producto.id, quantity: this.productsForCupon[positionOfProduct].quantity + 1, total: (producto.price * (this.productsForCupon[positionOfProduct].quantity + 1)), note: '' }
+        this.productsForShow[positionOfProduct] = { name: producto.name, idProduct: producto.id, quantity: this.productsForCupon[positionOfProduct].quantity + 1, total: (producto.price * (this.productsForCupon[positionOfProduct].quantity + 1)), note: '' }
       } else {
         //nuevo producto
         lineaDetalle = { idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
+        lineaDetalle2 = { name: producto.name, idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
         this.productsForCupon.push(lineaDetalle)
+        this.productsForShow.push(lineaDetalle2)
       }
     } else {
       //Se debe crear el producto en linea detalle con 1 en cantidad
       lineaDetalle = { idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
+      lineaDetalle2 = { name: producto.name, idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
       this.productsForCupon.push(lineaDetalle)
+      this.productsForShow.push(lineaDetalle2)
     }
+    this.notificacion.mensaje(
+      'Creación de productos',
+      'Producto agregado al cupón correctamente.',
+      TipoMessage.success
+    );
+    console.log(this.productsForCupon);
+  }
 
+  removeLineaDetalle(producto: { id: any; price: number; name: any }) {
+    console.log(producto);
+    var lineaDetalle = {}
+    var isInCupon = false
+    var positionOfProduct: number;
+
+    var newList = []
+    if (this.productsForCupon?.length > 0) {
+      this.productsForCupon.map((product: { idProduct: any; }, index: any) => {
+        console.log(index);
+        if (producto.id === product.idProduct) {
+          isInCupon = true
+          positionOfProduct = index;
+        }
+      })
+
+      if (isInCupon) {
+        //sumar cantidad del producto
+        var spliced = this.productsForCupon.splice(positionOfProduct, 1);
+        var spliced2 = this.productsForShow.splice(positionOfProduct, 1);
+        this.productsForCupon = this.productsForCupon
+        this.productsForShow = this.productsForShow
+        //this.productsForCupon[positionOfProduct] = { name:producto.name, idProduct: producto.id, quantity: this.productsForCupon[positionOfProduct].quantity + 1, total: (producto.price * (this.productsForCupon[positionOfProduct].quantity + 1)), note: '' }
+      } else {
+        //nuevo producto
+        // lineaDetalle = { name:producto.name, idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
+        // this.productsForCupon.push(lineaDetalle)
+      }
+    } else {
+      //Se debe crear el producto en linea detalle con 1 en cantidad
+      // lineaDetalle = { name:producto.name, idProduct: producto.id, quantity: 1, total: producto.price, note: '' }
+      // this.productsForCupon.push(lineaDetalle)
+    }
+    this.notificacion.mensaje(
+      'Creación de productos',
+      'Producto agregado al cupón correctamente.',
+      TipoMessage.success
+    );
     console.log(this.productsForCupon);
   }
 
@@ -110,6 +163,7 @@ export class CuponesForm implements OnInit {
   select(restaurantId: any) {
     console.log(event);
     this.listaProductsByRestaurant(restaurantId);
+    this.productsForCupon = []
   }
 
   //Crear Formulario
@@ -185,10 +239,9 @@ export class CuponesForm implements OnInit {
     //Establecer submit verdadero
     this.submitted = true;
     //Verificar validación
-    // if (this.productForm.invalid) {
-    //   console.log("?");
-    //   return;
-    // }
+    if (this.productForm.invalid) {
+      return;
+    }
 
 
     // //Obtener id Generos del Formulario y Crear arreglo con {id: value}
