@@ -14,7 +14,7 @@ export class ReporteWaiterComponent implements OnInit {
   datos: any;
   filtroFechaI: any;
   filtroFechaF: any;
-  loggedUser = JSON.parse(window.localStorage.getItem('currentUser'));
+  loggedUser:any = JSON.parse(window.localStorage.getItem('currentUser'));
   destroy$: Subject<boolean> = new Subject<boolean>();
   constructor(private gService: GenericService) {}
 

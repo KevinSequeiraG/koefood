@@ -7,7 +7,7 @@ module.exports.get = async (request, response, next) => {
     orderBy: {
       id: "asc",
     },
-    where: { state: TABLESTATE.FREE || TABLESTATE.NOTFREE },
+    where: { OR: [{ state: TABLESTATE.FREE }, { state: TABLESTATE.NOTFREE }] },
     include: {
       restaurantRestaurantTable: true,
     },
@@ -36,7 +36,10 @@ module.exports.getByRestaurant = async (request, response, next) => {
     orderBy: {
       id: "asc",
     },
-    where: { idRestaurant: id },
+    where: {
+      idRestaurant: id,
+      OR: [{ state: TABLESTATE.FREE }, { state: TABLESTATE.NOTFREE }],
+    },
     include: {
       restaurantRestaurantTable: true,
     },
@@ -100,7 +103,7 @@ module.exports.update = async (request, response, next) => {
 };
 
 //Update table, set not free
-module.exports.updateStateNotFree = async (request, response, next) => {  
+module.exports.updateStateNotFree = async (request, response, next) => {
   let idRestaurantTable = parseInt(request.params.id);
   //console.log(idRestaurantTable);
   const newRestaurantTable = await prisma.restaurantTable.update({
@@ -115,7 +118,7 @@ module.exports.updateStateNotFree = async (request, response, next) => {
 };
 
 //Update table, set free
-module.exports.updateStateFree = async (request, response, next) => {  
+module.exports.updateStateFree = async (request, response, next) => {
   let idRestaurantTable = parseInt(request.params.id);
   //console.log(idRestaurantTable);
   const newRestaurantTable = await prisma.restaurantTable.update({
