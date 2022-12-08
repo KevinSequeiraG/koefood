@@ -23,8 +23,8 @@ model User {
   TableReservation  TableReservation[] @relation(name: "user")
   TableReservations TableReservation[] @relation(name: "waiter")
 
-  OrderU Order[] @relation(name: "user")
-  OrderW Order[] @relation(name: "waiter")
+  OrderU Orden[] @relation(name: "user")
+  OrderW Orden[] @relation(name: "waiter")
 }
 
 model TableReservation {
@@ -44,7 +44,7 @@ model RestaurantTable {
   state                     TABLESTATE
   restaurantRestaurantTable Restaurant         @relation(fields: [idRestaurant], references: [id])
   idRestaurant              Int
-  Order                     Order[]
+  Order                     Orden[]
   TableReservation          TableReservation[]
 }
 
@@ -54,14 +54,14 @@ model Restaurant {
   ubication       String
   phoneNumber     String
   cantidad        Int
-  Order           Order[]
+  Order           Orden[]
   User            User[]
   RestaurantTable RestaurantTable[]
   products        Product[]
   Cupon           Cupon[]
 }
 
-model Order {
+model Orden {
   id                  Int              @id @default(autoincrement())
   date                DateTime         @default(now())
   subTotal            Float
@@ -84,7 +84,7 @@ model Order {
 
 model OrderDetail {
   id                 Int     @id @default(autoincrement())
-  OrderDetailOrder   Order?  @relation(fields: [idOrder], references: [id])
+  OrderDetailOrder   Orden?  @relation(fields: [idOrder], references: [id])
   idOrder            Int?
   OrderDetailProduct Product @relation(fields: [idProduct], references: [id])
   idProduct          Int
