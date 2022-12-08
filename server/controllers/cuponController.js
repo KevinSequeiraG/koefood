@@ -91,6 +91,7 @@ module.exports.create = async (req, res, next) => {
 //Actualizar un videojuego
 module.exports.update = async (request, response, next) => {
   let infoCupon = request.body;
+  console.log(infoCupon);
   let idCupon = parseInt(request.params.id);
   //Obtener videojuego viejo
   // const cuponOld = await prisma.cupon.findUnique({
@@ -106,8 +107,8 @@ module.exports.update = async (request, response, next) => {
       id: infoCupon.id,
     },
     data: {
-      nombre: infoCupon.nombre,
-      descuento: infoCupon.descuento,
+      nombre: infoCupon.name,
+      descuento: infoCupon.disccount,
       // OrderDetail: {
       //   disconnect: cuponOld.OrderDetail,
       //   connect: infoCupon.OrderDetail,
