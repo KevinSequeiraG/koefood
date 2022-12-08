@@ -9,7 +9,7 @@ const cuponController = require("../controllers/cuponController");
 
 router.post("/", auth.grantRole(["ADMIN", "WAITER"]), cuponController.create);
 
-router.get("/", auth.grantRole(["ADMIN", "WAITER"]), cuponController.get);
+router.get("/", auth.grantRole(["ADMIN", "WAITER", "USER"]), cuponController.get);
 
 router.get(
   "/byrestaurant/:id",

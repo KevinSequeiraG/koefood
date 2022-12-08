@@ -1,182 +1,106 @@
-<div
-  x-data="openCloseSidenavbar"
-  *ngIf="!isLoginPage"
-  x-init="$refs.loading.classList.add('hidden');"
->
-  <div
-    class="flex h-screen antialiased text-[#c1c161] bg-black dark:bg-dark dark:text-light fixed z-40"
-  >
-    <div
-      *ngIf="isSidebarOpen"
-      x-transition:enter="transform transition-transform duration-300"
-      x-transition:enter-start="-translate-x-full"
-      x-transition:enter-end="translate-x-0"
-      x-transition:leave="transform transition-transform duration-300"
-      x-transition:leave-start="translate-x-0"
+<div x-data="openCloseSidenavbar" *ngIf="!isLoginPage" x-init="$refs.loading.classList.add('hidden');">
+  <div class="flex h-screen antialiased text-[#c1c161] bg-black dark:bg-dark dark:text-light fixed z-40">
+    <div *ngIf="isSidebarOpen" x-transition:enter="transform transition-transform duration-300"
+      x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0"
+      x-transition:leave="transform transition-transform duration-300" x-transition:leave-start="translate-x-0"
       x-transition:leave-end="-translate-x-full"
-      class="fixed inset-y-0 z-10 flex w-64 lg:w-80 transition ease-in-out delay-150 duration-100"
-    >
+      class="fixed inset-y-0 z-10 flex w-64 lg:w-80 transition ease-in-out delay-150 duration-100">
       <!-- Curvy shape -->
-      <svg
-        class="absolute inset-0 w-full h-full text-[#c1c161]"
-        style="filter: drop-shadow(10px 0 10px #00000030)"
-        preserveAspectRatio="none"
-        viewBox="0 0 389 800"
-        fill="black"
-        xmlns="http://www.w3.org/2000/svg"
-      >
+      <svg class="absolute inset-0 w-full h-full text-[#c1c161]" style="filter: drop-shadow(10px 0 10px #00000030)"
+        preserveAspectRatio="none" viewBox="0 0 389 800" fill="black" xmlns="http://www.w3.org/2000/svg">
         <path
-          d="M268.487 0H0V800H247.32C207.957 725 207.975 492.294 268.487 367.647C329 243 314.906 53.4314 268.487 0Z"
-        />
+          d="M268.487 0H0V800H247.32C207.957 725 207.975 492.294 268.487 367.647C329 243 314.906 53.4314 268.487 0Z" />
       </svg>
       <!-- Sidebar content -->
       <div class="z-50 flex flex-col">
-        <div
-          class="flex items-center justify-start w-64 p-4 flex-nowrap space-x-12 relative"
-        >
+        <div class="flex items-center justify-start w-64 p-4 flex-nowrap space-x-12 relative">
           <!-- Logo -->
           <a [routerLink]="['#']">
             <span class="sr-only">CurrentUser</span>
-            <div
-              class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover"
-            >
-              <img
-                src="./assets/Images/si.png"
-                class="w-[3.1rem] object-cover justify-center border border-[#c1c161] rounded-full mb-3"
-              />
-              <p
-                *ngIf="loggedUser != null"
-                class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold items-center"
-              >
+            <div class="flex items-center justify-start space-x-3 pt-2 pl-2 object-cover">
+              <img src="./assets/Images/si.png"
+                class="w-[3.1rem] object-cover justify-center border border-[#c1c161] rounded-full mb-3" />
+              <p *ngIf="loggedUser != null"
+                class="tracking-normal leading-4 text-[14px] lg:text-[16px] w-min lg:w-[60%] text-[#e5e5e5] font-semibold items-center">
                 {{ loggedUser.user.name + " " + loggedUser.user.lastname }}
               </p>
             </div>
           </a>
           <!-- Close btn -->
-          <button
-            (click)="openCloseSidenavbar()"
-            class="rounded-lg focus:outline-none focus:ring absolute right-20 lg:right-11 text-[#c1c161] hover:cursor-pointer"
-          >
-            <svg
-              class="w-6 h-6"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="#e5e5e5"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
+          <button (click)="openCloseSidenavbar()"
+            class="rounded-lg focus:outline-none focus:ring absolute right-20 lg:right-11 text-[#c1c161] hover:cursor-pointer">
+            <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="#e5e5e5"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
             <span class="sr-only">Close sidebar</span>
           </button>
         </div>
-        <nav
-          class="flex flex-col flex-1 w-min p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold"
-        >
-          <a
-            [routerLink]="
+        <nav class="flex flex-col flex-1 w-min p-4 mt-4 ml-2 space-y-5 text-[#e5e5e5] font-semibold">
+          <a [routerLink]="
               loggedUser.user.userType == 'WAITER'
                 ? ['/restaurant/tables/waiter']
                 : loggedUser.user.userType == 'ADMIN'
                 ? ['/restaurant/tables/admin']
                 : ['/home/inicio']
-            "
-            class="flex items-center space-x-2"
-          >
+            " class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]"> home </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Inicio</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Inicio</span>
           </a>
-          <a
-            *ngIf="loggedUser.user.userType == 'ADMIN'"
-            [routerLink]="['restaurant/tables']"
-            class="flex items-center space-x-2"
-          >
+          <a *ngIf="loggedUser.user.userType == 'USER'" [routerLink]="['cupon/cuponall']"
+            class="flex items-center space-x-2">
+            <span class="material-symbols-outlined text-[#c1c161]"> flatware </span>
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Cupones</span>
+          </a>
+          <a *ngIf="loggedUser.user.userType == 'ADMIN'" [routerLink]="['restaurant/tables']"
+            class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               chair
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Mantenimiento de mesas</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Mantenimiento de mesas</span>
           </a>
 
-          <a
-            *ngIf="loggedUser.user.userType == 'ADMIN'"
-            [routerLink]="['product/productall']"
-            class="flex items-center space-x-2"
-          >
+          <a *ngIf="loggedUser.user.userType == 'ADMIN'" [routerLink]="['product/productall']"
+            class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               ramen_dining
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Mantenimiento de productos</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Mantenimiento de
+              productos</span>
           </a>
-          <a
-            *ngIf="loggedUser.user.userType == 'ADMIN'"
-            [routerLink]="['order/orderall']"
-            class="flex items-center space-x-2"
-          >
+          <a *ngIf="loggedUser.user.userType == 'ADMIN'" [routerLink]="['order/orderall']"
+            class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               fact_check
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Mantenimiento de órdenes</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Mantenimiento de órdenes</span>
           </a>
-          <a
-            *ngIf="loggedUser.user.userType == 'ADMIN'"
-            [routerLink]="['users/userall']"
-            class="flex items-center space-x-2"
-          >
+          <a *ngIf="loggedUser.user.userType == 'ADMIN'" [routerLink]="['users/userall']"
+            class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               group
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Mantenimiento de usuarios</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Mantenimiento de
+              usuarios</span>
           </a>
-          <a
-            *ngIf="loggedUser.user.userType == 'ADMIN'"
-            [routerLink]="['cupon/cuponall']"
-            class="flex items-center space-x-2"
-          >
+          <a *ngIf="loggedUser.user.userType == 'ADMIN'" [routerLink]="['cupon/cuponall']"
+            class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               group
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Mantenimiento de cupones</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Mantenimiento de cupones</span>
           </a>
           <a [routerLink]="['#']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               summarize
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
-              >Reportes</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]">Reportes</span>
           </a>
           <a [routerLink]="['/home/about']" class="flex items-center space-x-2">
             <span class="material-symbols-outlined text-[#c1c161]">
               contact_support
             </span>
-            <span
-              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161] truncate"
-              >Acerca de</span
-            >
+            <span class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161] truncate">Acerca de</span>
           </a>
         </nav>
         <a [routerLink]="['/']" class="flex flex-col justify-center ml-5">
@@ -188,20 +112,14 @@
               Food
             </p>
           </div> -->
-          <img
-            src="./assets/Images/img3.jpg.png"
-            class="w-20 object-cover ml-3"
-          />
+          <img src="./assets/Images/img3.jpg.png" class="w-20 object-cover ml-3" />
           <div class="text-[#e5e5e5] mb-10 w-min flex justify-center mt-1 ml-2">
             <button
-              class="flex items-center space-x-1 justify-center w-full mx-auto border border-[#c1c161] rounded-[10px] py-1 px-3 hover:bg-[#c1c161] text-[#c1c161] hover:!text-white"
-            >
+              class="flex items-center space-x-1 justify-center w-full mx-auto border border-[#c1c161] rounded-[10px] py-1 px-3 hover:bg-[#c1c161] text-[#c1c161] hover:!text-white">
               <span class="material-symbols-outlined font-semibold">
                 logout
               </span>
-              <span class="text-[14px] lg:text-[15px] text-center font-bold"
-                >Salir</span
-              >
+              <span class="text-[14px] lg:text-[15px] text-center font-bold">Salir</span>
             </button>
           </div>
         </a>
@@ -209,10 +127,8 @@
     </div>
     <main class="flex flex-col items-center justify-center flex-1">
       <!-- Page content -->
-      <button
-        (click)="openCloseSidenavbar()"
-        class="fixed bg-black rounded-lg top-3 left-2 pt-1 px-1 text-[#c1c161] hover:cursor-pointer"
-      >
+      <button (click)="openCloseSidenavbar()"
+        class="fixed bg-black rounded-lg top-3 left-2 pt-1 px-1 text-[#c1c161] hover:cursor-pointer">
         <span class="material-symbols-outlined text-[#c1c161]"> menu </span>
         <span class="sr-only">Open menu</span>
       </button>
