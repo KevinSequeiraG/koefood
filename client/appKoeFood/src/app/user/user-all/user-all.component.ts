@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ProductDetailComponent } from 'src/app/product/product-detail/product-detail.component';
+import { NotificacionService, TipoMessage } from 'src/app/share/notification.service';
 
 @Component({
   selector: 'app-user-all',
@@ -30,7 +31,8 @@ export class UserAllComponent implements AfterViewInit {
     private router: Router,
     private route: ActivatedRoute,
     private gService: GenericService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private notificacion: NotificacionService
   ) {}
 
   displayedColumns = [
@@ -90,6 +92,11 @@ export class UserAllComponent implements AfterViewInit {
         //Obtener respuesta
         console.log(data);
         this.listaUsers();
+        this.notificacion.mensaje(
+          'Usuarios',
+          'Usuario activado correctamente.',
+          TipoMessage.success
+        );
       });
   }
 
@@ -101,6 +108,11 @@ export class UserAllComponent implements AfterViewInit {
         //Obtener respuesta
         console.log(data);
         this.listaUsers();
+        this.notificacion.mensaje(
+          'Usuarios',
+          'Usuario desactivado correctamente.',
+          TipoMessage.success
+        );
       });
   }
 
@@ -112,6 +124,11 @@ export class UserAllComponent implements AfterViewInit {
         //Obtener respuesta
         console.log(data);
         this.listaUsers();
+        this.notificacion.mensaje(
+          'Usuarios',
+          'Usuario eliminado correctamente.',
+          TipoMessage.success
+        );
       });
   }
 
