@@ -233,7 +233,7 @@ async function main() {
     await prisma.user.createMany({
         data: user
     });
-    await prisma.order.createMany({
+    await prisma.orden.createMany({
         data: order
     });
     await prisma.orderDetail.createMany({

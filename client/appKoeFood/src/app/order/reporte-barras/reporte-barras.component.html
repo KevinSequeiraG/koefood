@@ -1,0 +1,46 @@
+<div
+  class="pt-[5rem] w-full h-full min-h-screen"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <h1 class="text-center text-[#e5e5e5] !font-bold">
+    Total de las ventas por tipo de pago
+  </h1>
+  <div class="flex flex-col w-[80%] mx-auto">
+    <div class="w-min">
+      <mat-form-field appearance="fill">
+        <mat-label class="text-[22px]">Elige el método de pago</mat-label>
+        <select
+          id="pay-select"
+          (change)="changeRes()"
+          matNativeControl
+          class="!mt-3 !text-[18px]"
+        >
+          <option value="0" selected>Todos</option>
+          <option value="1">Efectivo</option>
+          <option value="2">Tarjeta</option>
+          <option value="3">Ámbos</option>
+        </select>
+      </mat-form-field>
+    </div>
+    <h4 class="text-white">Fecha de inicio</h4>
+    <input
+      id="filtroFechaI"
+      (change)="inicioGrafico()"
+      type="date"
+      class="w-min !bg-transparent !text-white text-[18px] mb-5 ml-5"
+    />
+    <h4 class="text-white">Fecha de finalización</h4>
+    <input
+      (change)="inicioGrafico()"
+      id="filtroFechaF"
+      type="date"
+      class="w-min !bg-transparent !text-white text-[18px] ml-5"
+    />
+    <mat-card class="shipping-card">
+
+      <mat-card-content>
+        <canvas #graficoCanvas class="chart"></canvas>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

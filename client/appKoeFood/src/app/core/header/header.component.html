@@ -160,7 +160,50 @@
               >Mantenimiento de cupones</span
             >
           </a>
-          <a [routerLink]="['#']" class="flex items-center space-x-2">
+          <a
+            [routerLink]="['orden/rGrafico']"
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            class="flex items-center space-x-2"
+          >
+            <span class="material-symbols-outlined text-[#c1c161]">
+              summarize
+            </span>
+            <span
+              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
+              >Reporte por fechas</span
+            >
+          </a>
+          <a
+            [routerLink]="['orden/barras']"
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            class="flex items-center space-x-2"
+          >
+            <span class="material-symbols-outlined text-[#c1c161]">
+              summarize
+            </span>
+            <span
+              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
+              >Reporte por medio de pago</span
+            >
+          </a>
+          <a
+            [routerLink]="['orden/rPDF']"
+            *ngIf="loggedUser.user.userType == 'ADMIN'"
+            class="flex items-center space-x-2"
+          >
+            <span class="material-symbols-outlined text-[#c1c161]">
+              summarize
+            </span>
+            <span
+              class="text-[#e5e5e5] text-[14px] lg:text-[16px] hover:text-[#c1c161]"
+              >Reporte por mesa, mesero o producto</span
+            >
+          </a>
+          <a
+            [routerLink]="['orden/pdfWaiter']"
+            *ngIf="loggedUser.user.userType == 'WAITER'"
+            class="flex items-center space-x-2"
+          >
             <span class="material-symbols-outlined text-[#c1c161]">
               summarize
             </span>

@@ -22,6 +22,12 @@ export class GenericService {
   get(endopoint: string, filtro: any): Observable<any | any[]> {
     return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`);
   }
+  getDate(endopoint: string, filtro: any,filtro2:any): Observable<any | any[]> {
+    return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`+ `/${filtro2}`);
+  }
+  getTP(endopoint: string, filtro: any,filtro2:any,filtro3:any): Observable<any | any[]> {
+    return this.http.get<any | any[]>(this.urlAPI + endopoint + `/${filtro}`+ `/${filtro2}`+ `/${filtro3}`);
+  }
 
   delete(endopoint: string, filtro: any): Observable<any | any[]> {
     return this.http.delete<any | any[]>(this.urlAPI + endopoint + `/${filtro}`);

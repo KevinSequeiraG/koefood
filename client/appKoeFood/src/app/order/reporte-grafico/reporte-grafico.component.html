@@ -1,0 +1,39 @@
+<div
+  class="pt-[5rem] w-full h-full min-h-screen"
+  style="background: linear-gradient(to bottom, #c81d11, rgb(0, 0, 0))"
+>
+  <h1 class="text-center text-[#e5e5e5] !font-bold">
+    Total de las ventas por rango de fechas
+  </h1>
+  <div class="flex flex-col w-[80%] mx-auto">
+    <h4 class="text-white">Fecha de inicio</h4>
+    <input
+      id="filtroFechaI"
+      (change)="inicioGrafico()"
+      type="date"
+      class="w-min !bg-transparent !text-white text-[18px] mb-5 ml-5"
+    />
+    <h4 class="text-white">Fecha de finalización</h4>
+    <input
+      (change)="inicioGrafico()"
+      id="filtroFechaF"
+      type="date"
+      class="w-min !bg-transparent !text-white text-[18px] ml-5"
+    />
+    <mat-card class="shipping-card">
+      <!-- <mat-card-title>Cantidad de producto ordenados en el mes: {{filtro}}</mat-card-title> -->
+      <!-- <mat-form-field >  
+          <mat-label>Mes a filtrar</mat-label>
+          <mat-select placeholder="Mes" [(ngModel)]="filtro" (ngModelChange)="inicioGrafico($event)">
+              <mat-option *ngFor="let m of mesList" [value]="m.Value">
+                {{ m.Text }}
+              </mat-option>
+            </mat-select>
+      </mat-form-field> -->
+
+      <mat-card-content>
+        <canvas #graficoCanvas class="chart"></canvas>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

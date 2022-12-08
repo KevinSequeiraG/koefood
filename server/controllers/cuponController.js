@@ -93,29 +93,29 @@ module.exports.update = async (request, response, next) => {
   let infoCupon = request.body;
   let idCupon = parseInt(request.params.id);
   //Obtener videojuego viejo
-  const cuponOld = await prisma.cupon.findUnique({
-    where: { id: idCupon },
-    include: {
-      OrderDetail: true,
-      CuponRestaurant: true,
-    },
-  });
+  // const cuponOld = await prisma.cupon.findUnique({
+  //   where: { id: idCupon },
+  //   include: {
+  //     OrderDetail: true,
+  //     CuponRestaurant: true,
+  //   },
+  // });
 
   const newCupon = await prisma.cupon.update({
     where: {
-      id: idCupon,
+      id: infoCupon.id,
     },
     data: {
       nombre: infoCupon.nombre,
       descuento: infoCupon.descuento,
-      OrderDetail: {
-        disconnect: cuponOld.OrderDetail,
-        connect: infoCupon.OrderDetail,
-      },
-      CuponRestaurant: {
-        disconnect: cuponOld.CuponRestaurant,
-        connect: infoCupon.CuponRestaurant,
-      },
+      // OrderDetail: {
+      //   disconnect: cuponOld.OrderDetail,
+      //   connect: infoCupon.OrderDetail,
+      // },
+      // CuponRestaurant: {
+      //   disconnect: cuponOld.CuponRestaurant,
+      //   connect: infoCupon.CuponRestaurant,
+      // },
     },
   });
   response.json(newCupon);
