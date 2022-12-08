@@ -308,12 +308,13 @@ export class CuponesAllComponent implements OnInit {
       var iva = 0
       var total = 0
       var disccountTotal = 0
+      var descuento = cupon.descuento / 100
       cupon.OrderDetail.map(producto => {
         subTotal += producto.total
       })
 
       iva = subTotal * 0.13
-      disccountTotal = (subTotal + iva) * cupon.descuento
+      disccountTotal = (subTotal + iva) * descuento
       total = (subTotal + iva) - disccountTotal
       console.log({ ...cupon, total: total, subTotal: subTotal, iva: iva, disccountTotal: disccountTotal });
       listWithTotals.push({ ...cupon, total: total, subTotal: subTotal, iva: iva, disccountTotal: disccountTotal })

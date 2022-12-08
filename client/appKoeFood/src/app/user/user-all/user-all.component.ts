@@ -16,21 +16,33 @@ import { ProductDetailComponent } from 'src/app/product/product-detail/product-d
 @Component({
   selector: 'app-user-all',
   templateUrl: './user-all.component.html',
-  styleUrls: ['./user-all.component.css']
+  styleUrls: ['./user-all.component.css'],
 })
 export class UserAllComponent implements AfterViewInit {
   datos: any;
-  
+
   destroy$: Subject<boolean> = new Subject<boolean>();
   dataSource = new MatTableDataSource<any>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router,
-    private route: ActivatedRoute, private gService: GenericService, private dialog:MatDialog) {
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private gService: GenericService,
+    private dialog: MatDialog
+  ) {}
 
-  displayedColumns = ['name', 'lastname', 'id', 'userType', 'email','idRestaurant','state', 'actions'];
+  displayedColumns = [
+    'name',
+    'lastname',
+    'id',
+    'userType',
+    'email',
+    'idRestaurant',
+    'state',
+    'actions',
+  ];
 
   ngAfterViewInit(): void {
     this.listaUsers();
@@ -55,13 +67,13 @@ export class UserAllComponent implements AfterViewInit {
   }
 
   //faltaaaaaaaaaaaaaaaaa
-  detailProduct(id:number){
-    const dialogConfig=new MatDialogConfig();
-    dialogConfig.disableClose=false;
-    dialogConfig.data={
-      id:id
+  detailProduct(id: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.data = {
+      id: id,
     };
-    this.dialog.open(ProductDetailComponent,dialogConfig);
+    this.dialog.open(ProductDetailComponent, dialogConfig);
   }
 
   crearUsuario() {
@@ -70,25 +82,37 @@ export class UserAllComponent implements AfterViewInit {
     });
   }
 
-  activarUsuario(id:any){
+  activarUsuario(id: any) {
     this.gService
-    .get('user/updatestateactive', id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((data: any) => {
-      //Obtener respuesta
-      console.log(data);this.listaUsers();
-    });
+      .get('user/updatestateactive', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        console.log(data);
+        this.listaUsers();
+      });
   }
 
-  
-  desactivarUsuario(id:any){
+  desactivarUsuario(id: any) {
     this.gService
-    .get('user/updatestateinactive', id)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((data: any) => {
-      //Obtener respuesta
-      console.log(data);this.listaUsers();
-    });
+      .get('user/updatestateinactive', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        console.log(data);
+        this.listaUsers();
+      });
+  }
+
+  deleteUser(id: any) {
+    this.gService
+      .get('user/deleteUser', id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        //Obtener respuesta
+        console.log(data);
+        this.listaUsers();
+      });
   }
 
   actualizarProduct(id: number) {
@@ -98,4 +122,3 @@ export class UserAllComponent implements AfterViewInit {
     });
   }
 }
-      

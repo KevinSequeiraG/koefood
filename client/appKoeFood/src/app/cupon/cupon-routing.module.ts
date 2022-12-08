@@ -6,7 +6,8 @@ import { CuponesForm } from './cupones-form/cupones-form.component';
 
 const routes: Routes = [
   { path: 'cupon/cuponall', component: CuponesAllComponent },
-  { path: 'cupon/create', component: CuponesForm }
+  { path: 'cupon/create', component: CuponesForm },
+  { path: 'cupon/update/:id', component: CuponesForm },
 ];
 
 @NgModule({

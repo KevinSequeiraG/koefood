@@ -46,20 +46,16 @@ export class CuponesForm implements OnInit {
         this.isCreate = false;
         this.titleForm = "Actualizar";
         //Obtener videojuego a actualizar del API
-        this.gService.get('products', this.idProduct).pipe(takeUntil(this.destroy$))
+        this.gService.get('cupon', this.idProduct).pipe(takeUntil(this.destroy$))
           .subscribe((data: any) => {
             console.log(data);
             this.productInfo = data;
             console.log("info", this.productInfo);
             this.productForm.setValue({
               id: this.productInfo.id,
-              name: this.productInfo.name,
-              description: this.productInfo.description,
-              ingredients: this.productInfo.ingredients,
-              idCategory: this.productInfo.idCategory,
-              disccount: this.productInfo.disccount,
-              state: this.productInfo.state,
-              idRestaurant: this.productInfo.idRestaurant,
+              name: this.productInfo.nombre,
+              disccount: this.productInfo.descuento,
+              idRestaurant: this.productInfo.idRestaurant
               // generos:this.restaurantTableInfo.generos.map(({id}) => id)
             })
           });
@@ -126,13 +122,11 @@ export class CuponesForm implements OnInit {
       name: [null, Validators.compose([
         Validators.required, Validators.maxLength(50)
       ])],
-      description: [null, Validators.compose([
-        Validators.required, Validators.maxLength(200)
-      ])],
-      ingredients: [null, Validators.required],
-      idCategory: [null, Validators.required],
+      // description: [null, Validators.compose([
+      //   Validators.required, Validators.maxLength(200)
+      // ])],
       disccount: [null, Validators.required],
-      state: [true, Validators.required],
+      //state: [true, Validators.required],
       idRestaurant: [null, Validators.required],
     });
   }
@@ -213,7 +207,7 @@ export class CuponesForm implements OnInit {
       });
     this.notificacion.mensaje(
       'Creación de productos',
-      'El producto ha sido creadp satisfactoriamente',
+      'El cupon ha sido creado satisfactoriamente',
       TipoMessage.success
     );
   }
@@ -222,20 +216,22 @@ export class CuponesForm implements OnInit {
     // Establecer submit verdadero
     this.submitted = true;
     //Verificar validación
+    console.log(this.productForm.value);
     if (this.productForm.invalid) {
       return;
     }
     //Obtener id Generos del Formulario y Crear arreglo con {id: value}
-    let gFormat: any = this.productForm.get('restaurants').value.map((x: any) => ({ ['id']: x }));
+    //let gFormat: any = this.productForm.get('restaurants').value.map((x: any) => ({ ['id']: x }));
     // Asignar valor al formulario 
-    this.productForm.patchValue({ restaurants: gFormat });
+    //this.productForm.patchValue({ restaurants: gFormat });
     //Accion API create enviando toda la informacion del formulario
-    this.gService.update('products', this.productForm.value)
+    this.gService.update('cupon', this.productForm.value)
       .pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
+        console.log(">>>>>>>>>>>>>>>>>>");
         console.log(data);
         //Obtener respuesta
         this.productForm = data;
-        this.router.navigate(['/product/productall'], {
+        this.router.navigate(['/cupon/cuponall'], {
           queryParams: { update: 'true' }
         });
       });

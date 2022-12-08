@@ -22,6 +22,7 @@ import { CartAdminService } from 'src/app/share/cart-admin.service';
   styleUrls: ['./product-admin.component.css'],
 })
 export class ProductAdminComponent implements AfterViewInit {
+  categoryList: any;
   datos: any;
   destroy$: Subject<boolean> = new Subject<boolean>();
   idRestaurant: any;
@@ -65,6 +66,7 @@ export class ProductAdminComponent implements AfterViewInit {
     private cartService: CartAdminService,
     private notificacion: NotificacionService
   ) {
+    this.listaCategorias();
     this.route.params.subscribe((params) => {
       this.idRestaurant = params['idRes']; //log the value of id
       this.idTable = params['idTable']; //log the value of id
@@ -141,7 +143,7 @@ export class ProductAdminComponent implements AfterViewInit {
     this.carritoData.clientPaymentInCash = 0;
     this.carritoToSave = {};
     this.updateTotals();
-
+    this.listaCategorias();
     console.log(this.loggedUser);
   }
 
@@ -394,7 +396,44 @@ export class ProductAdminComponent implements AfterViewInit {
         console.log(this.paymentOptionEnum);
       });
   }
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    console.log(filterValue);
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  listaCategorias() {
+    this.categoryList = null;
+    this.gService
+      .list('productCategory')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        console.log(data);
+        this.categoryList = data;
+      });
+  }
+  changeRes() {
+    const input = document.getElementById(
+      'category-select'
+    ) as HTMLSelectElement;
+    if (parseInt(input.value) == 0) {
+      this.listaProductsByRestaurant(parseInt(this.idRestaurant));
+    } else {
+      this.listaProductsByRestaurantAndCategory(input.value);
+    }
+  }
+  listaProductsByRestaurantAndCategory(idCat: any) {
+    this.gService
+      .list(
+        `products/restaurantandcat/${parseInt(this.idRestaurant) + '/' + idCat}`
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any) => {
+        this.datos = data;
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+      });
+  }
   updateMesaSetFree(idT: number) {
     this.gService
       .updateState('restauranttables/updateStateSetFree', idT)

@@ -7,26 +7,18 @@ const orderController = require("../controllers/orderController");
 
 //Definición de rutas para ordenes
 
-router.post("/", auth.grantRole(["ADMIN", "WAITER"]), orderController.create);
+router.post("/", auth.verifyToken, orderController.create);
 
-router.post(
-  "/createByUser",
-  auth.grantRole(["ADMIN", "WAITER", "USER"]),
-  orderController.createByUser
-);
+router.post("/createByUser", auth.verifyToken, orderController.createByUser);
 
 router.post(
   "/createByWaiter",
-  auth.grantRole(["ADMIN", "WAITER"]),
+  auth.verifyToken,
   orderController.createByWaiter
 );
 
-router.get("/", auth.grantRole(["ADMIN", "WAITER"]), orderController.get);
+router.get("/", auth.verifyToken, orderController.get);
 
-router.get(
-  "/:id",
-  auth.grantRole(["ADMIN", "WAITER"]),
-  orderController.getById
-);
+router.get("/:id", auth.verifyToken, orderController.getById);
 
 module.exports = router;

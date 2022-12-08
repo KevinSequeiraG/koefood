@@ -12,11 +12,11 @@
         <div class="text-center w-full bg-black text-white border border-1 border-white relative py-3">
             <h2 class="absolute left-3 top-3">{{cupon.CuponRestaurant.name}}</h2>
             <h2 class="!m-0 !text-[25px]">{{cupon.nombre}}</h2>
-            <div *ngIf="!isUser" class="absolute right-3 top-3">
+            <div *ngIf="!isUser" class="absolute right-3 top-3 !w-auto">
                 <button (click)="actualizarCupon(cupon.id)" class="bg-yellow-500 px-2 py-1 rounded-lg mx-1"><span
                         class="material-icons flex items-center">edit</span></button>
-                <button class="bg-red-800 px-2 py-1 rounded-lg mx-1"><span
-                        class="material-icons flex items-center">delete</span></button>
+                <!-- <button class="bg-red-800 px-2 py-1 rounded-lg mx-1"><span
+                        class="material-icons flex items-center">delete</span></button> -->
             </div>
             <div *ngIf="isUser" class="absolute min-w-min right-3 top-3">
                 <button (click)="generarFact(cupon)"

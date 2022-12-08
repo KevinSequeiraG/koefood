@@ -40,6 +40,53 @@ module.exports.getByRestaurant = async (request, response, next) => {
   response.json(products);
 };
 
+module.exports.getByCategory = async (request, response, next) => {
+  let idRes = parseInt(request.params.id);
+  let idCat = parseInt(request.params.cat);
+  const products = await prisma.product.findMany({
+    orderBy: {
+      name: "asc",
+    },
+    where: {
+      state: true,
+      restaurants: { some: { id: idRes } },
+      idCategory: idCat,
+    },
+    include: {
+      restaurants: true,
+      productToRestaurantProduct: {
+        select: {
+          description: true,
+          id: true,
+        },
+      },
+    },
+  });
+  response.json(products);
+};
+
+module.exports.getByCategoryAdmin = async (request, response, next) => {
+  let idCat = parseInt(request.params.cat);
+  const products = await prisma.product.findMany({
+    orderBy: {
+      name: "asc",
+    },
+    where: {
+      idCategory: idCat,
+    },
+    include: {
+      restaurants: true,
+      productToRestaurantProduct: {
+        select: {
+          description: true,
+          id: true,
+        },
+      },
+    },
+  });
+  response.json(products);
+};
+
 //Obtener por Id
 module.exports.getById = async (request, response, next) => {
   let id = parseInt(request.params.id);

@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { 
-  HttpEvent, HttpRequest, HttpHandler, 
-  HttpInterceptor, HttpErrorResponse 
+import {
+  HttpEvent,
+  HttpRequest,
+  HttpHandler,
+  HttpInterceptor,
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -19,7 +22,10 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
     private auth: AuthenticationService,
     private noti: NotificacionService
   ) {}
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     //Obtener token
     let token = null;
     if (this.auth.currentUserValue != null) {
@@ -55,6 +61,9 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
           case 401:
             message = 'No autorizado';
             break;
+          case 402:
+            message = 'La contraseña ingresada es incorrecta';
+            break;
           case 403:
             message = 'Acceso denegado';
             break;
@@ -63,9 +72,9 @@ export class HttpErrorInterceptorService implements HttpInterceptor {
             break;
         }
         //Mostrar un mensaje de error
-        this.noti.mensaje('Error',error.status+' '+ message,TipoMessage.error);
+        this.noti.mensaje('Error', message, TipoMessage.error);
         throw new Error(error.message);
       })
-      );
-    }
+    );
   }
+}

@@ -6,8 +6,8 @@
     </div>
     <div class="w-2/3 mx-auto justify-center pt-10 overflow-auto grid grid-cols-3 gap-4">
         <div class="text-center border-2 border-[#c1c161] rounded-lg p-2 relative" *ngFor="let item of datos">
-            <button (click)="detalleRestaurantTable(item.id)" class="absolute left-2"><span
-                    class="material-symbols-outlined text-white bg-red-500 p-1 rounded-full"> delete </span></button>
+            <button (click)="actualizarStateTable(item)" class="absolute left-2"><span
+                    class="material-symbols-outlined text-white  p-1 rounded-full" [class]="item.state == 'FREE'?'bg-green-500':'bg-red-500'"> disabled_visible </span></button>
             <button (click)="actualizarRestaurantTable(item.id)" class="absolute left-11"><span
                     class="material-symbols-outlined text-white bg-yellow-600 p-1 rounded-full"> edit </span></button>
             <button (click)="detalleRestaurantTable(item.id)" class="absolute right-2"><span

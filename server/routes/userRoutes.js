@@ -5,21 +5,25 @@ const auth = require("../middleware/auth");
 //Usuario controller para los métodos definidos
 const userController = require("../controllers/userController");
 
-router.get("/", userController.get);
+router.get("/", auth.grantRole(["ADMIN"]), userController.get);
 
 router.post("/login", userController.login);
 
 router.get("/validateid/:id", userController.getById);
 
+router.get("/validateemail/:id", userController.getByEmail);
+
 router.get(
-  "/validateemail/:id",
+  "/updatestateactive/:id",
   auth.grantRole(["ADMIN"]),
-  userController.getByEmail
+  userController.updateStateSetActive
 );
 
-router.get("/updatestateactive/:id", userController.updateStateSetActive);
-
-router.get("/updatestateinactive/:id", userController.updateStateSetInactive);
+router.get(
+  "/updatestateinactive/:id",
+  auth.grantRole(["ADMIN"]),
+  userController.updateStateSetInactive
+);
 
 router.post("/registrar", userController.register);
 
@@ -31,7 +35,7 @@ router.post(
 
 router.put("/:id", auth.grantRole(["ADMIN"]), userController.update);
 
-//router.delete("/:id", userController.delete);
+router.get("/deleteuser/:id", auth.grantRole(["ADMIN"]), userController.delete);
 
 //router.get("/:email", userController.getByEmail);
 

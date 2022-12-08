@@ -83,7 +83,7 @@
             </div>
           </div> -->
 
-          <div class="row">
+          <div *ngIf="isCreate" class="row">
             <div class="col" *ngIf="restaurantList">
               <mat-form-field class="full-width">
                 <mat-select placeholder="Restaurante al que pertenece" formControlName="idRestaurant"
@@ -99,7 +99,7 @@
             </div>
           </div>
 
-          <table mat-table class="full-width-table bg-black" matSort aria-label="Elements"
+          <table *ngIf="isCreate" mat-table class="full-width-table bg-black" matSort aria-label="Elements"
             [dataSource]="productsFromRestaurant">
 
             <ng-container matColumnDef="name" class="!w-min !text-center">
@@ -148,7 +148,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          <mat-paginator class="bg-gray-500 text-[#e5e5e5] !flex-nowrap " #paginator
+          <mat-paginator *ngIf="isCreate" class="bg-gray-500 text-[#e5e5e5] !flex-nowrap " #paginator
             [length]="productsFromRestaurant?.data?.length" [pageIndex]="0" [pageSize]="4"
             [pageSizeOptions]="[4, 6, 9, 10]" aria-label="Select page">
           </mat-paginator>
