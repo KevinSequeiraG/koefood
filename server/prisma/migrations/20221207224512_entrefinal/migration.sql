@@ -16,9 +16,9 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `TableReservation` (
     `idRestaurantTable` INTEGER NOT NULL,
-    `idUser` INTEGER NOT NULL,
+    `idUser` INTEGER NULL,
     `reservationDate` DATETIME(3) NOT NULL,
-    `idWaiter` INTEGER NOT NULL,
+    `idWaiter` INTEGER NULL,
 
     PRIMARY KEY (`idRestaurantTable`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -54,7 +54,7 @@ CREATE TABLE `Order` (
     `clientPaymentInCash` DOUBLE NOT NULL,
     `clientPaymentInCard` DOUBLE NOT NULL,
     `orderTotal` DOUBLE NOT NULL,
-    `idUser` INTEGER NOT NULL,
+    `idUser` INTEGER NULL,
     `idWaiter` INTEGER NULL,
     `idRestaurant` INTEGER NOT NULL,
     `idTable` INTEGER NULL,
@@ -124,16 +124,16 @@ ALTER TABLE `User` ADD CONSTRAINT `User_idRestaurant_fkey` FOREIGN KEY (`idResta
 ALTER TABLE `TableReservation` ADD CONSTRAINT `TableReservation_idRestaurantTable_fkey` FOREIGN KEY (`idRestaurantTable`) REFERENCES `RestaurantTable`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `TableReservation` ADD CONSTRAINT `TableReservation_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `TableReservation` ADD CONSTRAINT `TableReservation_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `TableReservation` ADD CONSTRAINT `TableReservation_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `TableReservation` ADD CONSTRAINT `TableReservation_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `RestaurantTable` ADD CONSTRAINT `RestaurantTable_idRestaurant_fkey` FOREIGN KEY (`idRestaurant`) REFERENCES `Restaurant`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Order` ADD CONSTRAINT `Order_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Order` ADD CONSTRAINT `Order_idUser_fkey` FOREIGN KEY (`idUser`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Order` ADD CONSTRAINT `Order_idWaiter_fkey` FOREIGN KEY (`idWaiter`) REFERENCES `User`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
