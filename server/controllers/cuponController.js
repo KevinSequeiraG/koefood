@@ -8,9 +8,7 @@ module.exports.get = async (request, response, next) => {
       nombre: "asc",
     },
     include: {
-      OrderDetail: {
-        include: { OrderDetailProduct: true },
-      },
+      OrderDetail: { include: { OrderDetailProduct: true } },
       CuponRestaurant: true,
     },
   });
@@ -58,6 +56,9 @@ module.exports.create = async (req, res, next) => {
     data: {
       nombre: infoCupon.nombre,
       descuento: infoCupon.descuento,
+      // cuponTotal: infoCupon.cuponTotal,
+      // subTotal: infoCupon.subTotal,
+      // iva: infoCupon.iva,
       CuponRestaurant: { connect: { id: infoCupon.idRestaurant } },
       OrderDetail: {
         createMany: {

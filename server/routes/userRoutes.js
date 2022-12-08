@@ -35,7 +35,7 @@ router.post(
 
 router.put("/:id", auth.grantRole(["ADMIN"]), userController.update);
 
-//router.delete("/:id", userController.delete);
+router.get("/deleteuser/:id", auth.grantRole(["ADMIN"]), userController.delete);
 
 //router.get("/:email", userController.getByEmail);
 

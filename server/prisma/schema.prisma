@@ -30,11 +30,11 @@ model User {
 model TableReservation {
   tableReservationRestaurantTable RestaurantTable @relation(fields: [idRestaurantTable], references: [id])
   idRestaurantTable               Int             @id
-  tableReservationUser            User            @relation(name: "user", fields: [idUser], references: [id])
-  idUser                          Int
+  tableReservationUser            User?           @relation(name: "user", fields: [idUser], references: [id], onDelete: SetNull)
+  idUser                          Int?
   reservationDate                 DateTime
-  tableReservationUserWaiter      User            @relation(name: "waiter", fields: [idWaiter], references: [id])
-  idWaiter                        Int
+  tableReservationUserWaiter      User?           @relation(name: "waiter", fields: [idWaiter], references: [id], onDelete: SetNull)
+  idWaiter                        Int?
 }
 
 model RestaurantTable {
@@ -69,9 +69,9 @@ model Order {
   clientPaymentInCash Float
   clientPaymentInCard Float
   orderTotal          Float
-  orderUser           User             @relation(name: "user", fields: [idUser], references: [id])
-  idUser              Int
-  orderWaiter         User?            @relation(name: "waiter", fields: [idWaiter], references: [id])
+  orderUser           User?             @relation(name: "user", fields: [idUser], references: [id], onDelete: SetNull)
+  idUser              Int?
+  orderWaiter         User?            @relation(name: "waiter", fields: [idWaiter], references: [id], onDelete: SetNull)
   idWaiter            Int?
   orderRestaurant     Restaurant       @relation(fields: [idRestaurant], references: [id])
   idRestaurant        Int
@@ -115,12 +115,15 @@ model ProductCategory {
 }
 
 model Cupon {
-  id              Int        @id @default(autoincrement())
+  id              Int           @id @default(autoincrement())
   nombre          String
   descuento       Float
-  CuponRestaurant Restaurant @relation(fields: [idRestaurant], references: [id])
+  CuponRestaurant Restaurant    @relation(fields: [idRestaurant], references: [id])
   idRestaurant    Int
-  OrderDetail OrderDetail[]
+  OrderDetail     OrderDetail[]
+  // cuponTotal      Float
+  // subTotal        Float
+  // iva             Float
 }
 
 enum TABLESTATE {

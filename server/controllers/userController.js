@@ -88,6 +88,14 @@ module.exports.login = async (request, response, next) => {
     });
   }
 
+  if (user.state == false) {
+    response.status(401).send({
+      success: false,
+      message: "Usuario no registrado",
+    });
+    return;
+  }
+
   if (user && userReq.password) {
     //Verifica la contraseña
     const checkPassword = bcrypt.compareSync(userReq.password, user.password);
@@ -130,13 +138,13 @@ module.exports.getById = async (request, response, next) => {
   response.json(user);
 };
 
-// module.exports.delete = async (request, response, next) => {
-//   let id = parseInt(request.params.id);
-//   const user = await prisma.user.delete({
-//     where: { id: id },
-//   });
-//   response.json(user);
-// };
+module.exports.delete = async (request, response, next) => {
+  let id = parseInt(request.params.id);
+  const user = await prisma.user.delete({
+    where: { id: id },
+  });
+  response.json(user);
+};
 
 //Obtener por Id
 module.exports.getByEmail = async (request, response, next) => {
